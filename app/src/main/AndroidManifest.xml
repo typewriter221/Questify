@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="in.shriyansh.streamify">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+    <!-- <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /> -->
+    <!-- <permission -->
+    <!-- android:name="com.example.gcm.permission.C2D_MESSAGE" -->
+    <!-- android:protectionLevel="signature" /> -->
+    <!-- <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" /> -->
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_android_api_key" />
+
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:label="@string/title_activity_register" />
+        <activity
+            android:name=".activities.SearchResultActivity"
+            android:label="@string/title_activity_register">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <!-- <receiver -->
+        <!-- android:name=".gcm.GcmBroadcastReceiver" -->
+        <!-- android:permission="com.google.android.c2dm.permission.SEND" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
+
+
+        <!-- <category android:name="com.example.gcm" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+
+
+        <!-- <service android:name=".GcmIntentService" /> -->
+
+
+        <!-- <activity -->
+        <!-- android:name=".activities.GcmRegister" -->
+        <!-- android:label="@string/title_activity_gcm_register" > -->
+        <!-- </activity> -->
+        <activity
+            android:name=".activities.EventDetailsActivity"
+            android:label="@string/title_activity_event_details"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.shriyansh.streamify.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.StreamDetailActivity"
+            android:label="@string/title_activity_stream_detail"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.shriyansh.streamify.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.SplashScreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/FullscreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.AboutUsActivity"
+            android:label="@string/title_activity_about_us"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.shriyansh.streamify.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ShowcaseActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_showcase" />
+        <activity
+            android:name=".activities.VideoListDemoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/videowall_demo_name"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.shriyansh.streamify.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ImageLibrary"
+            android:label="@string/title_activity_image_library"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.shriyansh.streamify.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.ImageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_image"
+            android:theme="@style/FullscreenTheme" />
+
+        <!-- FCM -->
+
+
+        <!-- Message Receiving Service -->
+        <service android:name=".fcm.FCCMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- FCM Token Receiving Service -->
+        <service android:name=".fcm.FCMInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!--
+        Set custom default icon. This is used when no icon is set for incoming notification messages.
+        See README(https://goo.gl/l4GJaQ) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/newspaper48" />
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/pink500" />
+
+        <activity
+            android:name=".activities.PostActivity"
+            android:label="@string/title_activity_post"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.shriyansh.streamify.activities.MainActivity" />
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+
+    android:gravity="center_vertical"
+    android:clickable="true"
+    android:background="?android:selectableItemBackground"
+    >
+    <ImageView
+        android:id="@+id/search_image"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:padding="0dp"
+        android:src="@drawable/rss_black_24"
+        />
+    <TextView
+        android:id="@+id/search_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Suggestion"
+        android:textSize="12dp"
+        android:layout_marginLeft="16dp"
+        android:textColor="@color/ColorPrimaryDark"/>
+
+</LinearLayout>

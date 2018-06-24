@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:background="@color/colorGrey"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardElevation="2dp"
+        card_view:cardCornerRadius="2dp"
+        >
+
+
+
+        <LinearLayout
+            android:id="@+id/item_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/teal500"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:paddingBottom="4dp"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:textColor="@color/white"
+                android:text="Introduction to Android App Delopment"
+                android:id="@+id/instruction_title"/>
+
+            <!--<com.google.android.youtube.player.YouTubePlayerView-->
+            <!--android:id="@+id/youtube_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:layout_marginBottom="8dp"/>-->
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0.3dp"-->
+                <!--android:background="@color/white"/>-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:textSize="14dp"
+
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="Description of the news item to be displayed ription of the news item to be displayed Description of the news item to be displayed"
+                android:textColor="@color/white"
+                android:id="@+id/instruction_description"/>
+
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0.3dp"-->
+                <!--android:background="@color/white"/>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="2dp"
+                >
+                <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="0.7"-->
+                <!--android:gravity="center">-->
+                <!--<ImageView-->
+                <!--android:layout_width="26dp"-->
+                <!--android:layout_height="26dp"-->
+                <!--android:padding="4dp"-->
+                <!--android:src="@drawable/ic_access_time_black_24dp"/>-->
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingLeft="16dp"-->
+                <!--android:paddingRight="16dp"-->
+                <!--android:text="5:30 PM"-->
+                <!--android:textSize="16dp"/>-->
+
+                <!--</LinearLayout>-->
+                <!--<View-->
+                <!--android:layout_width="1dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@color/colorGrey"/>-->
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:gravity="right">
+                    <ImageView
+                        android:layout_width="26dp"
+                        android:layout_height="26dp"
+                        android:padding="4dp"
+                        android:src="@drawable/ic_done_white_24dp"/>
+                    <TextView
+                        android:id="@+id/instruction_done"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:maxLines="1"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:ellipsize="marquee"
+                        android:text="GOT IT"
+                        android:textSize="16dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

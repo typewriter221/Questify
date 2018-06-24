@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:background="@color/colorGrey"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:descendantFocusability="blocksDescendants">
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        card_view:background="@drawable/rounded_edge_white"
+
+        card_view:cardElevation="1dp"
+        >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+       >
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="0dp"
+            android:paddingLeft="4dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/text_color_dark"
+            android:text="COPS"
+            android:id="@+id/stream_title"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:textSize="12dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@color/text_color_dark"
+            android:text="Club"
+            android:id="@+id/stream_subtitle"/>
+        <ImageView
+            android:id="@+id/stream_image"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wallpaper"
+            android:layout_marginBottom="8dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp">
+
+            <TextView
+                android:id="@+id/stream_parent_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="6dp"
+                android:textSize="12dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:layout_margin="4dp"
+                android:textColor="@color/white"
+                android:background="@drawable/tag_layout"
+                android:text="SnTC"/>
+
+        </LinearLayout>
+        <TextView
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:textSize="12dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:lineSpacingExtra="4dp"
+            android:text="Description of the news item to be displayed ription of the news item to be displayed Description of the news item to be displayed"
+            android:textColor="@color/text_color_light"
+            android:id="@+id/stream_description"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="2dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_margin="4dp">
+            <ImageView
+                android:id="@+id/stream_author_image"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+
+                android:src="@drawable/ic_person_black_24dp"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:paddingLeft="4dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/stream_author_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:textSize="12dp"
+                    android:autoLink="email"
+                    android:gravity="center_vertical"
+                    android:text="Author Name"
+                    android:paddingLeft="4dp"
+                    android:textColor="@color/ColorPrimary"/>
+
+                <TextView
+                    android:id="@+id/stream_author_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:autoLink="email"
+                    android:textSize="10dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="4dp"
+                    android:text="2 days ago"
+                    android:textColorLink="@color/text_color_light"
+                    android:textColor="@color/teal500"/>
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_subscribe"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Subscribe"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/teal500"
+                android:textSize="10dp"
+                android:background="@drawable/button_selector"/>
+
+        </LinearLayout>
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0.3dp"-->
+            <!--android:background="@color/text_color_light"/>-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:padding="4dp"-->
+        <!-->-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center">-->
+        <!--<ImageView-->
+        <!--android:layout_width="26dp"-->
+        <!--android:layout_height="26dp"-->
+        <!--android:padding="4dp"-->
+        <!--android:src="@drawable/thumb_up_outline"/>-->
+
+        <!--</LinearLayout>-->
+        <!--<View-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@color/colorGrey"/>-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center">-->
+        <!--<ImageView-->
+        <!--android:layout_width="26dp"-->
+        <!--android:layout_height="26dp"-->
+        <!--android:padding="4dp"-->
+        <!--android:src="@drawable/thumb_down_outline"/>-->
+
+        <!--</LinearLayout>-->
+
+        <!--</LinearLayout>-->
+
+
+
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

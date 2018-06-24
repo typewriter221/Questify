@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="280dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:background="@color/ColorPrimary"></LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:paddingTop="42dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/contact_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:paddingTop="10dp"
+                android:textColor="@color/teal500"
+                android:gravity="center_horizontal"
+                android:text="Shriyansh Gautam"/>
+            <TextView
+
+                android:id="@+id/contact_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:textStyle="bold"
+
+                android:paddingBottom="4dp"
+                android:textColor="@color/text_color_light"
+                android:gravity="center_horizontal"
+                android:text="Author"/>
+            <TextView
+
+                android:id="@+id/contact_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:padding="0dp"
+                android:autoLink="email"
+                android:textColorLink="@color/text_color_light"
+                android:gravity="center_horizontal"
+                android:text="shriyanshgautam005@gmail.com"/>
+            <TextView
+                android:id="@+id/contact_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="10dp"
+                android:padding="2dp"
+
+                android:autoLink="phone"
+                android:textColorLink="@color/text_color_light"
+                android:gravity="center_horizontal"
+                android:text="+91 8765003288"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginTop="70dp"
+            android:layout_alignParentTop="true"
+            android:gravity="center_horizontal">
+            <in.shriyansh.streamify.ui.CircularImageView
+                android:id="@+id/author_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person_black_24dp"
+                android:background="@drawable/circular_ring"
+                android:elevation="4dp"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

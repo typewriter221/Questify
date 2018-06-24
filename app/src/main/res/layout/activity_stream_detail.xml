@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:fitsSystemWindows="true"
+    android:id="@+id/container"
+    tools:context="in.shriyansh.streamify.activities.StreamDetailActivity">
+
+    <android.support.design.widget.AppBarLayout android:id="@+id/app_bar"
+        android:fitsSystemWindows="true"
+        android:layout_height="@dimen/app_bar_height"
+        android:layout_width="match_parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout android:id="@+id/toolbar_layout"
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?attr/colorPrimary"
+
+            >
+            <ImageView
+                android:id="@+id/bgheader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/wallpaper"
+                android:fitsSystemWindows="true"
+
+                app:layout_collapseMode="parallax" />
+
+                <!-- To disable scroll down due to bottom edit text-->
+               <requestFocus></requestFocus>
+
+
+
+            <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
+                android:layout_height="?attr/actionBarSize" android:layout_width="match_parent"
+                app:layout_collapseMode="pin" app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin" app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"
+        app:backgroundTint="@color/teal500"
+        android:src="@drawable/email_white_24_2" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        android:paddingBottom="76dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="4dp"
+            android:background="@color/colorGrey"
+            >
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+
+                android:layout_marginBottom="4dp"
+
+                card_view:background="@drawable/rounded_edge_white"
+                card_view:cardElevation="1dp"
+
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:orientation="vertical"
+                    >
+                    <requestFocus></requestFocus>
+                    <TextView
+                        android:id="@+id/subtitle_stream"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:paddingBottom="6dp"
+                        android:textColor="@color/ColorPrimary"
+                        android:text="Workshop by Robotics Club"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/text_color_light"/>
+                    <TextView
+
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="6dp"
+                        android:textSize="12dp"
+                        android:lineSpacingExtra="4dp"
+                        android:textColor="@color/text_color_light"
+                        android:text="@string/medium_text"/>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                card_view:background="@drawable/rounded_edge_white"
+                card_view:cardElevation="2dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Author"
+                    android:textColor="@color/ColorPrimary"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
+                    android:paddingBottom="8dp"
+                   />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+
+                        android:layout_marginRight="16dp"
+                        android:background="@color/text_color_light"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp"
+                   >
+                    <ImageView
+                        android:id="@+id/stream_author_image"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+
+                        android:src="@drawable/ic_person_black_24dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="4dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/author_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:textSize="12dp"
+                            android:gravity="center_vertical"
+                            android:text="Author Name"
+                            android:paddingLeft="4dp"
+                            android:textColor="@color/text_color_dark"/>
+                        <TextView
+                            android:id="@+id/author_post"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:textSize="10dp"
+                            android:autoLink="email"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="4dp"
+                            android:text="Secretary"
+                            android:textColorLink="@color/text_color_light"
+                            android:textColor="@color/text_color_light"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                card_view:background="@drawable/rounded_edge_white"
+                card_view:cardElevation="2dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Post holders"
+                        android:textColor="@color/ColorPrimary"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:paddingBottom="8dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+
+                        android:layout_marginRight="16dp"
+                        android:background="@color/text_color_light"/>
+
+                    <LinearLayout
+                        android:id="@+id/post_1_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                       >
+                        <ImageView
+                            android:id="@+id/post_holder_1_image"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+
+                            android:src="@drawable/ic_person_black_24dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="4dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/post_holder_1_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:textSize="12dp"
+                                android:gravity="center_vertical"
+                                android:text="Author Name"
+                                android:paddingLeft="4dp"
+                                android:textColor="@color/text_color_dark"/>
+                            <TextView
+                                android:id="@+id/post_holder_1_post"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:textSize="10dp"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="4dp"
+                                android:text="Secretary"
+                                android:textColor="@color/text_color_light"/>
+                            <TextView
+                                android:id="@+id/post_holder_1_email"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:autoLink="email"
+                                android:textSize="10dp"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="4dp"
+                                android:textColorLink="@color/text_color_light"
+                                android:text="dummy@gmail.com"
+                                android:textColor="@color/text_color_light"/>
+                            <TextView
+                                android:id="@+id/post_holder_1_contact"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:textSize="10dp"
+                                android:autoLink="phone"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="4dp"
+                                android:text="0000000000"
+                                android:textColorLink="@color/text_color_light"
+                                android:textColor="@color/text_color_light"/>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.3dp"
+                        android:layout_marginLeft="42dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/text_color_light"/>
+                    <LinearLayout
+                        android:id="@+id/post_2_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                       >
+                        <ImageView
+                            android:id="@+id/post_holder_2_image"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+
+                            android:src="@drawable/ic_person_black_24dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="4dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/post_holder_2_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:textSize="12dp"
+                                android:gravity="center_vertical"
+                                android:text="Author Name"
+                                android:paddingLeft="4dp"
+                                android:textColor="@color/text_color_dark"/>
+                            <TextView
+                                android:id="@+id/post_holder_2_post"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:textSize="12dp"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="4dp"
+                                android:text="Secretary"
+                                android:textColor="@color/text_color_light"/>
+                            <TextView
+                                android:id="@+id/post_holder_2_email"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:autoLink="email"
+                                android:textSize="12dp"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="4dp"
+                                android:textColorLink="@color/text_color_light"
+                                android:text="dummy@gmail.com"
+                                android:textColor="@color/text_color_light"/>
+                            <TextView
+                                android:id="@+id/post_holder_2_contact"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:textSize="10dp"
+                                android:autoLink="phone"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="4dp"
+                                android:text="0000000000"
+                                android:textColorLink="@color/text_color_light"
+                                android:textColor="@color/text_color_light"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.3dp"
+                        android:layout_marginLeft="42dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/text_color_light"/>
+                    <LinearLayout
+                        android:id="@+id/post_3_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        >
+                        <ImageView
+                            android:id="@+id/post_holder_3_image"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_person_black_24dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="4dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/post_holder_3_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:textSize="12dp"
+                                android:gravity="center_vertical"
+                                android:text="Author Name"
+                                android:paddingLeft="4dp"
+                                android:textColor="@color/text_color_dark"/>
+                            <TextView
+                                android:id="@+id/post_holder_3_post"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:textSize="10dp"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="4dp"
+                                android:text="Secretary"
+                                android:textColor="@color/text_color_light"/>
+                            <TextView
+                                android:id="@+id/post_holder_3_email"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:textSize="10dp"
+                                android:autoLink="email"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="4dp"
+                                android:text="shriyanshgautam005@gmail.com"
+                                android:textColorLink="@color/text_color_light"
+                                android:textColor="@color/text_color_light"/>
+                            <TextView
+                                android:id="@+id/post_holder_3_contact"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:textSize="10dp"
+                                android:autoLink="phone"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="4dp"
+                                android:text="8765003288"
+                                android:textColorLink="@color/text_color_light"
+                                android:textColor="@color/text_color_light"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+                android:id="@+id/card_view8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+
+                card_view:background="@drawable/rounded_edge_white"
+                card_view:cardElevation="2dp"
+
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="12dp">
+                    <LinearLayout
+                        android:id="@+id/feedback_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="156dp"
+
+                        android:orientation="vertical"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_horizontal"
+                        >
+                        <TextView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="14dp"
+                            android:textStyle="bold"
+                            android:paddingBottom="6dp"
+                            android:textColor="@color/ColorPrimary"
+                            android:text="Your suggestions and feedback to them"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+
+
+                            android:layout_marginRight="16dp"
+                            android:background="@color/text_color_light"/>
+                        <EditText
+                            android:id="@+id/feedback_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:textColor="@color/text_color_light"
+                            android:textSize="14dp"
+                            android:lines="4"
+                            android:gravity="top"
+                            android:inputType="textCapSentences"
+                            android:backgroundTint="@color/white"
+                            android:textCursorDrawable="@null"
+                            android:hint="Tell us what you like"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right">
+                            <Button
+                                android:id="@+id/feedback_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="32dp"
+                                android:background="@drawable/button_stroke"
+                                android:textColor="@color/teal500"
+
+                                android:text="SEND"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/progress_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="156dp"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        android:gravity="center">
+                        <ProgressBar
+                            android:id="@+id/feedback_progress"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_margin="16dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <!--Focusable in touch mode in parent help removing autofocus on child-->
+
+
+            </android.support.v7.widget.CardView>
+
+
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

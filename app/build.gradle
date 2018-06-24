@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "in.shriyansh.streamify"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 4
+        versionName "1.0"
+    }
+    buildTypes {
+        debug {
+            buildConfigField 'String', "YoutubeApiKey", Questify_YoutubeDeveloperKey
+            resValue 'string', "youtube_api_key", Questify_YoutubeDeveloperKey
+            buildConfigField 'String', "GoogleMapAndroidApiKey", Questify_GoogleMapsAndroidApiKey
+            resValue 'string', "google_maps_android_api_key", Questify_GoogleMapsAndroidApiKey
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "YoutubeApiKey", Questify_YoutubeDeveloperKey
+            resValue 'string', "youtube_api_key", Questify_YoutubeDeveloperKey
+            buildConfigField 'String', "GoogleMapAndroidApiKey", Questify_GoogleMapsAndroidApiKey
+            resValue 'string', "google_maps_android_api_key", Questify_GoogleMapsAndroidApiKey
+        }
+    }
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.google.firebase:firebase-messaging:11.2.0'
+    compile 'com.google.android.gms:play-services-maps:11.2.0'
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+}
+
+apply plugin: 'com.google.gms.google-services'
+
+

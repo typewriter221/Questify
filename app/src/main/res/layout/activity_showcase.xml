@@ -1,0 +1,70 @@
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBarTheme">
+
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/ColorPrimary"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
+            android:theme="@style/ToolBarTheme"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+
+            android:elevation="4dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+            />
+
+
+
+        <in.shriyansh.streamify.custumUI.SlidingTabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            android:background="@color/ColorPrimary"/>
+    </android.support.design.widget.AppBarLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:background="@color/ColorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:background="@color/white">
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_keyboard_arrow_right_white_36dp"
+        app:layout_behavior="in.shriyansh.questify.ui.ScrollingFABBehavior" />
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+
