@@ -123,15 +123,15 @@ public class StreamAdapter extends CursorAdapter implements Urls {
             ImageView authorImage;
             ImageView streamImageView;
 
-            title = (TextView)view.findViewById(R.id.stream_title);
-            subtitle = (TextView)view.findViewById(R.id.stream_subtitle);
-            description = (TextView)view.findViewById(R.id.stream_description);
-            streamImageView = (ImageView)view.findViewById(R.id.stream_image);
-            authorName = (TextView)view.findViewById(R.id.stream_author_name);
-            authorEmail = (TextView)view.findViewById(R.id.stream_author_email);
-            subscribe = (Button)view.findViewById(R.id.btn_subscribe);
-            authorImage = (ImageView)view.findViewById(R.id.stream_author_image);
-            streamParentTv = (TextView)view.findViewById(R.id.stream_parent_1);
+            title = view.findViewById(R.id.stream_title);
+            subtitle = view.findViewById(R.id.stream_subtitle);
+            description = view.findViewById(R.id.stream_description);
+            streamImageView = view.findViewById(R.id.stream_image);
+            authorName = view.findViewById(R.id.stream_author_name);
+            authorEmail = view.findViewById(R.id.stream_author_email);
+            subscribe = view.findViewById(R.id.btn_subscribe);
+            authorImage = view.findViewById(R.id.stream_author_image);
+            streamParentTv = view.findViewById(R.id.stream_parent_1);
 
             authorName.setTag(cursor.getPosition());
             authorImage.setTag(cursor.getPosition());
@@ -159,9 +159,9 @@ public class StreamAdapter extends CursorAdapter implements Urls {
             TextView titleTv;
             TextView descriptionTv;
 
-            gotIt = (TextView)view.findViewById(R.id.instruction_done);
-            titleTv = (TextView)view.findViewById(R.id.instruction_title);
-            descriptionTv = (TextView)view.findViewById(R.id.instruction_description);
+            gotIt = view.findViewById(R.id.instruction_done);
+            titleTv = view.findViewById(R.id.instruction_title);
+            descriptionTv = view.findViewById(R.id.instruction_description);
 
             fetchAndSetInstructionData(cursor, titleTv, descriptionTv, gotIt);
         }
@@ -404,10 +404,10 @@ public class StreamAdapter extends CursorAdapter implements Urls {
             streamAuthorImage = "";
         }
 
-        name = (TextView) authorDialog.findViewById(R.id.contact_name);
-        email = (TextView) authorDialog.findViewById(R.id.contact_email);
-        contact = (TextView) authorDialog.findViewById(R.id.contact_contact);
-        image = (ImageView) authorDialog.findViewById(R.id.author_image);
+        name = authorDialog.findViewById(R.id.contact_name);
+        email = authorDialog.findViewById(R.id.contact_email);
+        contact = authorDialog.findViewById(R.id.contact_contact);
+        image = authorDialog.findViewById(R.id.author_image);
 
         name.setText(streamAuthorName);
         email.setText(streamAuthorEmail);

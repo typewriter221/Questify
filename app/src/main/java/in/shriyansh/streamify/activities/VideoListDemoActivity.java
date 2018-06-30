@@ -116,7 +116,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.video_list_demo);
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
     ActionBar actionBar =  getSupportActionBar();
@@ -343,9 +343,9 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
       VideoFragment videoFragment =
           (VideoFragment) getFragmentManager().findFragmentById(R.id.video_fragment_container);
       videoFragment.setVideoId(videoId);
-      TextView videoTitleTv = (TextView)getActivity().findViewById(R.id.video_title);
+      TextView videoTitleTv = getActivity().findViewById(R.id.video_title);
       videoTitleTv.setText(videoTitle);
-      TextView streamTitleTv = (TextView)getActivity().findViewById(R.id.video_stream);
+      TextView streamTitleTv = getActivity().findViewById(R.id.video_stream);
       streamTitleTv.setText(stream);
 
       // The videoBox is INVISIBLE if no video was previously selected, so we need to show it now.
@@ -427,7 +427,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
     private boolean labelsVisible;
     private Context context;
 
-    public PageAdapter(Context context, List<VideoEntry> entries) {
+    private PageAdapter(Context context, List<VideoEntry> entries) {
       this.entries = entries;
       this.context = context;
       entryViews = new ArrayList<>();
@@ -493,7 +493,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
       //          loader.setVideo(entry.videoId);
       //        }
       //      }
-      ImageView thumbnail = (ImageView)view.findViewById(R.id.youtube_thumbnail);
+      ImageView thumbnail = view.findViewById(R.id.youtube_thumbnail);
       Log.d("Shriyansh Thumbnail",Utils.getYoutubeVideoThumbnailFromId(entry.videoId));
       Picasso.with(context)
           .load(Uri.parse(Utils.getUsableDropboxUrl(Utils.getYoutubeVideoThumbnailFromId(
@@ -502,11 +502,11 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
           .error(R.drawable.video_no_thumbnail)
           .into(thumbnail)
       ;
-      TextView label = ((TextView) view.findViewById(R.id.title));
+      TextView label = (view.findViewById(R.id.title));
       label.setText(entry.title);
-      TextView stream = ((TextView) view.findViewById(R.id.stream_title));
+      TextView stream = (view.findViewById(R.id.stream_title));
       stream.setText(entry.streamTitle);
-      TextView text = ((TextView) view.findViewById(R.id.text));
+      TextView text = (view.findViewById(R.id.text));
       text.setText(entry.videoText);
 
 
@@ -624,7 +624,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
     private final String streamTitle;
     private final String videoText;
 
-    public VideoEntry(String title, String videoId,String streamTitle,String videoText) {
+    private VideoEntry(String title, String videoId,String streamTitle,String videoText) {
       this.title = title;
       this.videoId = videoId;
       this.streamTitle = streamTitle;

@@ -254,43 +254,43 @@ public class StreamDetailActivity extends AppCompatActivity implements Urls,View
      * Binds the ui to Java instances.
      */
     private void initUi() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        toolbar = findViewById(R.id.toolbar);
+        toolBarLayout = findViewById(R.id.toolbar_layout);
 
-        subtitleSteamTv = (TextView)findViewById(R.id.subtitle_stream);
-        descriptionTv = (TextView)findViewById(R.id.description);
-        bgHeader = (ImageView)findViewById(R.id.bgheader);
-        authorNameTv = (TextView)findViewById(R.id.author_name);
-        authorPostTv = (TextView)findViewById(R.id.author_post);
-        authorImage = (ImageView)findViewById(R.id.stream_author_image);
+        subtitleSteamTv = findViewById(R.id.subtitle_stream);
+        descriptionTv = findViewById(R.id.description);
+        bgHeader = findViewById(R.id.bgheader);
+        authorNameTv = findViewById(R.id.author_name);
+        authorPostTv = findViewById(R.id.author_post);
+        authorImage = findViewById(R.id.stream_author_image);
 
-        post1Layout = (LinearLayout)findViewById(R.id.post_1_layout);
-        post1Image = (ImageView)findViewById(R.id.post_holder_1_image);
-        post1NameTv = (TextView)findViewById(R.id.post_holder_1_name);
-        post1PostTv = (TextView)findViewById(R.id.post_holder_1_post);
-        post1EmailTv = (TextView)findViewById(R.id.post_holder_1_email);
-        post1ContactTv = (TextView)findViewById(R.id.post_holder_1_contact);
+        post1Layout = findViewById(R.id.post_1_layout);
+        post1Image = findViewById(R.id.post_holder_1_image);
+        post1NameTv = findViewById(R.id.post_holder_1_name);
+        post1PostTv = findViewById(R.id.post_holder_1_post);
+        post1EmailTv = findViewById(R.id.post_holder_1_email);
+        post1ContactTv = findViewById(R.id.post_holder_1_contact);
 
-        post2Layout = (LinearLayout)findViewById(R.id.post_2_layout);
-        post2Image = (ImageView)findViewById(R.id.post_holder_2_image);
-        post2NameTv = (TextView)findViewById(R.id.post_holder_2_name);
-        post2PostTv = (TextView)findViewById(R.id.post_holder_2_post);
-        post2EmailTv = (TextView)findViewById(R.id.post_holder_2_email);
-        post2ContactTv = (TextView)findViewById(R.id.post_holder_2_contact);
+        post2Layout = findViewById(R.id.post_2_layout);
+        post2Image = findViewById(R.id.post_holder_2_image);
+        post2NameTv = findViewById(R.id.post_holder_2_name);
+        post2PostTv = findViewById(R.id.post_holder_2_post);
+        post2EmailTv = findViewById(R.id.post_holder_2_email);
+        post2ContactTv = findViewById(R.id.post_holder_2_contact);
 
-        post3Layout = (LinearLayout)findViewById(R.id.post_3_layout);
-        post3Image = (ImageView)findViewById(R.id.post_holder_3_image);
-        post3NameTv = (TextView)findViewById(R.id.post_holder_3_name);
-        post3PostTv = (TextView)findViewById(R.id.post_holder_3_post);
-        post3EmailTv = (TextView)findViewById(R.id.post_holder_3_email);
-        post3ContactTv = (TextView)findViewById(R.id.post_holder_3_contact);
+        post3Layout = findViewById(R.id.post_3_layout);
+        post3Image = findViewById(R.id.post_holder_3_image);
+        post3NameTv = findViewById(R.id.post_holder_3_name);
+        post3PostTv = findViewById(R.id.post_holder_3_post);
+        post3EmailTv = findViewById(R.id.post_holder_3_email);
+        post3ContactTv = findViewById(R.id.post_holder_3_contact);
 
-        etFeedBack = (EditText)findViewById(R.id.feedback_tv);
-        feedbackLayout = (LinearLayout)findViewById(R.id.feedback_layout);
-        progressLayout = (LinearLayout)findViewById(R.id.progress_layout);
-        btnFeedBAck = (Button)findViewById(R.id.feedback_button);
-        fab = (FloatingActionButton)findViewById(R.id.fab);
-        feedbackProgress = (ProgressBar)findViewById(R.id.feedback_progress);
+        etFeedBack = findViewById(R.id.feedback_tv);
+        feedbackLayout = findViewById(R.id.feedback_layout);
+        progressLayout = findViewById(R.id.progress_layout);
+        btnFeedBAck = findViewById(R.id.feedback_button);
+        fab = findViewById(R.id.fab);
+        feedbackProgress = findViewById(R.id.feedback_progress);
         feedbackProgress.setIndeterminate(true);
         feedbackProgress.getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.ColorPrimary),
@@ -529,11 +529,11 @@ public class StreamDetailActivity extends AppCompatActivity implements Urls,View
         final TextView post;
         final ImageView image;
 
-        image = (ImageView)authorDialog.findViewById(R.id.author_image);
-        name = (TextView)authorDialog.findViewById(R.id.contact_name);
-        email = (TextView)authorDialog.findViewById(R.id.contact_email);
-        contact = (TextView)authorDialog.findViewById(R.id.contact_contact);
-        post = (TextView)authorDialog.findViewById(R.id.contact_post);
+        image = authorDialog.findViewById(R.id.author_image);
+        name = authorDialog.findViewById(R.id.contact_name);
+        email = authorDialog.findViewById(R.id.contact_email);
+        contact = authorDialog.findViewById(R.id.contact_contact);
+        post = authorDialog.findViewById(R.id.contact_post);
 
         name.setText(streamAuthorName);
         email.setText(streamAuthorEmail);

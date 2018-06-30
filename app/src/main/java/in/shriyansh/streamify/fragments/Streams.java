@@ -65,7 +65,7 @@ public class Streams extends Fragment implements Urls {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.stream_layout,container,false);
-        streamListView = (ListView)view.findViewById(R.id.stream_list);
+        streamListView = view.findViewById(R.id.stream_list);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             streamListView.setNestedScrollingEnabled(true);
         }
@@ -73,7 +73,7 @@ public class Streams extends Fragment implements Urls {
                 null,null,
                 DbContract.Streams.COLUMN_GLOBAL_ID + " DESC ",0));
         streamListView.setAdapter(streamAdapter);
-        announcementRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.news_refresh_layout);
+        announcementRefreshLayout = view.findViewById(R.id.news_refresh_layout);
         announcementRefreshLayout.setColorSchemeResources(R.color.ColorPrimary, R.color.pink500,
                 R.color.teal500);
 

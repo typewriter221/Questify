@@ -90,7 +90,7 @@ public class News extends Fragment implements Urls {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.news_layout,container,false);
 
-        notificationsListView = (ListView)view.findViewById(R.id.notifications_list);
+        notificationsListView = view.findViewById(R.id.notifications_list);
         notificationsAdapter = new NotificationsAdapter(getActivity(),dbMethods.queryNotifications(
                 null, null, null,
                 DbContract.Notifications.COLUMN_GLOBAL_ID + " DESC ", 0));
@@ -98,7 +98,7 @@ public class News extends Fragment implements Urls {
             notificationsListView.setNestedScrollingEnabled(true);
         }
         notificationsListView.setAdapter(notificationsAdapter);
-        newsRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.news_refresh_layout);
+        newsRefreshLayout = view.findViewById(R.id.news_refresh_layout);
         newsRefreshLayout.setColorSchemeResources(R.color.ColorPrimary, R.color.pink500,
                 R.color.teal500);
 

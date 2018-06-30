@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -63,10 +62,10 @@ public class ImageActivity extends AppCompatActivity {
 
     private void initUi() {
         controlsView = findViewById(R.id.fullscreen_content_controls);
-        contentView = (TouchImageView)findViewById(R.id.fullscreen_content);
-        titleTv = (TextView)findViewById(R.id.image_title);
-        subtitleTv = (TextView)findViewById(R.id.image_subtitle);
-        descriptionTv = (TextView)findViewById(R.id.image_description);
+        contentView = findViewById(R.id.fullscreen_content);
+        titleTv = findViewById(R.id.image_title);
+        subtitleTv = findViewById(R.id.image_subtitle);
+        descriptionTv = findViewById(R.id.image_description);
         // Set up the user interaction to manually show or hide the system UI.
         contentView.setOnClickListener(new View.OnClickListener() {
             @Override

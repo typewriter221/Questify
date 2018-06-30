@@ -43,7 +43,7 @@ public class ShowcaseActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_showcase);
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
     }
@@ -52,7 +52,7 @@ public class ShowcaseActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            return (ViewGroup) inflater.inflate(
+            return inflater.inflate(
                     R.layout.fragment_showcase_item, container, false);
         }
     }
@@ -62,7 +62,7 @@ public class ShowcaseActivity extends AppCompatActivity {
      * sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+        private ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

@@ -72,13 +72,13 @@ public class PostActivity extends AppCompatActivity {
      *  Initializes UI elements on view.
      */
     private void initUi() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        typeRd = (RadioGroup)findViewById(R.id.post_radio);
-        titleTv = (EditText) findViewById(R.id.post_title);
-        contentTv = (EditText) findViewById(R.id.post_content);
-        contentLayout = (LinearLayout)findViewById(R.id.content_layout);
-        progressLayout = (LinearLayout)findViewById(R.id.progress_layout);
+        toolbar = findViewById(R.id.toolbar);
+        fab = findViewById(R.id.fab);
+        typeRd = findViewById(R.id.post_radio);
+        titleTv = findViewById(R.id.post_title);
+        contentTv = findViewById(R.id.post_content);
+        contentLayout = findViewById(R.id.content_layout);
+        progressLayout = findViewById(R.id.progress_layout);
         /*
          * Nothing worked for me while trying to change the color of progressbar in xml file
          *  android:progressBackgroundTint="@color/ColorPrimary"
@@ -87,7 +87,7 @@ public class PostActivity extends AppCompatActivity {
          *  android:backgroundTint="@color/ColorPrimary"
          *  only worked by java
          */
-        progressBar = (ProgressBar)findViewById(R.id.progress);
+        progressBar = findViewById(R.id.progress);
         progressBar.setIndeterminate(true);
         progressBar.getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.ColorPrimary),

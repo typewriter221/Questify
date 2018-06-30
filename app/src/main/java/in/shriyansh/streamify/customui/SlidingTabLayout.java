@@ -212,7 +212,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 // If there is a custom tab view layout id set, try and inflate it
                 tabView = LayoutInflater.from(getContext()).inflate(tabViewLayoutId, tabStrip,
                         false);
-                ImageView tabImage = (ImageView)tabView.findViewById(R.id.tab_image);
+                ImageView tabImage = tabView.findViewById(R.id.tab_image);
                 switch (i) {
                     case 0: tabImage.setImageResource(R.drawable.newspaper);
                         break;
@@ -226,7 +226,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 }
 
 
-                tabTitleView = (TextView) tabView.findViewById(tabViewTextViewId);
+                tabTitleView = tabView.findViewById(tabViewTextViewId);
             }
 
             if (tabView == null) {
@@ -297,7 +297,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
 
             scrollTo(targetScrollX, 0);
-            /**
+            /*
              * Try to increase the text style
              *
              */

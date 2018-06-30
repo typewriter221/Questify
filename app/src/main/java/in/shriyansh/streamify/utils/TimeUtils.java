@@ -34,7 +34,7 @@ public class TimeUtils {
         // you may choose to write full time intervals like seconds, minutes, days and so on
         double[] lengths = {60, 60, 24, 7, 4.35, 12, 10};
         timeDifference = unixTime - timeStamp;
-        String tense = "";
+        String tense;
         if (timeDifference < 0) {
             tense = "to go";
             timeDifference = -timeDifference;

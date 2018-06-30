@@ -6,7 +6,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+//import android.widget.ImageView;
 import android.widget.TextView;
 
 import in.shriyansh.streamify.R;
@@ -29,8 +29,8 @@ public class SearchCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView text = (TextView) view.findViewById(R.id.search_text);
-        ImageView searchImage = (ImageView) view.findViewById(R.id.search_image);
+        TextView text = view.findViewById(R.id.search_text);
+        //ImageView searchImage = view.findViewById(R.id.search_image);
         text.setText(cursor.getString(cursor.getColumnIndex(DbContract.Streams.COLUMN_TITLE)));
         view.setTag("Stream");
     }

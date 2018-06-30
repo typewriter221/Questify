@@ -117,13 +117,13 @@ public class RegisterActivity extends Activity implements Urls {
     }
 
     private void initUi() {
-        coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
-        etName = (EditText)findViewById(R.id.et_name);
-        etEmail = (LabelledSpinner)findViewById(R.id.et_email);
-        etContact = (EditText)findViewById(R.id.et_contact);
-        btnRegister = (Button)findViewById(R.id.btn_register);
-        loginLayout = (LinearLayout)findViewById(R.id.layout_register);
-        progressLayout = (LinearLayout)findViewById(R.id.layout_progress);
+        coordinatorLayout = findViewById(R.id.coordinatorLayout);
+        etName = findViewById(R.id.et_name);
+        etEmail = findViewById(R.id.et_email);
+        etContact = findViewById(R.id.et_contact);
+        btnRegister = findViewById(R.id.btn_register);
+        loginLayout = findViewById(R.id.layout_register);
+        progressLayout = findViewById(R.id.layout_progress);
         setListeners();
     }
 

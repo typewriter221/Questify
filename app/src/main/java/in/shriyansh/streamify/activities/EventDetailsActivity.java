@@ -167,21 +167,21 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void initUi() {
-        bgHeader = (ImageView) findViewById(R.id.bgheader);
-        subtitleSteamTv = (TextView) findViewById(R.id.subtitle_stream);
-        descriptionTv = (TextView) findViewById(R.id.description);
-        authorImage = (ImageView) findViewById(R.id.event_author_image);
-        authorNameTv = (TextView) findViewById(R.id.author_name);
-        authorPostTv = (TextView) findViewById(R.id.author_post);
-        datetimeTv = (TextView) findViewById(R.id.datetime);
-        agoTv = (TextView) findViewById(R.id.ago);
-        locationNameTv = (TextView) findViewById(R.id.location_name);
-        locationAddressTv = (TextView) findViewById(R.id.location_address);
-        locationDescriptionTv = (TextView) findViewById(R.id.location_description);
-        directionsImageView = (ImageView) findViewById(R.id.directions_image);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        bgHeader = findViewById(R.id.bgheader);
+        subtitleSteamTv = findViewById(R.id.subtitle_stream);
+        descriptionTv = findViewById(R.id.description);
+        authorImage = findViewById(R.id.event_author_image);
+        authorNameTv = findViewById(R.id.author_name);
+        authorPostTv = findViewById(R.id.author_post);
+        datetimeTv = findViewById(R.id.datetime);
+        agoTv = findViewById(R.id.ago);
+        locationNameTv = findViewById(R.id.location_name);
+        locationAddressTv = findViewById(R.id.location_address);
+        locationDescriptionTv = findViewById(R.id.location_description);
+        directionsImageView = findViewById(R.id.directions_image);
+        fab = findViewById(R.id.fab);
+        toolbar = findViewById(R.id.toolbar);
+        toolBarLayout = findViewById(R.id.toolbar_layout);
     }
 
     private void initToolbar() {
@@ -330,10 +330,10 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         final TextView contact;
         final ImageView image;
 
-        image = (ImageView)authorDialog.findViewById(R.id.author_image);
-        name = (TextView)authorDialog.findViewById(R.id.contact_name);
-        email = (TextView)authorDialog.findViewById(R.id.contact_email);
-        contact = (TextView)authorDialog.findViewById(R.id.contact_contact);
+        image = authorDialog.findViewById(R.id.author_image);
+        name = authorDialog.findViewById(R.id.contact_name);
+        email = authorDialog.findViewById(R.id.contact_email);
+        contact = authorDialog.findViewById(R.id.contact_contact);
 
         name.setText(streamAuthorName);
         email.setText(streamAuthorEmail);

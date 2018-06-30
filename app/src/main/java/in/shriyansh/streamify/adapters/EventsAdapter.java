@@ -237,24 +237,24 @@ public class EventsAdapter extends CursorAdapter implements Urls {
             Boolean result = selection.get(cursor.getLong(cursor.getColumnIndex(
                     DbContract.Events._ID)));
             result = result == null ? false : result;
-            LinearLayout itemContainer = (LinearLayout)view.findViewById(R.id.item_container);
+            LinearLayout itemContainer = view.findViewById(R.id.item_container);
             if (result) {
                 itemContainer.setBackgroundResource(R.drawable.rounded_edge_teal_light);
             } else {
                 itemContainer.setBackgroundResource(R.drawable.rounded_edge_white);
             }
 
-            title = (TextView)view.findViewById(R.id.event_title);
-            subtitle = (TextView)view.findViewById(R.id.event_subtitle);
-            description = (TextView)view.findViewById(R.id.event_description);
-            datetime = (TextView)view.findViewById(R.id.event_date);
-            creationTime = (TextView)view.findViewById(R.id.event_creation_time);
-            venue = (TextView)view.findViewById(R.id.event_venue);
-            stream = (TextView)view.findViewById(R.id.event_stream);
-            tag1 = (TextView)view.findViewById(R.id.event_tag1);
-            authorName = (TextView)view.findViewById(R.id.event_author_name);
-            newsImage = (ImageView)view.findViewById(R.id.event_image);
-            authorImage = (ImageView)view.findViewById(R.id.event_author_image);
+            title = view.findViewById(R.id.event_title);
+            subtitle = view.findViewById(R.id.event_subtitle);
+            description = view.findViewById(R.id.event_description);
+            datetime = view.findViewById(R.id.event_date);
+            creationTime = view.findViewById(R.id.event_creation_time);
+            venue = view.findViewById(R.id.event_venue);
+            stream = view.findViewById(R.id.event_stream);
+            tag1 = view.findViewById(R.id.event_tag1);
+            authorName = view.findViewById(R.id.event_author_name);
+            newsImage = view.findViewById(R.id.event_image);
+            authorImage = view.findViewById(R.id.event_author_image);
 
             //initUi(title, subtitle, description, datetime, creationTime, venue, stream, tag1,
             //        authorName, newsImage, authorImage, view);
@@ -285,9 +285,9 @@ public class EventsAdapter extends CursorAdapter implements Urls {
             TextView titleTv;
             TextView descriptionTv;
 
-            gotIt = (TextView)view.findViewById(R.id.instruction_done);
-            titleTv = (TextView)view.findViewById(R.id.instruction_title);
-            descriptionTv = (TextView)view.findViewById(R.id.instruction_description);
+            gotIt = view.findViewById(R.id.instruction_done);
+            titleTv = view.findViewById(R.id.instruction_title);
+            descriptionTv = view.findViewById(R.id.instruction_description);
 
             fetchAndSetInstructionData(cursor, titleTv, descriptionTv, gotIt);
         }
@@ -327,10 +327,10 @@ public class EventsAdapter extends CursorAdapter implements Urls {
             streamAuthorImage = "";
         }
 
-        name = (TextView)authorDialog.findViewById(R.id.contact_name);
-        email = (TextView)authorDialog.findViewById(R.id.contact_email);
-        contact = (TextView)authorDialog.findViewById(R.id.contact_contact);
-        image = (ImageView)authorDialog.findViewById(R.id.author_image);
+        name = authorDialog.findViewById(R.id.contact_name);
+        email = authorDialog.findViewById(R.id.contact_email);
+        contact = authorDialog.findViewById(R.id.contact_contact);
+        image = authorDialog.findViewById(R.id.author_image);
 
         name.setText(streamAuthorName);
         email.setText(streamAuthorEmail);

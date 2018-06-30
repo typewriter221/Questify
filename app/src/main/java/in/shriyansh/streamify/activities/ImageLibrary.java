@@ -82,9 +82,9 @@ public class ImageLibrary extends AppCompatActivity implements Urls {
     }
 
     private void initUi() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        toolbar = findViewById(R.id.toolbar);
+        fab = findViewById(R.id.fab);
+        recyclerView = findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView

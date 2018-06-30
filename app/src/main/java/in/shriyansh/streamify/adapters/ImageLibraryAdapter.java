@@ -47,10 +47,10 @@ public class ImageLibraryAdapter extends RecyclerView.Adapter<ImageLibraryAdapte
         private ViewHolder(View v) {
             super(v);
             v.setOnClickListener(this);
-            contentTitleTv = (TextView)v.findViewById(R.id.content_title);
-            contentStreamTv = (TextView)v.findViewById(R.id.content_stream);
-            contentTextTv = (TextView)v.findViewById(R.id.content_text);
-            imageView = (ImageView)v.findViewById(R.id.image_image);
+            contentTitleTv = v.findViewById(R.id.content_title);
+            contentStreamTv = v.findViewById(R.id.content_stream);
+            contentTextTv = v.findViewById(R.id.content_text);
+            imageView = v.findViewById(R.id.image_image);
         }
 
         @Override

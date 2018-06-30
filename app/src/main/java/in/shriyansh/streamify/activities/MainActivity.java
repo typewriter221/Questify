@@ -151,10 +151,10 @@ public class MainActivity extends AppCompatActivity implements Urls {
      *  Initializes Ui elements on the view.
      */
     private void initUi() {
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        pager = (ViewPager) findViewById(R.id.pager);
-        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        toolbar = findViewById(R.id.tool_bar);
+        fab = findViewById(R.id.fab);
+        pager = findViewById(R.id.pager);
+        tabs = findViewById(R.id.tabs);
 
         setSupportActionBar(toolbar);
         //TODO Search

@@ -225,22 +225,22 @@ public class NotificationsAdapter extends CursorAdapter implements Urls {
             Boolean result = selection.get(cursor.getLong(cursor.getColumnIndex(
                     DbContract.Notifications._ID)));
             result = result == null ? false : result;
-            LinearLayout itemContainer = (LinearLayout)view.findViewById(R.id.item_container);
+            LinearLayout itemContainer = view.findViewById(R.id.item_container);
             if (result) {
                 itemContainer.setBackgroundResource(R.drawable.rounded_edge_teal_light);
             } else {
                 itemContainer.setBackgroundResource(R.drawable.rounded_edge_white);
             }
 
-            title = (TextView)view.findViewById(R.id.news_title);
-            subtitle = (TextView)view.findViewById(R.id.news_subtitle);
-            description = (TextView)view.findViewById(R.id.news_description);
-            link = (TextView)view.findViewById(R.id.news_link);
-            stream = (TextView)view.findViewById(R.id.news_stream);
-            tag1 = (TextView)view.findViewById(R.id.news_tag_1);
-            ago = (TextView)view.findViewById(R.id.news_ago);
-            authorName = (TextView)view.findViewById(R.id.news_author_name);
-            authorImage = (ImageView)view.findViewById(R.id.news_author_image);
+            title = view.findViewById(R.id.news_title);
+            subtitle = view.findViewById(R.id.news_subtitle);
+            description = view.findViewById(R.id.news_description);
+            link = view.findViewById(R.id.news_link);
+            stream = view.findViewById(R.id.news_stream);
+            tag1 = view.findViewById(R.id.news_tag_1);
+            ago = view.findViewById(R.id.news_ago);
+            authorName = view.findViewById(R.id.news_author_name);
+            authorImage = view.findViewById(R.id.news_author_image);
 
             fetchAndSetData(cursor, title, subtitle, description, authorName, stream, tag1, ago,
                     link, authorImage);
@@ -251,15 +251,15 @@ public class NotificationsAdapter extends CursorAdapter implements Urls {
 
             final int imageViewsCount = 4;
             ImageView[] contentImages = new ImageView[imageViewsCount];
-            contentImages[0] = (ImageView)view.findViewById(R.id.news_image_1);
-            contentImages[1] = (ImageView)view.findViewById(R.id.news_image_2);
-            contentImages[2] = (ImageView)view.findViewById(R.id.news_image_3);
-            contentImages[3] = (ImageView)view.findViewById(R.id.news_image_4);
-            ImageView contentVideo = (ImageView)view.findViewById(R.id.news_video);
-            RelativeLayout videoBox = (RelativeLayout) view.findViewById(R.id.video_box);
+            contentImages[0] = view.findViewById(R.id.news_image_1);
+            contentImages[1] = view.findViewById(R.id.news_image_2);
+            contentImages[2] = view.findViewById(R.id.news_image_3);
+            contentImages[3] = view.findViewById(R.id.news_image_4);
+            ImageView contentVideo = view.findViewById(R.id.news_video);
+            RelativeLayout videoBox = view.findViewById(R.id.video_box);
             LinearLayout moreImageBox
-                    = (LinearLayout) view.findViewById(R.id.more_count_container);
-            TextView moreTextView = (TextView) view.findViewById(R.id.more_count);
+                    = view.findViewById(R.id.more_count_container);
+            TextView moreTextView = view.findViewById(R.id.more_count);
 
             moreImageBox.setVisibility(View.GONE);
             moreTextView.setVisibility(View.GONE);
@@ -291,9 +291,9 @@ public class NotificationsAdapter extends CursorAdapter implements Urls {
             TextView titleTv;
             TextView descriptionTv;
 
-            gotIt = (TextView)view.findViewById(R.id.instruction_done);
-            titleTv = (TextView)view.findViewById(R.id.instruction_title);
-            descriptionTv = (TextView)view.findViewById(R.id.instruction_description);
+            gotIt = view.findViewById(R.id.instruction_done);
+            titleTv = view.findViewById(R.id.instruction_title);
+            descriptionTv = view.findViewById(R.id.instruction_description);
 
             fetchAndSetInstructionData(cursor, titleTv, descriptionTv, gotIt);
         }
@@ -568,10 +568,10 @@ public class NotificationsAdapter extends CursorAdapter implements Urls {
             streamAuthorImage = "";
         }
 
-        name = (TextView)authorDialog.findViewById(R.id.contact_name);
-        email = (TextView)authorDialog.findViewById(R.id.contact_email);
-        contact = (TextView)authorDialog.findViewById(R.id.contact_contact);
-        image = (ImageView)authorDialog.findViewById(R.id.author_image);
+        name = authorDialog.findViewById(R.id.contact_name);
+        email = authorDialog.findViewById(R.id.contact_email);
+        contact = authorDialog.findViewById(R.id.contact_contact);
+        image = authorDialog.findViewById(R.id.author_image);
 
         name.setText(streamAuthorName);
         email.setText(streamAuthorEmail);

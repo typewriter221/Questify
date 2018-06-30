@@ -86,7 +86,7 @@ public class Events extends Fragment implements Urls {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.events_layout,container,false);
-        eventsListView = (ListView)view.findViewById(R.id.events_list);
+        eventsListView = view.findViewById(R.id.events_list);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             eventsListView.setNestedScrollingEnabled(true);
         }
@@ -94,7 +94,7 @@ public class Events extends Fragment implements Urls {
                 null, null,
                 DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
         eventsListView.setAdapter(eventsAdapter);
-        eventsRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.news_refresh_layout);
+        eventsRefreshLayout = view.findViewById(R.id.news_refresh_layout);
         eventsRefreshLayout.setColorSchemeResources(R.color.ColorPrimary, R.color.pink500,
                 R.color.teal500);
 

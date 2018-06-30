@@ -132,18 +132,18 @@ public class AboutUsActivity extends AppCompatActivity implements Urls, View.OnC
      * Initializes UI Elements.
      */
     private void initUi() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
 
-        ivShriyansh = (ImageView) findViewById(R.id.shriyansh);
-        ivYash = (ImageView) findViewById(R.id.yash);
-        ivHemant = (ImageView) findViewById(R.id.hemant);
-        ivSatya = (ImageView) findViewById(R.id.satya);
+        ivShriyansh = findViewById(R.id.shriyansh);
+        ivYash = findViewById(R.id.yash);
+        ivHemant = findViewById(R.id.hemant);
+        ivSatya = findViewById(R.id.satya);
 
-        etFeedBack = (EditText) findViewById(R.id.feedback_tv);
-        btnFeedBAck = (Button) findViewById(R.id.feedback_button);
-        feedbackLayout = (LinearLayout) findViewById(R.id.feedback_layout);
-        progressLayout = (LinearLayout) findViewById(R.id.progress_layout);
-        feedbackProgress = (ProgressBar) findViewById(R.id.feedback_progress);
+        etFeedBack = findViewById(R.id.feedback_tv);
+        btnFeedBAck = findViewById(R.id.feedback_button);
+        feedbackLayout = findViewById(R.id.feedback_layout);
+        progressLayout = findViewById(R.id.progress_layout);
+        feedbackProgress = findViewById(R.id.feedback_progress);
 
         feedbackProgress.setIndeterminate(true);
         feedbackProgress.getIndeterminateDrawable().setColorFilter(
