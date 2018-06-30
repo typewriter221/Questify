@@ -90,7 +90,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
   private static final int LANDSCAPE_VIDEO_PADDING_DP = 5;
   /** The request code when calling startActivityForResult to recover from an API service error. */
   private static final int RECOVERY_DIALOG_REQUEST = 1;
-  DbMethods dbMethods;
+  private DbMethods dbMethods;
   private VideoListFragment listFragment;
   private VideoFragment videoFragment;
   private View videoBox;
@@ -296,7 +296,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
 
 
 
-    ArrayList<VideoEntry> videoList;
+    private ArrayList<VideoEntry> videoList;
     private View videoBox;
     private DbMethods dbMethods;
     private PageAdapter adapter;
@@ -338,7 +338,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
      * @param videoTitle  Video Title
      * @param stream      Stream name
      */
-    public void playVideo(String videoId,String videoTitle,String stream) {
+    void playVideo(String videoId, String videoTitle, String stream) {
 
       VideoFragment videoFragment =
           (VideoFragment) getFragmentManager().findFragmentById(R.id.video_fragment_container);
@@ -403,7 +403,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
       adapter.releaseLoaders();
     }
 
-    public void setLabelVisibility(boolean visible) {
+    void setLabelVisibility(boolean visible) {
       adapter.setLabelVisibility(visible);
     }
 
@@ -425,7 +425,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
     private final ThumbnailListener thumbnailListener;
 
     private boolean labelsVisible;
-    private Context context;
+    private final Context context;
 
     private PageAdapter(Context context, List<VideoEntry> entries) {
       this.entries = entries;
@@ -438,13 +438,13 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
       labelsVisible = true;
     }
 
-    public void releaseLoaders() {
+    void releaseLoaders() {
       for (YouTubeThumbnailLoader loader : thumbnailViewToLoaderMap.values()) {
         loader.release();
       }
     }
 
-    public void setLabelVisibility(boolean visible) {
+    void setLabelVisibility(boolean visible) {
       labelsVisible = visible;
       for (View view : entryViews) {
         view.findViewById(R.id.text).setVisibility(visible ? View.VISIBLE : View.GONE);
@@ -583,7 +583,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
      *
      * @param videoId   Video id
      */
-    public void setVideoId(String videoId) {
+    void setVideoId(String videoId) {
       if (videoId != null && !videoId.equals(this.videoId)) {
         this.videoId = videoId;
         if (player != null) {
@@ -595,7 +595,7 @@ public final class VideoListDemoActivity extends AppCompatActivity implements On
     /**
      * Pauses the video.
      */
-    public void pause() {
+    void pause() {
       if (player != null) {
         player.pause();
       }

@@ -451,18 +451,14 @@ public class NotificationsAdapter extends CursorAdapter implements Urls {
             int contentActualCount = 0;
             for (int i = 0;i < contentJsonArray.length();i++) {
                 JSONObject contentJson = contentJsonArray.getJSONObject(i);
-                if (notificationType == DbContract.Notifications.VALUE_TYPE_IMAGE) {
+                if (notificationType == DbContract.Notifications.VALUE_TYPE_IMAGE
+                    && contentJson.getInt("type") == DbContract.Contents.VALUE_TYPE_IMAGE) {
                     //this notification is about images
-                    if (contentJson.getInt("type")
-                            == DbContract.Contents.VALUE_TYPE_IMAGE) {
-                        contentActualCount++;
-                    }
-                } else if (notificationType == DbContract.Notifications.VALUE_TYPE_VIDEO) {
+                    contentActualCount++;
+                } else if (notificationType == DbContract.Notifications.VALUE_TYPE_VIDEO
+                    && contentJson.getInt("type") == DbContract.Contents.VALUE_TYPE_VIDEO) {
                     //this is about video..take the first video
-                    if (contentJson.getInt("type")
-                            == DbContract.Contents.VALUE_TYPE_VIDEO) {
-                        contentActualCount++;
-                    }
+                    contentActualCount++;
                 }
             }
 

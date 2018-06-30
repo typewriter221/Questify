@@ -11,36 +11,36 @@ import android.content.Context;
     import android.view.View;
 
 public class TouchImageView extends android.support.v7.widget.AppCompatImageView {
-        Matrix matrix;  
+        private Matrix matrix;
         // We can be in one of these 3 states  
-        static final int NONE = 0;  
-        static final int DRAG = 1;  
-        static final int ZOOM = 2;  
+        private static final int NONE = 0;
+        private static final int DRAG = 1;
+        private static final int ZOOM = 2;
       
-        int mode = NONE;  
+        private int mode = NONE;
      
         // Remember some things for zooming  
-        PointF last = new PointF();  
-        PointF start = new PointF();  
-        float minScale = 1f;  
-        float maxScale = 3f;  
-        float[] mat;
-        int viewWidth;
-        int viewHeight;
+        private final PointF last = new PointF();
+        private final PointF start = new PointF();
+        private final float minScale = 1f;
+        private float maxScale = 3f;
+        private float[] mat;
+        private int viewWidth;
+        private int viewHeight;
       
-        static final int CLICK = 3;  
+        private static final int CLICK = 3;
       
-        float saveScale = 1f;  
+        private float saveScale = 1f;
       
-        protected float origWidth;
-        protected float origHeight;
+        private float origWidth;
+        private float origHeight;
       
-        int oldMeasuredWidth;
-        int oldMeasuredHeight;
+        private int oldMeasuredWidth;
+        private int oldMeasuredHeight;
      
-        ScaleGestureDetector scaleDetector;
+        private ScaleGestureDetector scaleDetector;
      
-        Context context;  
+        private Context context;
      
         public TouchImageView(Context context) {  
             super(context);  
@@ -206,7 +206,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
       
         }  
       
-        void fixTrans() {  
+        private void fixTrans() {
       
             matrix.getValues(mat);
       
@@ -225,7 +225,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
       
        
       
-        float getFixTrans(float trans, float viewSize, float contentSize) {  
+        private float getFixTrans(float trans, float viewSize, float contentSize) {
       
             float minTrans;
             float maxTrans;
@@ -258,7 +258,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
       
         }  
      
-        float getFixDragTrans(float delta, float viewSize, float contentSize) {  
+        private float getFixDragTrans(float delta, float viewSize, float contentSize) {
       
             if (contentSize <= viewSize) {  
       

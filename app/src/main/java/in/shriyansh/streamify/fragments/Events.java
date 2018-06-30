@@ -72,13 +72,10 @@ public class Events extends Fragment implements Urls {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            if (eventsAdapter != null) {
-                eventsAdapter.changeCursor(dbMethods.queryEvents(null, null,
-                        null,
-                        DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
-                eventsAdapter.notifyDataSetChanged();
-            }
+        if (isVisibleToUser && eventsAdapter != null) {
+            eventsAdapter.changeCursor(dbMethods.queryEvents(null, null,
+                null, DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
+            eventsAdapter.notifyDataSetChanged();
         }
     }
 
