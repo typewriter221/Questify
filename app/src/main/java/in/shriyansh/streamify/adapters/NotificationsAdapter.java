@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.activities.ImageActivity;
 import in.shriyansh.streamify.database.DbContract;
 import in.shriyansh.streamify.database.DbMethods;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.TimeUtils;
 import in.shriyansh.streamify.utils.Utils;
@@ -30,8 +29,8 @@ import in.shriyansh.streamify.utils.Utils;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.TimeZone;
 
 import org.json.JSONArray;
@@ -41,10 +40,11 @@ import org.json.JSONObject;
 /**
  * Created by shriyansh on 12/10/15.
  */
-public class NotificationsAdapter extends CursorAdapter implements URLs {
+public class NotificationsAdapter extends CursorAdapter implements Urls {
     private final Context context;
     private Dialog authorDialog;
     private final DbMethods dbMethods;
+    private HashMap<Long, Boolean> selection = new HashMap<>();
 
     /**
      * Notification adapter constructor.
@@ -66,8 +66,6 @@ public class NotificationsAdapter extends CursorAdapter implements URLs {
         authorDialog.setContentView(R.layout.contact_thumbnail);
         authorDialog.setCancelable(true);
     }
-
-    private HashMap<Long, Boolean> selection = new HashMap<>();
 
     public void setNewSelection(long id, boolean value) {
         selection.put(id, value);
@@ -151,7 +149,8 @@ public class NotificationsAdapter extends CursorAdapter implements URLs {
                     int time = cursor.getInt(cursor.getColumnIndex(
                             DbContract.Notifications.COLUMN_CREATED_AT));
 
-                    SimpleDateFormat sdf = new SimpleDateFormat(TimeUtils.DB_TIME_FORMAT);
+                    SimpleDateFormat sdf = new SimpleDateFormat(TimeUtils.DB_TIME_FORMAT,
+                            Locale.ENGLISH);
                     sdf.setTimeZone(TimeZone.getTimeZone(TimeUtils.TIME_ZONE_INDIA));
                     String date = sdf.format(Utils.settleTimeZoneDifference(time)
                             * TimeUtils.MILLIS_IN_SECOND);
@@ -250,8 +249,8 @@ public class NotificationsAdapter extends CursorAdapter implements URLs {
             authorImage.setTag(cursor.getPosition());
 
 
-            final int IMAGE_VIEWS_COUNT = 4;
-            ImageView[] contentImages = new ImageView[IMAGE_VIEWS_COUNT];
+            final int imageViewsCount = 4;
+            ImageView[] contentImages = new ImageView[imageViewsCount];
             contentImages[0] = (ImageView)view.findViewById(R.id.news_image_1);
             contentImages[1] = (ImageView)view.findViewById(R.id.news_image_2);
             contentImages[2] = (ImageView)view.findViewById(R.id.news_image_3);
@@ -267,7 +266,7 @@ public class NotificationsAdapter extends CursorAdapter implements URLs {
             contentVideo.setVisibility(View.GONE);
             videoBox.setVisibility(View.GONE);
 
-            for (int i = 0;i < IMAGE_VIEWS_COUNT;i++) {
+            for (int i = 0;i < imageViewsCount;i++) {
                 contentImages[i].setVisibility(View.GONE);
             }
 

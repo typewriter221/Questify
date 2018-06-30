@@ -14,30 +14,31 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.squareup.picasso.Picasso;
 
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import in.shriyansh.streamify.R;
+import in.shriyansh.streamify.activities.MainActivity;
+import in.shriyansh.streamify.database.DbMethods;
+import in.shriyansh.streamify.network.Urls;
+import in.shriyansh.streamify.utils.Constants;
+import in.shriyansh.streamify.utils.TimeUtils;
+import in.shriyansh.streamify.utils.Utils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import in.shriyansh.streamify.R;
-import in.shriyansh.streamify.activities.MainActivity;
-import in.shriyansh.streamify.database.DbMethods;
-import in.shriyansh.streamify.network.URLs;
-import in.shriyansh.streamify.utils.Constants;
-import in.shriyansh.streamify.utils.Utils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 /**
  * Service to receive FCM Messages
  * Created by shriyanshgautam on 24/08/17.
  */
 
-public class FCCMessagingService extends FirebaseMessagingService implements URLs {
-    private static final String TAG = FCCMessagingService.class.getSimpleName();
+public class FcmMessagingService extends FirebaseMessagingService implements Urls {
+    private static final String TAG = FcmMessagingService.class.getSimpleName();
 
     public static final String EXTRA_NOTIFICATION_TYPE_KEY = "extra_notification_type_key";
     public static final int NOTIFICATION_TYPE_NEWS = 0;
@@ -57,13 +58,15 @@ public class FCCMessagingService extends FirebaseMessagingService implements URL
     public void onMessageReceived(RemoteMessage remoteMessage) {
         dbMethods = new DbMethods(this);
         // [START_EXCLUDE]
-        // There are two types of messages data messages and notification messages. Data messages are handled
-        // here in onMessageReceived whether the app is in the foreground or background. Data messages are the type
-        // traditionally used with GCM. Notification messages are only received here in onMessageReceived when the app
-        // is in the foreground. When the app is in the background an automatically generated notification is displayed.
-        // When the user taps on the notification they are returned to the app. Messages containing both notification
-        // and data payloads are treated as notification messages. The Firebase console always sends notification
-        // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
+        // There are two types of messages data messages and notification messages. Data messages
+        // are handled here in onMessageReceived whether the app is in the foreground or background.
+        // Data messages are the type traditionally used with GCM. Notification messages are only
+        // received here in onMessageReceived when the app is in the foreground. When the app is in
+        // the background an automatically generated notification is displayed. When the user taps
+        // on the notification they are returned to the app. Messages containing both notification
+        // and data payloads are treated as notification messages. The Firebase console always sends
+        // notification messages. For more see:
+        // https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
 
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
@@ -96,21 +99,21 @@ public class FCCMessagingService extends FirebaseMessagingService implements URL
         Log.d(TAG, "Short lived task is done.");
         try {
             JSONObject jsonData = new JSONObject(data);
-            if(jsonData.getInt("type")==FCM_TYPE_NOTIFICATION){
+            if (jsonData.getInt("type") == FCM_TYPE_NOTIFICATION) {
                 JSONArray notificationJsonArray = new JSONArray();
                 notificationJsonArray.put(jsonData.getJSONObject("notification"));
                 long count = dbMethods.insertNotifications(notificationJsonArray);
-                if(count!=0){
+                if (count != 0) {
                     sendNotification(data,getApplicationContext());
                     broadcast(getApplicationContext(),"notification_received");
                 }
             }
 
-            if(jsonData.getInt("type")==FCM_TYPE_EVENT){
+            if (jsonData.getInt("type") == FCM_TYPE_EVENT) {
                 JSONArray eventJsonArray = new JSONArray();
                 eventJsonArray.put(jsonData.getJSONObject("event"));
                 long count = dbMethods.insertEvents(eventJsonArray);
-                if(count!=0){
+                if (count != 0) {
                     sendNotification(data,getApplicationContext());
                     broadcast(getApplicationContext(),"event_received");
                 }
@@ -120,7 +123,7 @@ public class FCCMessagingService extends FirebaseMessagingService implements URL
         }
     }
 
-    private void broadcast(Context context, String msg){
+    private void broadcast(Context context, String msg) {
         Intent intent = new Intent(Constants.DISPLAY_MESSAGE_ACTION);
         intent.putExtra(EXTRA_MESSAGE, msg);
         context.sendBroadcast(intent);
@@ -136,49 +139,58 @@ public class FCCMessagingService extends FirebaseMessagingService implements URL
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            String title,subtitle,description,streamUrl;
+            String title;
+            String subtitle;
+            String description;
+            String streamUrl;
             int smallIcon = R.drawable.newspaper48;
             JSONObject data = new JSONObject(messageBody);
-            if(data.getInt("type")==FCM_TYPE_NOTIFICATION){
+            if (data.getInt("type") == FCM_TYPE_NOTIFICATION) {
                 intent.putExtra(EXTRA_NOTIFICATION_TYPE_KEY,NOTIFICATION_TYPE_NEWS);
                 JSONObject notification = data.getJSONObject("notification");
                 title = notification.getString("title");
                 subtitle = notification.getJSONObject("stream").getString("title");
-                streamUrl = Utils.getUsableDropboxUrl(notification.getJSONObject("author").getString("image"));
+                streamUrl = Utils.getUsableDropboxUrl(notification.getJSONObject("author")
+                        .getString("image"));
                 description = notification.getString("description");
-            }else if(data.getInt("type")==FCM_TYPE_EVENT){
+            } else if (data.getInt("type") == FCM_TYPE_EVENT) {
                 intent.putExtra(EXTRA_NOTIFICATION_TYPE_KEY,NOTIFICATION_TYPE_EVENT);
                 JSONObject event = data.getJSONObject("event");
                 title = event.getString("title");
 
-                long timestamp = Utils.convertStringTimeToTimestamp(event.getString("time"),Constants.LARAVEL_TIME_FORMAT);
-                SimpleDateFormat sdf = new SimpleDateFormat("MMM d, h:mm a", Locale.ENGLISH);
-                sdf.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
-                String date = sdf.format(timestamp*1000L);
-                String time = date.replace("am","AM").replace("pm","PM");
+                long timestamp = Utils.convertStringTimeToTimestamp(event.getString("time"),
+                        Constants.LARAVEL_TIME_FORMAT);
+                SimpleDateFormat sdf = new SimpleDateFormat(TimeUtils.DB_TIME_FORMAT,
+                        Locale.ENGLISH);
+                sdf.setTimeZone(TimeZone.getTimeZone(TimeUtils.TIME_ZONE_INDIA));
+                String date = sdf.format(timestamp * TimeUtils.MILLIS_IN_SECOND);
+                String time = date.replace("am","AM").replace("pm",
+                        "PM");
 
                 String venue = event.getJSONObject("location").getString("name");
 
-                subtitle = time+ " at "+venue;
+                subtitle = time + " at " + venue;
                 description = event.getString("description");
-                streamUrl = Utils.getUsableDropboxUrl(event.getJSONObject("author").getString("image"));
+                streamUrl = Utils.getUsableDropboxUrl(event.getJSONObject("author")
+                        .getString("image"));
 
-            }else{
+            } else {
                 return;
             }
 
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0
+                    /* Request code */, intent,
                     PendingIntent.FLAG_ONE_SHOT);
 
-            Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder;
             try {
                 notificationBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(smallIcon)
                         .setContentTitle(title)
                         .setContentText(subtitle)
-                        .setTicker(title+" : "+subtitle)
+                        .setTicker(title + " : " + subtitle)
                         .setColor(getResources().getColor(R.color.ColorPrimary))
                         .setLargeIcon(Picasso.with(context).load(streamUrl).get())
                         .setAutoCancel(true)
@@ -186,13 +198,13 @@ public class FCCMessagingService extends FirebaseMessagingService implements URL
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(description))
                         .setContentIntent(pendingIntent);
-            } catch (IOException e) {
+            } catch (IOException | IllegalArgumentException e) {
                 e.printStackTrace();
                 notificationBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(smallIcon)
                         .setContentTitle(title)
                         .setContentText(subtitle)
-                        .setTicker(title+" : "+subtitle)
+                        .setTicker(title + " : " + subtitle)
                         .setColor(getResources().getColor(R.color.ColorPrimary))
                         .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                                 R.drawable.ic_ic_logo))

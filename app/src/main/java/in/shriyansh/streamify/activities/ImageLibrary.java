@@ -18,9 +18,9 @@ import in.shriyansh.streamify.adapters.ImageLibraryAdapter;
 import in.shriyansh.streamify.database.DbContract;
 import in.shriyansh.streamify.database.DbMethods;
 import in.shriyansh.streamify.fragments.News;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 
-public class ImageLibrary extends AppCompatActivity implements URLs {
+public class ImageLibrary extends AppCompatActivity implements Urls {
 
     private FloatingActionButton fab;
     private Toolbar toolbar;

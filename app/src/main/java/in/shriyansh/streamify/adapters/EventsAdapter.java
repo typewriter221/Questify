@@ -20,7 +20,7 @@ import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.activities.ImageActivity;
 import in.shriyansh.streamify.database.DbContract;
 import in.shriyansh.streamify.database.DbMethods;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.TimeUtils;
 import in.shriyansh.streamify.utils.Utils;
@@ -40,11 +40,12 @@ import org.json.JSONObject;
  * Adapter for events recyclerview
  * Created by shriyansh on 12/10/15.
  */
-public class EventsAdapter extends CursorAdapter implements URLs {
+public class EventsAdapter extends CursorAdapter implements Urls {
 
     private final Context context;
     private Dialog authorDialog;
     private final DbMethods dbMethods;
+    private HashMap<Long, Boolean> selection = new HashMap<>();
 
     /**
      * Event Adapter constructor.
@@ -67,21 +68,18 @@ public class EventsAdapter extends CursorAdapter implements URLs {
         authorDialog.setCancelable(true);
     }
 
-    private HashMap<Long, Boolean> mSelection = new HashMap<>();
-
-
     public void setNewSelection(long id, boolean value) {
-        mSelection.put(id, value);
+        selection.put(id, value);
         notifyDataSetChanged();
     }
 
     public void removeSelection(long id) {
-        mSelection.remove(id);
+        selection.remove(id);
         notifyDataSetChanged();
     }
 
     public void clearSelection() {
-        mSelection = new HashMap<>();
+        selection = new HashMap<>();
         notifyDataSetChanged();
     }
 
@@ -90,7 +88,7 @@ public class EventsAdapter extends CursorAdapter implements URLs {
      */
     public void deleteSelected() {
 
-        Iterator it = mSelection.entrySet().iterator();
+        Iterator it = selection.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
             if ((Boolean)pair.getValue()) {
@@ -109,7 +107,7 @@ public class EventsAdapter extends CursorAdapter implements URLs {
      * Fires share intent with event(s) details.
      */
     public void forwardSelected() {
-        Iterator it = mSelection.entrySet().iterator();
+        Iterator it = selection.entrySet().iterator();
         StringBuilder msg = new StringBuilder();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
@@ -236,7 +234,7 @@ public class EventsAdapter extends CursorAdapter implements URLs {
             ImageView authorImage;
             ImageView newsImage;
 
-            Boolean result = mSelection.get(cursor.getLong(cursor.getColumnIndex(
+            Boolean result = selection.get(cursor.getLong(cursor.getColumnIndex(
                     DbContract.Events._ID)));
             result = result == null ? false : result;
             LinearLayout itemContainer = (LinearLayout)view.findViewById(R.id.item_container);

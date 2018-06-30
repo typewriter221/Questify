@@ -18,36 +18,39 @@ public class TimeUtils {
     public static  final String TIME_ZONE_INDIA = "GMT+5.30";
 
     /**
-     * Converts timestamp to "ago" or "to go" human friendly string
-     * @param timeStamp
-     * @return
+     * Converts timestamp to "ago" or "to go" human friendly string.
+     *
+     * @param timeStamp     Timestamp
+     * @return              Human readable string
      */
     public static String ago(long timeStamp) {
         long timeDifference;
-        long unixTime = System.currentTimeMillis() / MILLIS_IN_SECOND;  //get current time in seconds.
+        long unixTime = System.currentTimeMillis() / MILLIS_IN_SECOND;
         int j;
-        String[] periods = {" second", " minute", " hour", " day", " week", " month", " year", " decade"};
-        String[] mulperiods = {" seconds", " minutes", " hours", " days", " weeks", " months", " years", " decades"};
+        String[] periods = {" second", " minute", " hour", " day", " week", " month", " year",
+            " decade"};
+        String[] mulperiods = {" seconds", " minutes", " hours", " days", " weeks", " months",
+            " years", " decades"};
         // you may choose to write full time intervals like seconds, minutes, days and so on
         double[] lengths = {60, 60, 24, 7, 4.35, 12, 10};
         timeDifference = unixTime - timeStamp;
-        String tense="";
-        if(timeDifference<0){
-            tense="to go";
-            timeDifference=-timeDifference;
-        }else{
+        String tense = "";
+        if (timeDifference < 0) {
+            tense = "to go";
+            timeDifference = -timeDifference;
+        } else {
             tense = "ago";
         }
 
         for (j = 0; timeDifference >= lengths[j] && j < lengths.length - 1; j++) {
             timeDifference /= lengths[j];
         }
-        if(periods[j].contentEquals("second")){
+        if (periods[j].contentEquals("second")) {
             return "few " + mulperiods[j] + " " + "ago";
-        }else{
-            if(timeDifference==1){
+        } else {
+            if (timeDifference == 1) {
                 return timeDifference + periods[j] + " " + tense;
-            }else{
+            } else {
                 return timeDifference + mulperiods[j] + " " + tense;
             }
         }

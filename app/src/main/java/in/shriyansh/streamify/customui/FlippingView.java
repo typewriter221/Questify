@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package in.shriyansh.streamify.custumUI;
+package in.shriyansh.streamify.customui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -97,7 +97,7 @@ public class FlippingView extends FrameLayout {
   }
 
   /**
-   * Listens to the end of the flip animation to signal to listeners that the flip is complete
+   * Listens to the end of the flip animation to signal to listeners that the flip is complete.
    */
   public final class AnimationListener extends AnimatorListenerAdapter {
 

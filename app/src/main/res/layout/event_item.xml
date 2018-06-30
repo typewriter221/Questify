@@ -241,9 +241,8 @@
                 android:gravity="center"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:maxLines="1"
-                android:ellipsize="marquee"
-                android:text="IIT Gymkahana"
+                android:singleLine="true"
+                android:text="IIT Gymkahana, IIT BHU Varanasi"
                 android:textSize="12dp"
                 android:textColor="@color/text_color_light"/>
 

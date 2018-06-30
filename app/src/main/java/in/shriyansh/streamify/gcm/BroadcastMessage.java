@@ -3,6 +3,9 @@ package in.shriyansh.streamify.gcm;
 import android.content.Context;
 import android.content.Intent;
 
+/**
+ * TODO : Deprecated
+ */
 public class BroadcastMessage {
  
     public static final String DISPLAY_MESSAGE_ACTION =

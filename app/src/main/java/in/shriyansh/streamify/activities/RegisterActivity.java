@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -30,7 +31,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,8 +41,11 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import in.shriyansh.streamify.R;
+import in.shriyansh.streamify.network.Urls;
+import in.shriyansh.streamify.ui.LabelledSpinner;
+import in.shriyansh.streamify.utils.Constants;
+import in.shriyansh.streamify.utils.PreferenceUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,67 +53,81 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import in.shriyansh.streamify.R;
-import in.shriyansh.streamify.network.URLs;
-import in.shriyansh.streamify.ui.LabelledSpinner;
-import in.shriyansh.streamify.utils.Constants;
-import in.shriyansh.streamify.utils.PreferenceUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
+public class RegisterActivity extends Activity implements Urls {
+    private static final String TAG = RegisterActivity.class.getSimpleName();
 
-public class RegisterActivity extends Activity implements URLs{
-    public static final String TAG = RegisterActivity.class.getSimpleName();
+    private EditText etName;
+    private EditText etContact;
+    private Button btnRegister;
+    private LabelledSpinner etEmail;
+    private LinearLayout loginLayout;
+    private LinearLayout progressLayout;
+    private CoordinatorLayout coordinatorLayout;
 
-    EditText etName,etContact;
-    Button btnRegister;
-    LabelledSpinner etEmail;
-    LinearLayout loginLayout,progressLayout;
-    CoordinatorLayout coordinatorLayout;
+    private List<String> emails;
+    private String email;
 
-    List<String> emails;
-    String email;
-
-    final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS = 10;
-    final int CASE_REGISTER = 1;
-
-    RequestQueue volleyQueue;
+    private static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS = 10;
+    private static final int CASE_REGISTER = 1;
     private static final int PHONE_NUMBER_LENGTH = 10;
+
+    private RequestQueue volleyQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_register);
 
         volleyQueue = Volley.newRequestQueue(this);
 
-        initUI();
+        initUi();
 
-        if(PreferenceUtils.getBooleanPreference(this,PreferenceUtils.PREF_IS_REGISTERED)){
-            if(PreferenceUtils.getBooleanPreference(RegisterActivity.this,PreferenceUtils.PREF_IS_FCM_REGISTERED)){
+        if (PreferenceUtils.getBooleanPreference(this,PreferenceUtils.PREF_IS_REGISTERED)) {
+            if (PreferenceUtils.getBooleanPreference(RegisterActivity.this,
+                    PreferenceUtils.PREF_IS_FCM_REGISTERED)) {
                 Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();
-            }else{
-                String fcmToken = PreferenceUtils.getStringPreference(RegisterActivity.this,PreferenceUtils.PREF_FCM_TOKEN);
-                if(!fcmToken.contentEquals("")){
+            } else {
+                String fcmToken = PreferenceUtils.getStringPreference(RegisterActivity.this,
+                        PreferenceUtils.PREF_FCM_TOKEN);
+                if (!fcmToken.contentEquals("")) {
                     //fcm token available
-                    String user_id = PreferenceUtils.getStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_GLOBAL_ID);
-                    registerFcmToken(fcmToken,user_id);
+                    String userId = PreferenceUtils.getStringPreference(
+                            RegisterActivity.this,PreferenceUtils.PREF_USER_GLOBAL_ID);
+                    registerFcmToken(fcmToken,userId);
                 }
-                //no fcm token found register on next opening //or on main activity show user snack bar to update fcm token
-                //or create a broadcast to register fcm token in mainActivity
-
+                // no fcm token found register on next opening //or on main activity show user
+                // snack bar to update fcm token
+                // or create a broadcast to register fcm token in mainActivity
             }
-
         }
 
-        if(isAccountPermissionAvailable()){
-            emails=getEmails();
+        if (isAccountPermissionAvailable()) {
+            emails = getEmails();
             addEmailsToAutoComplete(emails);
         }
+    }
 
+    private void initUi() {
+        coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
+        etName = (EditText)findViewById(R.id.et_name);
+        etEmail = (LabelledSpinner)findViewById(R.id.et_email);
+        etContact = (EditText)findViewById(R.id.et_contact);
+        btnRegister = (Button)findViewById(R.id.btn_register);
+        loginLayout = (LinearLayout)findViewById(R.id.layout_register);
+        progressLayout = (LinearLayout)findViewById(R.id.layout_progress);
+        setListeners();
+    }
+
+    private void setListeners() {
         etContact.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -131,7 +148,8 @@ public class RegisterActivity extends Activity implements URLs{
 
         etEmail.setOnItemChosenListener(new LabelledSpinner.OnItemChosenListener() {
             @Override
-            public void onItemChosen(View labelledSpinner, AdapterView<?> adapterView, View itemView, int position, long id) {
+            public void onItemChosen(View labelledSpinner, AdapterView<?> adapterView,
+                                     View itemView, int position, long id) {
                 email = emails.get(position);
             }
 
@@ -142,27 +160,18 @@ public class RegisterActivity extends Activity implements URLs{
         });
     }
 
-    void initUI(){
-        coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
-        etName=(EditText)findViewById(R.id.et_name);
-        etEmail=(LabelledSpinner)findViewById(R.id.et_email);
-        etContact=(EditText)findViewById(R.id.et_contact);
-        btnRegister=(Button)findViewById(R.id.btn_register);
-        loginLayout=(LinearLayout)findViewById(R.id.layout_register);
-        progressLayout=(LinearLayout)findViewById(R.id.layout_progress);
-    }
-
     /**
-     * Fetches emails from user's account
+     * Fetches emails from user's account.
+     *
      * @return List of emails
      */
-    public List getEmails(){
+    private List getEmails() {
         final List<String> emails = new ArrayList<>();
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         Account[] accounts = AccountManager.get(RegisterActivity.this).getAccounts();
         for (Account account : accounts) {
             if (emailPattern.matcher(account.name).matches()) {
-                String possibleEmail = account.name+"\n";
+                String possibleEmail = account.name + "\n";
                 emails.add(possibleEmail);
             }
         }
@@ -170,7 +179,8 @@ public class RegisterActivity extends Activity implements URLs{
     }
 
     /**
-     * Adds email to autocomplete textView
+     * Adds email to autocomplete textView.
+     *
      * @param emailAddressCollection list of emails
      */
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
@@ -183,22 +193,25 @@ public class RegisterActivity extends Activity implements URLs{
     }
 
     /**
-     * Checks if Account Permission is granted
+     * Checks if Account Permission is granted.
+     *
      * @return True if granted
      */
-    public boolean isAccountPermissionAvailable(){
+    private boolean isAccountPermissionAvailable() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.GET_ACCOUNTS)) {
-                createDialog("","Email is required to authenticate","Try Again","Deny",false,null,true);
+                createDialog("","Email is required to authenticate",
+                        "Try Again","Deny",false,null,
+                        true);
             } else {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.GET_ACCOUNTS},
                         MY_PERMISSIONS_REQUEST_GET_ACCOUNTS);
             }
-        }else{
+        } else {
             Log.d(TAG,"Accounts permission Available");
             return true;
         }
@@ -207,32 +220,38 @@ public class RegisterActivity extends Activity implements URLs{
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_GET_ACCOUNTS: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    emails=getEmails();
+                if (grantResults.length > 0 && grantResults[0]
+                        == PackageManager.PERMISSION_GRANTED) {
+                    emails = getEmails();
                     addEmailsToAutoComplete(emails);
                 } else {
                     isAccountPermissionAvailable();
                 }
             }
+            break;
+            default:
         }
         Bundle bundle = new Bundle();
         bundle.putBoolean("updateRecyclerView",true);
         boolean shouldRefresh = bundle.getBoolean("updateRecyclerView");
-        if(shouldRefresh){
+        if (shouldRefresh) {
             //Refresh your recyclerView
         }
     }
 
     /**
-     *
+     *  Attempts Login for user.
      */
     private void attemptLogin() {
         boolean cancel = false;
-        String fcmToken,name,contact;
+        String fcmToken;
+        String name;
+        String contact;
 
         // Reset errors.
         etName.setError(null);
@@ -241,18 +260,20 @@ public class RegisterActivity extends Activity implements URLs{
 
         // Store values at the time of the login attempt.
         name = etName.getText().toString();
-        contact =etContact.getText().toString();
+        contact = etContact.getText().toString();
         fcmToken = FirebaseInstanceId.getInstance().getToken();
 
 
-        if(name.length()==0){
-            etName.setError(Html.fromHtml("<font color='#ffffff'>Name cannot be empty !</font>"));
-            focusView=etName;
-            cancel=true;
+        if (name.length() == 0) {
+            etName.setError(Html.fromHtml(
+                    "<font color='#ffffff'>Name cannot be empty !</font>"));
+            focusView = etName;
+            cancel = true;
         }
 
-        if(contact.length()!=PHONE_NUMBER_LENGTH){
-            etContact.setError(Html.fromHtml("<font color='#ffffff'>Please enter your 10 digit phone number</font>"));
+        if (contact.length() != PHONE_NUMBER_LENGTH) {
+            etContact.setError(Html.fromHtml(
+                    "<font color='#ffffff'>Please enter your 10 digit phone number</font>"));
             focusView = etContact;
             cancel = true;
         }
@@ -267,10 +288,10 @@ public class RegisterActivity extends Activity implements URLs{
         }
     }
 
-    public void registerFcmToken(String fcmToken,String user_id){
+    private void registerFcmToken(String fcmToken, String userId) {
         Map<String, String> params = new HashMap<>();
         params.put("fcmToken", fcmToken);
-        params.put("user_id",user_id);
+        params.put("user_id",userId);
         Log.d(TAG,params.toString());
 
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
@@ -283,19 +304,14 @@ public class RegisterActivity extends Activity implements URLs{
                     String status = resp.getString("status");
                     if (status.equals("OK")) {
                         JSONObject data = new JSONObject(resp.getString("data"));
-                        PreferenceUtils.setStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_GLOBAL_ID,data.getString("id"));
-                        PreferenceUtils.setStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_NAME,data.getString("name"));
-                        PreferenceUtils.setStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_EMAIL,data.getString("email"));
-                        PreferenceUtils.setStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_CONTACT,data.getString("contact"));
-                        PreferenceUtils.setStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_FCM_TOKEN,data.getString("fcmToken"));
-
-                        PreferenceUtils.setBooleanPreference(RegisterActivity.this,PreferenceUtils.PREF_IS_REGISTERED,true);
-                        if(!data.getString("fcmToken").contentEquals("")){
-                            PreferenceUtils.setBooleanPreference(RegisterActivity.this,PreferenceUtils.PREF_IS_FCM_REGISTERED,true);
-                        }
-                        Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        String userGlobalId = data.getString("id");
+                        String userName = data.getString("name");
+                        String userEmail = data.getString("email");
+                        String userContact = data.getString("contact");
+                        String userFcmToken = data.getString(
+                                "fcmToken");
+                        storeUserInformationAndProceed(userGlobalId, userName, userEmail,
+                                userContact, userFcmToken);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -333,7 +349,7 @@ public class RegisterActivity extends Activity implements URLs{
         volleyQueue.add(stringRequest);
     }
 
-    public void register(String fcmToken, String name, String email, final String contact){
+    private void register(String fcmToken, String name, String email, final String contact) {
 
         Map<String, String> params = new HashMap<>();
         params.put("fcmToken", fcmToken);
@@ -352,19 +368,13 @@ public class RegisterActivity extends Activity implements URLs{
                     String status = resp.getString("status");
                     if (status.equals("OK")) {
                         JSONObject data = new JSONObject(resp.getString("data"));
-                        PreferenceUtils.setStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_GLOBAL_ID,data.getString("id"));
-                        PreferenceUtils.setStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_NAME,data.getString("name"));
-                        PreferenceUtils.setStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_EMAIL,data.getString("email"));
-                        PreferenceUtils.setStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_CONTACT,data.getString("contact"));
-                        PreferenceUtils.setStringPreference(RegisterActivity.this,PreferenceUtils.PREF_USER_FCM_TOKEN,data.getString("fcmToken"));
-
-                        PreferenceUtils.setBooleanPreference(RegisterActivity.this,PreferenceUtils.PREF_IS_REGISTERED,true);
-                        if(!data.getString("fcmToken").contentEquals("")){
-                            PreferenceUtils.setBooleanPreference(RegisterActivity.this,PreferenceUtils.PREF_IS_FCM_REGISTERED,true);
-                        }
-                        Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        String userGlobalId = data.getString("id");
+                        String userName = data.getString("name");
+                        String userEmail = data.getString("email");
+                        String userContact = data.getString("contact");
+                        String  userFcmToken = data.getString("fcmToken");
+                        storeUserInformationAndProceed(userGlobalId, userName, userEmail,
+                                userContact, userFcmToken);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -403,16 +413,52 @@ public class RegisterActivity extends Activity implements URLs{
     }
 
     /**
-     * Creates dialog for account permission rationale
-     * @param title Dialog title
-     * @param msg Dialog message
-     * @param positiveBtn Dialog positive button text
-     * @param negativeBtn Dialog negative button text
-     * @param cancellable Is Dialog cancellable
-     * @param intent Inetnt to fire on positive button click
-     * @param finishActivity Whether to finish the activity or not on negative response
+     * Stores server confirmed user credentials.
+     *
+     * @param userGlobalId  Global Id of user
+     * @param userName      User's name
+     * @param userEmail     User's email
+     * @param userContact   User's contact
+     * @param userFcmToken  User's FCM token
      */
-    public void createDialog(String title,String msg,String positiveBtn, String negativeBtn,boolean cancellable,final Intent intent,boolean finishActivity){
+    private void storeUserInformationAndProceed(final String userGlobalId, final String userName,
+                                                final String userEmail, final String userContact,
+                                                final String userFcmToken) {
+        PreferenceUtils.setStringPreference(RegisterActivity.this,
+                PreferenceUtils.PREF_USER_GLOBAL_ID, userGlobalId);
+        PreferenceUtils.setStringPreference(RegisterActivity.this,
+                PreferenceUtils.PREF_USER_NAME, userName);
+        PreferenceUtils.setStringPreference(RegisterActivity.this,
+                PreferenceUtils.PREF_USER_EMAIL, userEmail);
+        PreferenceUtils.setStringPreference(RegisterActivity.this,
+                PreferenceUtils.PREF_USER_CONTACT, userContact);
+        PreferenceUtils.setStringPreference(RegisterActivity.this,
+                PreferenceUtils.PREF_USER_FCM_TOKEN, userFcmToken);
+        PreferenceUtils.setBooleanPreference(RegisterActivity.this,
+                PreferenceUtils.PREF_IS_REGISTERED,true);
+        if (!userFcmToken.contentEquals("")) {
+            PreferenceUtils.setBooleanPreference(RegisterActivity.this,
+                    PreferenceUtils.PREF_IS_FCM_REGISTERED,true);
+        }
+        Intent intent = new Intent(
+                RegisterActivity.this,MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Creates dialog for account permission rationale.
+     *
+     * @param title             Dialog title
+     * @param msg               Dialog message
+     * @param positiveBtn       Dialog positive button text
+     * @param negativeBtn       Dialog negative button text
+     * @param cancellable       Is Dialog cancellable
+     * @param intent            Intent to fire on positive button click
+     * @param finishActivity    Whether to finish the activity or not on negative response
+     */
+    private void createDialog(String title, String msg, String positiveBtn, String negativeBtn,
+                              boolean cancellable, final Intent intent, boolean finishActivity) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(RegisterActivity.this);
         builder1.setTitle(title);
         builder1.setMessage(msg);
@@ -432,7 +478,7 @@ public class RegisterActivity extends Activity implements URLs{
                 });
 
         final AlertDialog alertDialog = builder1.create();
-        if(finishActivity){
+        if (finishActivity) {
             alertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
                 @Override
                 public boolean onKey(DialogInterface dialogInterface, int i, KeyEvent keyEvent) {
@@ -444,13 +490,13 @@ public class RegisterActivity extends Activity implements URLs{
         alertDialog.show();
     }
 
-    public void showSnackBar(String msg, String action, final int caseId){
+    private void showSnackBar(String msg, String action, final int caseId) {
         Snackbar snackbar = Snackbar
                 .make(coordinatorLayout, msg, Snackbar.LENGTH_LONG)
                 .setAction(action, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(caseId==CASE_REGISTER){
+                        if (caseId == CASE_REGISTER) {
                             attemptLogin();
                         }
                     }
@@ -472,9 +518,6 @@ public class RegisterActivity extends Activity implements URLs{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 }

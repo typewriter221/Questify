@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package in.shriyansh.streamify.custumUI;
+package in.shriyansh.streamify.customui;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -47,6 +47,14 @@ public class ImageWallView extends ViewGroup {
   private int numberOfColumns;
   private int numberOfRows;
 
+  /**
+   * Image Wall view.
+   *
+   * @param context           Activity context
+   * @param imageWidth        Image width
+   * @param imageHeight       Image height
+   * @param interImagePadding Inter image padding
+   */
   public ImageWallView(Context context, int imageWidth, int imageHeight, int interImagePadding) {
     super(context);
     this.context = context;
@@ -56,7 +64,7 @@ public class ImageWallView extends ViewGroup {
     this.imageHeight = imageHeight;
     this.interImagePadding = interImagePadding;
     this.images = new ImageView[0];
-    this.unInitializedImages = new ArrayList<Integer>();
+    this.unInitializedImages = new ArrayList<>();
   }
 
   @Override
@@ -123,6 +131,12 @@ public class ImageWallView extends ViewGroup {
     return (col * numberOfRows) + row;
   }
 
+  /**
+   * Hide image.
+   *
+   * @param col  Columns
+   * @param row  Rows
+   */
   public void hideImage(int col, int row) {
     images[getElementIdx(col, row)].setVisibility(View.INVISIBLE);
   }
@@ -131,6 +145,13 @@ public class ImageWallView extends ViewGroup {
     images[getElementIdx(col, row)].setVisibility(View.VISIBLE);
   }
 
+  /**
+   * Set image drawable.
+   *
+   * @param col       Columns
+   * @param row       Rows
+   * @param drawable  Drawable
+   */
   public void setImageDrawable(int col, int row, Drawable drawable) {
     int elementIdx = getElementIdx(col, row);
     // manually boxing elementIdx to avoid calling List.remove(int position) method overload
@@ -143,6 +164,11 @@ public class ImageWallView extends ViewGroup {
     return images[elementIdx].getDrawable();
   }
 
+  /**
+   * Returns next load target.
+   *
+   * @return  Pair
+   */
   public Pair<Integer, Integer> getNextLoadTarget() {
     int nextElement;
     do {
@@ -156,7 +182,7 @@ public class ImageWallView extends ViewGroup {
 
     int col = nextElement / numberOfRows;
     int row = nextElement % numberOfRows;
-    return new Pair<Integer, Integer>(col, row);
+    return new Pair<>(col, row);
   }
 
   public boolean allImagesLoaded() {

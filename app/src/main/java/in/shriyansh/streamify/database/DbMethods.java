@@ -569,7 +569,7 @@ public class DbMethods {
      * @param subscribe         subscribe or unsubscribe
      * @return
      */
-    public int subscribeStream(String streamGlobalId,boolean subscribe) {
+    public void subscribeStream(String streamGlobalId, boolean subscribe) {
         ContentValues values = new ContentValues();
         if (subscribe) {
             values.put(DbContract.Streams.COLUMN_IS_SUBSCRIBED,
@@ -578,7 +578,7 @@ public class DbMethods {
             values.put(DbContract.Streams.COLUMN_IS_SUBSCRIBED,
                     DbContract.Streams.VALUE_NOT_SUBSCRIBED);
         }
-        return  updateStreams(values, DbContract.Streams.COLUMN_GLOBAL_ID
+        updateStreams(values, DbContract.Streams.COLUMN_GLOBAL_ID
                 + " = ? ", new String[]{streamGlobalId});
     }
 

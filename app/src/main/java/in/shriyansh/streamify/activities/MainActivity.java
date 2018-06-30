@@ -1,18 +1,16 @@
 package in.shriyansh.streamify.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,67 +20,57 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import in.shriyansh.streamify.R;
+import in.shriyansh.streamify.adapters.ViewPagerAdapter;
+import in.shriyansh.streamify.customui.SlidingTabLayout;
+import in.shriyansh.streamify.database.DbMethods;
+import in.shriyansh.streamify.fcm.FcmMessagingService;
+import in.shriyansh.streamify.network.Urls;
+import in.shriyansh.streamify.utils.Constants;
+import in.shriyansh.streamify.utils.PreferenceUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import in.shriyansh.streamify.R;
-import in.shriyansh.streamify.adapters.ViewPagerAdapter;
-import in.shriyansh.streamify.custumUI.SlidingTabLayout;
-import in.shriyansh.streamify.database.DbMethods;
-import in.shriyansh.streamify.fcm.FCCMessagingService;
-import in.shriyansh.streamify.network.URLs;
-import in.shriyansh.streamify.utils.Constants;
-import in.shriyansh.streamify.utils.PreferenceUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity implements URLs{
-    public static final String TAG = MainActivity.class.getSimpleName();
-    Toolbar toolbar;
-    ViewPager pager;
-    ViewPagerAdapter adapter;
-    SlidingTabLayout tabs;
+public class MainActivity extends AppCompatActivity implements Urls {
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private FloatingActionButton fab;
+    private Toolbar toolbar;
+    private ViewPager pager;
+    private ViewPagerAdapter adapter;
+    private SlidingTabLayout tabs;
 
-    CharSequence Titles[]={"0","0","0"};
-    public static final int POSITION_NEWS = 0;
-    public static final int POSITION_EVENTS = 1;
-    public static final int POSITION_STREAMS = 2;
+    private final CharSequence[] titles = {"0","0","0"};
+    private static final int POSITION_NEWS = 0;
+    private static final int POSITION_EVENTS = 1;
+    private static final int POSITION_STREAMS = 2;
 
-    DbMethods dbMethods;
-    RequestQueue volleyQueue;
+    private DbMethods dbMethods;
+    private RequestQueue volleyQueue;
 
-    //TODO Search
-    //private SearchView mSearchView;
-    //private MenuItem searchMenuItem;
-    //MaterialSearchView searchView;
+//    TODO Search
+//    private SearchView mSearchView;
+//    private MenuItem searchMenuItem;
+//    MaterialSearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar)findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
+        initUi();
+        setUpToolbar();
+        setPostFab();
+
         volleyQueue = Volley.newRequestQueue(this);
-        initUI();
-        //refresh streams
-        dbMethods=new DbMethods(this);
-        getStreams(PreferenceUtils.getStringPreference(MainActivity.this,PreferenceUtils.PREF_USER_GLOBAL_ID));
-        getNotifications(PreferenceUtils.getStringPreference(MainActivity.this,PreferenceUtils.PREF_USER_GLOBAL_ID),dbMethods.queryLastNotificationId()+"");
-        getEvents(PreferenceUtils.getStringPreference(MainActivity.this,PreferenceUtils.PREF_USER_GLOBAL_ID),dbMethods.queryLastEventId()+"");
+        dbMethods = new DbMethods(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,PostActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-            //TODO Serach
+        fetchLatestData();
+//
+//        //TODO Search
 //        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
 //            @Override
 //            public boolean onQueryTextSubmit(String query) {
@@ -96,12 +84,15 @@ public class MainActivity extends AppCompatActivity implements URLs{
 //                //searchView.setSuggestions();
 //                Log.d("shriyansh query",newText);
 //                String suggestions[];
-//                Cursor searchCursor = dbMethods.queryStreams(null, DbContract.Streams.COLUMN_TITLE+" LIKE ? ",new String[] {"%"+newText+"%"},null,0);
+//                Cursor searchCursor = dbMethods.queryStreams(null,
+//                    DbContract.Streams.COLUMN_TITLE + " LIKE ? ",
+//                    new String[] {"%"+newText+"%"},null,0);
 //                suggestions = new String[searchCursor.getCount()];
 //                int counter = 0;
 //                if(searchCursor.moveToFirst()){
 //                    do{
-//                        suggestions[counter++] = searchCursor.getString(searchCursor.getColumnIndex(DbContract.Streams.COLUMN_TITLE));
+//                        suggestions[counter++] = searchCursor.getString(
+//                            searchCursor.getColumnIndex(DbContract.Streams.COLUMN_TITLE));
 //                    }while (searchCursor.moveToNext());
 //                }
 //                //searchCursor.close();
@@ -110,10 +101,12 @@ public class MainActivity extends AppCompatActivity implements URLs{
 //                    Log.d("Shriyansh Suggestions",suggestions[0]);
 //                }
 //
-//                searchView.setAdapter(new SearchCursorAdapter(getApplicationContext(),searchCursor));
+//                searchView.setAdapter(new SearchCursorAdapter(getApplicationContext(),
+//                    searchCursor));
 //                searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    public void onItemClick(AdapterView<?> parent, View view, int position,
+//                                            long id) {
 //                        Log.d("ShriyanshTAG",view.getTag()+"");
 //                    }
 //                });
@@ -121,8 +114,7 @@ public class MainActivity extends AppCompatActivity implements URLs{
 //                return false;
 //            }
 //        });
-
-          //TODO Search
+//            TODO Search
 //        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
 //            @Override
 //            public void onSearchViewShown() {
@@ -137,27 +129,42 @@ public class MainActivity extends AppCompatActivity implements URLs{
 //
 //            }
 //        });
-        //TODO Search
-        //searchView.setTextColor(getResources().getColor(R.color.ColorPrimary));
-        //searchView.setHintTextColor(getResources().getColor(R.color.text_color_light));
+//        TODO Search
+//        searchView.setTextColor(getResources().getColor(R.color.ColorPrimary));
+//        searchView.setHintTextColor(getResources().getColor(R.color.text_color_light));
     }
 
     /**
-     *
+     * Call server to fetch all latest data of Notification, Events and Streams.
      */
-    void initUI(){
+    private void fetchLatestData() {
+        getStreams(PreferenceUtils.getStringPreference(MainActivity.this,
+                PreferenceUtils.PREF_USER_GLOBAL_ID));
+        getNotifications(PreferenceUtils.getStringPreference(MainActivity.this,
+                PreferenceUtils.PREF_USER_GLOBAL_ID),
+                dbMethods.queryLastNotificationId() + "");
+        getEvents(PreferenceUtils.getStringPreference(MainActivity.this,
+                PreferenceUtils.PREF_USER_GLOBAL_ID),dbMethods.queryLastEventId() + "");
+    }
+
+    /**
+     *  Initializes Ui elements on the view.
+     */
+    private void initUi() {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        pager = (ViewPager) findViewById(R.id.pager);
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+
         setSupportActionBar(toolbar);
         //TODO Search
         //searchView = (MaterialSearchView) findViewById(R.id.search_view);
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles);
-        // Assigning ViewPager View and setting the adapter
-        pager = (ViewPager) findViewById(R.id.pager);
+        adapter =  new ViewPagerAdapter(getSupportFragmentManager(), titles);
         pager.setAdapter(adapter);
         // Assigning the Sliding Tab Layout View
-        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setCustomTabView(R.layout.custom_tab_item, R.id.title_text);
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+        // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+        tabs.setDistributeEvenly(true);
         // Setting Custom Color for the Scroll bar indicator of the Tab View
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
@@ -165,28 +172,45 @@ public class MainActivity extends AppCompatActivity implements URLs{
                 return getResources().getColor(R.color.tabsScrollColor);
             }
         });
-
-        // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
     }
 
+    private void setUpToolbar() {
+        setSupportActionBar(toolbar);
+    }
+
     /**
-     *
-     * @param position Tab position
-     * @param count Count to be shown on Tabs
+     * Sets navigation to Post activity.
      */
-    public void showNewItem(int position,String count){
+    private void setPostFab() {
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,PostActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     *  Shows new counter for each tab.
+     *
+     * @param position  Tab position
+     * @param count     Count to be shown on Tabs
+     */
+    private void showNewItem(int position, String count) {
         adapter.setTitles(count,position);
         adapter.notifyDataSetChanged();
-        if(pager!=null){
+        if (pager != null) {
             pager.setAdapter(adapter);
             tabs.setViewPager(pager);
             Intent intent = getIntent();
-            if(intent.hasExtra(FCCMessagingService.EXTRA_NOTIFICATION_TYPE_KEY)){
-                int notificationType =intent.getIntExtra(FCCMessagingService.EXTRA_NOTIFICATION_TYPE_KEY,-1);
-                if(notificationType==FCCMessagingService.NOTIFICATION_TYPE_NEWS){
+            if (intent.hasExtra(FcmMessagingService.EXTRA_NOTIFICATION_TYPE_KEY)) {
+                int notificationType = intent.getIntExtra(
+                        FcmMessagingService.EXTRA_NOTIFICATION_TYPE_KEY,-1);
+                if (notificationType == FcmMessagingService.NOTIFICATION_TYPE_NEWS) {
                     pager.setCurrentItem(POSITION_NEWS);
-                }else if(notificationType==FCCMessagingService.NOTIFICATION_TYPE_EVENT){
+                } else if (notificationType == FcmMessagingService.NOTIFICATION_TYPE_EVENT) {
                     pager.setCurrentItem(POSITION_EVENTS);
                 }
             }
@@ -234,12 +258,13 @@ public class MainActivity extends AppCompatActivity implements URLs{
     }
 
     /**
-     * Fetches streams from the server using volley
-     * @param user_id User's global Id
+     * Fetches streams from the server using volley.
+     *
+     * @param userId User's global Id
      */
-    private void getStreams(String user_id){
+    private void getStreams(String userId) {
             Map<String, String> params = new HashMap<>();
-            params.put(Constants.STREAM_PARAM_USER_ID,user_id);
+            params.put(Constants.STREAM_PARAM_USER_ID,userId);
             Log.d(TAG,params.toString());
 
             JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
@@ -251,7 +276,8 @@ public class MainActivity extends AppCompatActivity implements URLs{
                     try {
                         String status = resp.getString(Constants.RESPONSE_STATUS_KEY);
                         if (status.equals(Constants.RESPONSE_STATUS_VALUE_OK)) {
-                            long count = dbMethods.insertStreams(resp.getJSONObject("data").getJSONArray("streams"));
+                            long count = dbMethods.insertStreams(resp.getJSONObject("data")
+                                    .getJSONArray("streams"));
                             showNewItem(POSITION_STREAMS,String.valueOf(count));
                         }
                     } catch (JSONException e) {
@@ -268,7 +294,8 @@ public class MainActivity extends AppCompatActivity implements URLs{
                 @Override
                 public Map<String, String> getHeaders() {
                     Map<String, String> headers = new HashMap<>();
-                    headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY, Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
+                    headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY,
+                            Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
                     return headers;
                 }
             };
@@ -280,13 +307,14 @@ public class MainActivity extends AppCompatActivity implements URLs{
     }
 
     /**
-     * Fetches new notifications from the server using volley
-     * @param user_id User'd global Id
+     * Fetches new notifications from the server using volley.
+     *
+     * @param userId User'd global Id
      * @param lastNotificationId id of the last notification received
      */
-    private void getNotifications(String user_id,String lastNotificationId){
+    private void getNotifications(String userId,String lastNotificationId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Constants.NOTIFICATION_PARAM_USER_ID,user_id);
+        params.put(Constants.NOTIFICATION_PARAM_USER_ID,userId);
         params.put(Constants.NOTIFICATION_PARAM_LAST_NOTIFICATION_ID,lastNotificationId);
         Log.d(TAG,params.toString());
 
@@ -299,7 +327,8 @@ public class MainActivity extends AppCompatActivity implements URLs{
                 try {
                     String status = resp.getString(Constants.RESPONSE_STATUS_KEY);
                     if (status.equals(Constants.RESPONSE_STATUS_VALUE_OK)) {
-                        long count = dbMethods.insertNotifications(resp.getJSONObject("data").getJSONArray("notifications"));
+                        long count = dbMethods.insertNotifications(resp.getJSONObject("data")
+                                .getJSONArray("notifications"));
                         showNewItem(POSITION_NEWS,String.valueOf(count));
                     }
                 } catch (JSONException e) {
@@ -316,7 +345,8 @@ public class MainActivity extends AppCompatActivity implements URLs{
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY, Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
+                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY,
+                        Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
                 return headers;
             }
         };
@@ -326,17 +356,17 @@ public class MainActivity extends AppCompatActivity implements URLs{
                 Constants.HTTP_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         volleyQueue.add(stringRequest);
-
     }
 
     /**
-     * Fetches new Events from the server using volley
-     * @param user_id User's global Id
+     * Fetches new Events from the server using volley.
+     *
+     * @param userId User's global Id
      * @param lastEventId id of the last event received
      */
-    private void getEvents(String user_id,String lastEventId){
+    private void getEvents(String userId,String lastEventId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Constants.EVENT_PARAM_USER_ID,user_id);
+        params.put(Constants.EVENT_PARAM_USER_ID,userId);
         params.put(Constants.EVENT_PARAM_LAST_EVENT_ID,lastEventId);
         Log.d(TAG,params.toString());
 
@@ -348,7 +378,8 @@ public class MainActivity extends AppCompatActivity implements URLs{
                 try {
                     String status = resp.getString(Constants.RESPONSE_STATUS_KEY);
                     if (status.equals(Constants.RESPONSE_STATUS_VALUE_OK)) {
-                        long count = dbMethods.insertEvents(resp.getJSONObject("data").getJSONArray("events"));
+                        long count = dbMethods.insertEvents(resp.getJSONObject("data")
+                                .getJSONArray("events"));
                         showNewItem(POSITION_EVENTS,String.valueOf(count));
                     }
                 } catch (JSONException e) {
@@ -364,7 +395,8 @@ public class MainActivity extends AppCompatActivity implements URLs{
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY, Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
+                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY,
+                        Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
                 return headers;
             }
         };

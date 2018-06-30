@@ -33,6 +33,7 @@ public class DbContract {
         public static final int VALUE_NOT_SUBSCRIBED = 0;
 
         public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_STREAMS + " ( "
+                + _ID + INTEGER + PRIMARY_KEY + AUTOINCREMENT + ", "
                 + COLUMN_GLOBAL_ID + INTEGER + NOT_NULL + ", "
                 + COLUMN_TITLE + TEXT + NOT_NULL + ", "
                 + COLUMN_SUBTITLE + TEXT + ", "

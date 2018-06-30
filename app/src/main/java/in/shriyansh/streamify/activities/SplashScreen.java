@@ -39,30 +39,40 @@ public class SplashScreen extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    Intent intent;
-                    if (PreferenceUtils.getBooleanPreference(SplashScreen.this,
-                            PreferenceUtils.PREF_IS_REGISTERED)) {
-                        if (PreferenceUtils.getBooleanPreference(SplashScreen.this,
-                                PreferenceUtils.PREF_IS_FCM_REGISTERED)) {
-                            Log.d(TAG,PreferenceUtils.getStringPreference(SplashScreen.this,
-                                    PreferenceUtils.PREF_FCM_TOKEN));
-                            intent = new Intent(SplashScreen.this,MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                    boolean isRegistered = PreferenceUtils.getBooleanPreference(
+                        SplashScreen.this, PreferenceUtils.PREF_IS_REGISTERED);
+                    if (isRegistered) {
+                        boolean isFcmRegistered = PreferenceUtils.getBooleanPreference(
+                            SplashScreen.this, PreferenceUtils.PREF_IS_FCM_REGISTERED);
+                        if (isFcmRegistered) {
+                            logFcmToken();
+                            launchMainActivity();
                         } else {
-                            intent = new Intent(SplashScreen.this,
-                                    RegisterActivity.class);
-                            startActivity(intent);
-                            finish();
+                            launchRegisterActivity();
                         }
                     } else {
-                        intent = new Intent(SplashScreen.this,RegisterActivity.class);
-                        startActivity(intent);
-                        finish();
+                        launchRegisterActivity();
                     }
                 }
             }
         };
         timer.start();
+    }
+
+    private void launchRegisterActivity() {
+        Intent intent = new Intent(SplashScreen.this, RegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void launchMainActivity() {
+        Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void logFcmToken() {
+        Log.d(TAG, PreferenceUtils.getStringPreference(SplashScreen.this,
+            PreferenceUtils.PREF_FCM_TOKEN));
     }
 }

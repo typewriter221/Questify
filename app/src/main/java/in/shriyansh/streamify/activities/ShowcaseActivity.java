@@ -1,12 +1,12 @@
 package in.shriyansh.streamify.activities;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,27 +42,19 @@ public class ShowcaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_showcase);
-
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-
         mPager.setAdapter(mPagerAdapter);
-
-
-
     }
 
     public static class ScreenSlidePageFragment extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            ViewGroup rootView = (ViewGroup) inflater.inflate(
+            return (ViewGroup) inflater.inflate(
                     R.layout.fragment_showcase_item, container, false);
-
-            return rootView;
         }
-
     }
 
     /**
@@ -84,7 +76,4 @@ public class ShowcaseActivity extends AppCompatActivity {
             return NUM_PAGES;
         }
     }
-
-
-
 }

@@ -3,6 +3,9 @@ package in.shriyansh.streamify.gcm;
 import android.content.Context;
 import android.os.PowerManager;
 
+/**
+ * TODO : Deprecated
+ */
 public class WakeLocker {
 	
 	private static PowerManager.WakeLock wakeLock;

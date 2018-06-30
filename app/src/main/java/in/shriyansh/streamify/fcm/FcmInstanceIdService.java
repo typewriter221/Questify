@@ -8,11 +8,11 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 
 /**
- * FCM Instance to receive FCM Token
+ * FCM Instance to receive FCM Token.
  *
  */
 
-public class FCMInstanceIdService extends FirebaseInstanceIdService {
+public class FcmInstanceIdService extends FirebaseInstanceIdService {
     private static final String TAG = "FCM Instance Id Service";
 
     /**

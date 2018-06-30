@@ -24,10 +24,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 
+import in.shriyansh.streamify.BuildConfig;
 import in.shriyansh.streamify.R;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 
@@ -41,21 +43,22 @@ import org.json.JSONObject;
 /**
  * Activity instance for About Us Page.
  */
-public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnClickListener {
-    public static final String TAG = AboutUsActivity.class.getSimpleName();
+public class AboutUsActivity extends AppCompatActivity implements Urls, View.OnClickListener {
+    private static final String TAG = AboutUsActivity.class.getSimpleName();
 
-    Toolbar toolbar;
-    ImageView ivShriyansh;
-    ImageView ivHemant;
-    ImageView ivYash;
-    ImageView ivSatya;
-    EditText etFeedBack;
-    Button btnFeedBAck;
-    ProgressBar feedbackProgress;
-    LinearLayout feedbackLayout;
-    LinearLayout progressLayout;
+    private Toolbar toolbar;
+    private ImageView ivShriyansh;
+    private ImageView ivHemant;
+    private ImageView ivYash;
+    private ImageView ivSatya;
+    private EditText etFeedBack;
+    private Button btnFeedBAck;
+    private ProgressBar feedbackProgress;
+    private LinearLayout feedbackLayout;
+    private LinearLayout progressLayout;
 
-    RequestQueue volleyQueue;
+    private RequestQueue volleyQueue;
+    private FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnCl
         initToolbar();
 
         volleyQueue = Volley.newRequestQueue(this);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         setDevImages(DEV_SATYA_IMAGE, ivSatya);
         setDevImages(DEV_SHRIYANSH_IMAGE, ivShriyansh);
@@ -93,32 +97,32 @@ public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnCl
                     showSnackBar(R.string.snackbar_feedback_empty);
                 } else {
                     sendAppFeedback(PreferenceUtils.getStringPreference(AboutUsActivity.this,
-                            PreferenceUtils.PREF_USER_GLOBAL_ID),feedback);
+                        PreferenceUtils.PREF_USER_GLOBAL_ID), feedback);
                 }
                 break;
             case R.id.shriyansh:
                 viewAuthorImage(getResources().getString(R.string.author_name_shriyansh),
-                        getResources().getString(R.string.author_post_android_developer),
-                        getResources().getString(R.string.author_email_shriyansh),
-                        DEV_SHRIYANSH_IMAGE);
+                    getResources().getString(R.string.author_post_android_developer),
+                    getResources().getString(R.string.author_email_shriyansh),
+                    DEV_SHRIYANSH_IMAGE);
                 break;
             case R.id.hemant:
                 viewAuthorImage(getResources().getString(R.string.author_name_hemant),
-                        getResources().getString(R.string.author_post_android_developer),
-                        getResources().getString(R.string.author_email_hemant),
-                        DEV_HEMANT_IMAGE);
+                    getResources().getString(R.string.author_post_android_developer),
+                    getResources().getString(R.string.author_email_hemant),
+                    DEV_HEMANT_IMAGE);
                 break;
             case R.id.satya:
                 viewAuthorImage(getResources().getString(R.string.author_name_satya),
-                        getResources().getString(R.string.author_post_web_developer),
-                        getResources().getString(R.string.author_email_satya),
-                        DEV_SATYA_IMAGE);
+                    getResources().getString(R.string.author_post_web_developer),
+                    getResources().getString(R.string.author_email_satya),
+                    DEV_SATYA_IMAGE);
                 break;
             case R.id.yash:
                 viewAuthorImage(getResources().getString(R.string.author_name_yash),
-                        getResources().getString(R.string.author_post_django_developer),
-                        getResources().getString(R.string.author_email_yash),
-                        DEV_YASH_IMAGE);
+                    getResources().getString(R.string.author_post_django_developer),
+                    getResources().getString(R.string.author_email_yash),
+                    DEV_YASH_IMAGE);
                 break;
             default:
         }
@@ -130,21 +134,21 @@ public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnCl
     private void initUi() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        ivShriyansh = (ImageView)findViewById(R.id.shriyansh);
-        ivYash = (ImageView)findViewById(R.id.yash);
-        ivHemant = (ImageView)findViewById(R.id.hemant);
-        ivSatya = (ImageView)findViewById(R.id.satya);
+        ivShriyansh = (ImageView) findViewById(R.id.shriyansh);
+        ivYash = (ImageView) findViewById(R.id.yash);
+        ivHemant = (ImageView) findViewById(R.id.hemant);
+        ivSatya = (ImageView) findViewById(R.id.satya);
 
-        etFeedBack = (EditText)findViewById(R.id.feedback_tv);
-        btnFeedBAck = (Button)findViewById(R.id.feedback_button);
-        feedbackLayout = (LinearLayout)findViewById(R.id.feedback_layout);
-        progressLayout = (LinearLayout)findViewById(R.id.progress_layout);
-        feedbackProgress = (ProgressBar)findViewById(R.id.feedback_progress);
+        etFeedBack = (EditText) findViewById(R.id.feedback_tv);
+        btnFeedBAck = (Button) findViewById(R.id.feedback_button);
+        feedbackLayout = (LinearLayout) findViewById(R.id.feedback_layout);
+        progressLayout = (LinearLayout) findViewById(R.id.progress_layout);
+        feedbackProgress = (ProgressBar) findViewById(R.id.feedback_progress);
 
         feedbackProgress.setIndeterminate(true);
         feedbackProgress.getIndeterminateDrawable().setColorFilter(
-                getResources().getColor(R.color.ColorPrimary),
-                android.graphics.PorterDuff.Mode.MULTIPLY);
+            getResources().getColor(R.color.ColorPrimary),
+            android.graphics.PorterDuff.Mode.MULTIPLY);
         setClickListeners();
     }
 
@@ -175,11 +179,10 @@ public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnCl
      */
     private void setDevImages(final String imageUrl, final ImageView imageView) {
         Picasso.with(this)
-                .load(Uri.parse(imageUrl))
-                .placeholder(R.drawable.ic_person_black_24dp)
-                .error(R.drawable.ic_person_black_24dp)
-                .into(imageView)
-        ;
+            .load(Uri.parse(imageUrl))
+            .placeholder(R.drawable.ic_person_black_24dp)
+            .error(R.drawable.ic_person_black_24dp)
+            .into(imageView);
     }
 
     /**
@@ -193,10 +196,10 @@ public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnCl
     private void viewAuthorImage(final String authorName, final String authorPost,
                                  final String authorEmail, final String authorImageUrl) {
         Intent intent = new Intent(AboutUsActivity.this,ImageActivity.class);
-        intent.putExtra(ImageActivity.INTENT_KEY_CONTENT_URL,authorImageUrl);
-        intent.putExtra(ImageActivity.INTENT_KEY_CONTENT_TITLE,authorName);
-        intent.putExtra(ImageActivity.INTENT_KEY_CONTENT_SUBTITLE,authorPost);
-        intent.putExtra(ImageActivity.INTENT_KEY_CONTENT_DESCRIPTION,authorEmail);
+        intent.putExtra(ImageActivity.INTENT_KEY_CONTENT_URL, authorImageUrl);
+        intent.putExtra(ImageActivity.INTENT_KEY_CONTENT_TITLE, authorName);
+        intent.putExtra(ImageActivity.INTENT_KEY_CONTENT_SUBTITLE, authorPost);
+        intent.putExtra(ImageActivity.INTENT_KEY_CONTENT_DESCRIPTION, authorEmail);
         startActivity(intent);
     }
 
@@ -211,12 +214,12 @@ public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnCl
         Map<String, String> params = new HashMap<>();
         params.put(Constants.FEEDBACK_PARAM_USER_ID, userId);
         params.put(Constants.FEEDBACK_PARAM_TEXT, feedback);
-        Log.d(TAG,params.toString());
+        Log.d(TAG, params.toString());
 
         toggleProgressLayout();
 
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
-                APP_FEEDBACK, new JSONObject(params), new Response.Listener<JSONObject>() {
+            APP_FEEDBACK, new JSONObject(params), new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject resp) {
@@ -248,14 +251,14 @@ public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnCl
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
                 headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY,
-                        Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
+                    Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
                 return headers;
             }
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                Constants.HTTP_INITIAL_TIME_OUT,
-                Constants.HTTP_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            Constants.HTTP_INITIAL_TIME_OUT,
+            Constants.HTTP_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         volleyQueue.add(stringRequest);
     }
 
@@ -266,7 +269,7 @@ public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnCl
      */
     private void showSnackBar(final int stringResource) {
         Snackbar.make(findViewById(R.id.container),
-                getResources().getString(stringResource), Snackbar.LENGTH_LONG).show();
+            getResources().getString(stringResource), Snackbar.LENGTH_LONG).show();
     }
 
     /**
@@ -276,15 +279,15 @@ public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnCl
      */
     private void showSnackBarWithWirelessSetting(final int stringResource) {
         Snackbar.make(findViewById(R.id.container),
-                getResources().getString(stringResource), Snackbar.LENGTH_LONG)
-                .setAction(getResources().getString(R.string.snackbar_action_settings),
-                        new View.OnClickListener() {
+            getResources().getString(stringResource), Snackbar.LENGTH_LONG)
+            .setAction(getResources().getString(R.string.snackbar_action_settings),
+                new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
                     }
                 })
-                .show();
+            .show();
     }
 
     /**
@@ -301,5 +304,19 @@ public class AboutUsActivity extends AppCompatActivity implements URLs,View.OnCl
     private void toggleFeedbackLayout() {
         feedbackLayout.setVisibility(View.VISIBLE);
         progressLayout.setVisibility(View.GONE);
+    }
+
+    /**
+     * Logs Event onto Firebase analytics.
+     *
+     * @param metricName    Metric name
+     */
+    private void logEvent(final String metricName, final String metricValue) {
+        Bundle logBundle = new Bundle();
+        logBundle.putString(FirebaseAnalytics.Param.ITEM_ID, BuildConfig.VERSION_CODE + "");
+        logBundle.putString(FirebaseAnalytics.Param.ITEM_NAME,
+            AboutUsActivity.class.getSimpleName());
+        logBundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, metricName + ":" + metricValue);
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, logBundle);
     }
 }

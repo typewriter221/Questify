@@ -71,13 +71,6 @@
         Click on any of the stream cards to get more details of streams. For suggesting us the streams you want
         please click the button at the bottom.\nSubscribe one now.</string>
 
-    <string-array name="query_suggestions">
-        <item>Android</item>
-        <item>iOS</item>
-        <item>SCALA</item>
-        <item>Ruby</item>
-        <item>JavaScript</item>
-    </string-array>
     <string name="title_activity_post">Compose</string>
 
     <string name="text_post">

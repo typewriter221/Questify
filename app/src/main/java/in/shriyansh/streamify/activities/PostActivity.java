@@ -24,7 +24,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import in.shriyansh.streamify.R;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 
@@ -62,22 +62,10 @@ public class PostActivity extends AppCompatActivity {
 
         initUi();
         initToolbar();
-
-        volleyQueue = Volley.newRequestQueue(this);
-
         setPostFab();
 
+        volleyQueue = Volley.newRequestQueue(this);
         type = TYPE_NEWS;
-        typeRd.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                if (i == R.id.radio_news) {
-                    type = TYPE_NEWS;
-                } else if (i == R.id.radio_event) {
-                    type = TYPE_EVENT;
-                }
-            }
-        });
     }
 
     /**
@@ -104,6 +92,16 @@ public class PostActivity extends AppCompatActivity {
         progressBar.getIndeterminateDrawable().setColorFilter(
                 getResources().getColor(R.color.ColorPrimary),
                 android.graphics.PorterDuff.Mode.MULTIPLY);
+        typeRd.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (i == R.id.radio_news) {
+                    type = TYPE_NEWS;
+                } else if (i == R.id.radio_event) {
+                    type = TYPE_EVENT;
+                }
+            }
+        });
     }
 
     private void initToolbar() {
@@ -130,7 +128,7 @@ public class PostActivity extends AppCompatActivity {
         toggleProgressLayout();
 
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
-                URLs.POST, new JSONObject(params), new Response.Listener<JSONObject>() {
+                Urls.POST, new JSONObject(params), new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject resp) {

@@ -11,12 +11,11 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 /**
  * Created by shriyansh on 12/10/15.
  */
-public class CircularImageView extends ImageView {
+public class CircularImageView extends android.support.v7.widget.AppCompatImageView {
     public CircularImageView(Context context) {
         super(context);
     }
@@ -41,22 +40,31 @@ public class CircularImageView extends ImageView {
         if (getWidth() == 0 || getHeight() == 0) {
             return;
         }
-        Bitmap b =  ((BitmapDrawable)drawable).getBitmap() ;
+        Bitmap b =  ((BitmapDrawable)drawable).getBitmap();
         Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
 
-        int w = getWidth(), h = getHeight();
+        int w = getWidth();
+        int h = getHeight();
 
 
-        Bitmap roundBitmap =  getCroppedBitmap(bitmap, w);canvas.drawBitmap(roundBitmap, 0, 0, null);
-
+        Bitmap roundBitmap =  getCroppedBitmap(bitmap, w);
+        canvas.drawBitmap(roundBitmap, 0, 0, null);
     }
 
+    /**
+     * Crops bitmap to circle in given radius.
+     *
+     * @param bmp       Bitmap
+     * @param radius    radius
+     * @return
+     */
     public static Bitmap getCroppedBitmap(Bitmap bmp, int radius) {
         Bitmap sbmp;
-        if(bmp.getWidth() != radius || bmp.getHeight() != radius)
+        if (bmp.getWidth() != radius || bmp.getHeight() != radius) {
             sbmp = Bitmap.createScaledBitmap(bmp, radius, radius, false);
-        else
+        } else {
             sbmp = bmp;
+        }
         Bitmap output = Bitmap.createBitmap(sbmp.getWidth(),
                 sbmp.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
@@ -70,12 +78,10 @@ public class CircularImageView extends ImageView {
         paint.setDither(true);
         canvas.drawARGB(0, 0, 0, 0);
         paint.setColor(Color.parseColor("#BAB399"));
-        canvas.drawCircle(sbmp.getWidth() / 2+0.7f, sbmp.getHeight() / 2+0.7f,
-                sbmp.getWidth() / 2+0.1f, paint);
+        canvas.drawCircle(sbmp.getWidth() / 2 + 0.7f, sbmp.getHeight() / 2 + 0.7f,
+                sbmp.getWidth() / 2 + 0.1f, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(sbmp, rect, rect, paint);
-
-
         return output;
     }
 }

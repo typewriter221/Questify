@@ -1,8 +1,8 @@
 package in.shriyansh.streamify.utils;
 
-import java.util.concurrent.TimeUnit;
-
 import in.shriyansh.streamify.BuildConfig;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by shriyansh on 9/9/15.
@@ -18,10 +18,11 @@ public class Constants {
 
     public static final int INSTRUCTIONS_RECORD_ID = 100000;
 
-    public static final long SPLASH_SCREEN_DURATION = TimeUnit.MILLISECONDS.convert(1L,TimeUnit.SECONDS);
+    public static final long SPLASH_SCREEN_DURATION = TimeUnit.MILLISECONDS.convert(1L,
+        TimeUnit.SECONDS);
 
     /**
-     * Constants for Volley
+     * Constants for Volley.
      */
     public static final String HTTP_HEADER_CONTENT_TYPE_KEY = "Content-Type";
     public static final String HTTP_HEADER_CONTENT_TYPE_JSON = "application/json";
@@ -52,7 +53,7 @@ public class Constants {
     public static final String STREAM_SUBSCRIBE_PARAM_STREAM_ID = "stream_id";
 
     /**
-     * Intent extra keys
+     * Intent extra keys.
      */
     public static final String INTENT_EXTRA_KEY_CALENDAR_BEGIN_TIME = "beginTime";
     public static final String INTENT_EXTRA_KEY_CALENDAR_END_TIME = "endTime";
@@ -62,7 +63,7 @@ public class Constants {
     public static final String INTENT_EXTRA_KEY_CALENDAR_EVENT_LOCATION = "eventLocation";
 
     /**
-     * JSON Constants for response
+     * JSON Constants for response.
      */
     public static final String RESPONSE_STATUS_KEY = "status";
     public static final String RESPONSE_STATUS_VALUE_OK = "OK";

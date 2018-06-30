@@ -24,7 +24,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,37 +33,38 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.activities.ImageLibrary;
 import in.shriyansh.streamify.activities.VideoListDemoActivity;
 import in.shriyansh.streamify.adapters.NotificationsAdapter;
 import in.shriyansh.streamify.database.DbContract;
 import in.shriyansh.streamify.database.DbMethods;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 
 /**
- * Fragment for News
+ * Fragment for News.
  */
-public class News extends Fragment implements URLs{
-    public static final String TAG = News.class.getSimpleName();
+public class News extends Fragment implements Urls {
+    private static final String TAG = News.class.getSimpleName();
     public static final String NEWS_TITLE_KEY = "news_title_key";
 
-    SwipeRefreshLayout newsRefreshLayout;
-    ListView notificationsListView;
+    private SwipeRefreshLayout newsRefreshLayout;
+    private ListView notificationsListView;
 
-    NotificationsAdapter notificationsAdapter;
+    private NotificationsAdapter notificationsAdapter;
 
-    DbMethods dbMethods;
-    RequestQueue volleyQueue;
+    private DbMethods dbMethods;
+    private RequestQueue volleyQueue;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,62 +83,75 @@ public class News extends Fragment implements URLs{
         super.onStart();
         //TODO scroll on click of notification
         //notificationsListView.smoothScrollToPositionFromTop(4,0);
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.news_layout,container,false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.news_layout,container,false);
 
-        notificationsListView =(ListView)view.findViewById(R.id.notifications_list);
-        notificationsAdapter= new NotificationsAdapter(getActivity(),dbMethods.queryNotifications(null, null, null, DbContract.Notifications.COLUMN_GLOBAL_ID+" DESC ", 0));
+        notificationsListView = (ListView)view.findViewById(R.id.notifications_list);
+        notificationsAdapter = new NotificationsAdapter(getActivity(),dbMethods.queryNotifications(
+                null, null, null,
+                DbContract.Notifications.COLUMN_GLOBAL_ID + " DESC ", 0));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationsListView.setNestedScrollingEnabled(true);
         }
         notificationsListView.setAdapter(notificationsAdapter);
-        newsRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.news_refresh_layout);
-        newsRefreshLayout.setColorSchemeResources(R.color.ColorPrimary, R.color.pink500, R.color.teal500);
+        newsRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.news_refresh_layout);
+        newsRefreshLayout.setColorSchemeResources(R.color.ColorPrimary, R.color.pink500,
+                R.color.teal500);
 
-        /**
+        /*
          * Registering Receiver
          */
         IntentFilter filter = new IntentFilter(Constants.DISPLAY_MESSAGE_ACTION);
-        getActivity().getApplicationContext().registerReceiver(mHandleMessageReceiver, filter);
+        getActivity().getApplicationContext().registerReceiver(handleMessageReceiver, filter);
 
-        /**
+        /*
          * Implementing refresh
          */
         newsRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getNotifications(PreferenceUtils.getStringPreference(getActivity(),PreferenceUtils.PREF_USER_GLOBAL_ID),dbMethods.queryLastNotificationId()+"");
+                getNotifications(PreferenceUtils.getStringPreference(getActivity(),
+                        PreferenceUtils.PREF_USER_GLOBAL_ID),
+                        dbMethods.queryLastNotificationId() + "");
             }
         });
         notificationsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(l!=1){
-                    Cursor cursor=dbMethods.queryNotifications(new String[]{DbContract.Notifications.COLUMN_TYPE, DbContract.Notifications.COLUMN_GLOBAL_ID, DbContract.Notifications.COLUMN_TITLE}, DbContract.Notifications._ID+" = ?",new String[]{l+""},null,0);
-                    int newsType=0;
-                    int newsGlobalId=0;
-                    String title="";
-                    while (cursor.moveToNext()){
-                        newsType=cursor.getInt(cursor.getColumnIndex(DbContract.Notifications.COLUMN_TYPE));
-                        newsGlobalId=cursor.getInt(cursor.getColumnIndex(DbContract.Notifications.COLUMN_GLOBAL_ID));
-                        title = cursor.getString(cursor.getColumnIndex(DbContract.Notifications.COLUMN_TITLE));
+                if (l != 1) {
+                    Cursor cursor = dbMethods.queryNotifications(new String[]{
+                            DbContract.Notifications.COLUMN_TYPE,
+                            DbContract.Notifications.COLUMN_GLOBAL_ID,
+                            DbContract.Notifications.COLUMN_TITLE},
+                            DbContract.Notifications._ID + " = ?",
+                            new String[]{l + ""},null,0);
+                    int newsType = 0;
+                    int newsGlobalId = 0;
+                    String title = "";
+                    while (cursor.moveToNext()) {
+                        newsType = cursor.getInt(cursor.getColumnIndex(
+                                DbContract.Notifications.COLUMN_TYPE));
+                        newsGlobalId = cursor.getInt(cursor.getColumnIndex(
+                                DbContract.Notifications.COLUMN_GLOBAL_ID));
+                        title = cursor.getString(cursor.getColumnIndex(
+                                DbContract.Notifications.COLUMN_TITLE));
                     }
-                    if(newsType==DbContract.Notifications.VALUE_TYPE_IMAGE){
+                    if (newsType == DbContract.Notifications.VALUE_TYPE_IMAGE) {
                         Intent intent = new Intent(getActivity(), ImageLibrary.class);
                         intent.putExtra(NEWS_TITLE_KEY,title);
-                        intent.putExtra(ImageLibrary.INTENT_KEY_NOTIFICATION_GLOBAL_ID, newsGlobalId);
+                        intent.putExtra(ImageLibrary.INTENT_KEY_NOTIFICATION_GLOBAL_ID,
+                                newsGlobalId);
                         startActivityForResult(intent, 3);
-                    }else if(newsType==DbContract.Notifications.VALUE_TYPE_VIDEO){
+                    } else if (newsType == DbContract.Notifications.VALUE_TYPE_VIDEO) {
                         Intent intent = new Intent(getActivity(), VideoListDemoActivity.class);
                         intent.putExtra(VideoListDemoActivity.INTENT_KEY_NOTIFICATION_GLOBAL_ID,
                                 newsGlobalId);
                         startActivityForResult(intent, 3);
                     }
-
                 }
             }
         });
@@ -189,7 +202,8 @@ public class News extends Fragment implements URLs{
             }
 
             @Override
-            public void onItemCheckedStateChanged(ActionMode actionMode, int i, long id, boolean checked) {
+            public void onItemCheckedStateChanged(ActionMode actionMode, int i, long id,
+                                                  boolean checked) {
                 if (checked) {
                     nr++;
                     notificationsAdapter.setNewSelection(id,true);
@@ -203,17 +217,19 @@ public class News extends Fragment implements URLs{
         return view;
     }
 
-    private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver handleMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-        notificationsAdapter.changeCursor(dbMethods.queryNotifications(null,null,null,DbContract.Notifications.COLUMN_GLOBAL_ID+" DESC ",0));
+        notificationsAdapter.changeCursor(dbMethods.queryNotifications(null,null,
+                null,
+                DbContract.Notifications.COLUMN_GLOBAL_ID + " DESC ",0));
         notificationsAdapter.notifyDataSetChanged();
         }
     };
 
-    void getNotifications(String user_id,String lastNotificationId){
+    private void getNotifications(String userId, String lastNotificationId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Constants.NOTIFICATION_PARAM_USER_ID,user_id);
+        params.put(Constants.NOTIFICATION_PARAM_USER_ID,userId);
         params.put(Constants.NOTIFICATION_PARAM_LAST_NOTIFICATION_ID,lastNotificationId);
         Log.d(TAG,params.toString());
 
@@ -226,17 +242,20 @@ public class News extends Fragment implements URLs{
                 try {
                     String status = resp.getString(Constants.RESPONSE_STATUS_KEY);
                     if (status.equals(Constants.RESPONSE_STATUS_VALUE_OK)) {
-                        long count = dbMethods.insertNotifications(resp.getJSONObject("data").getJSONArray("notifications"));
-                        notificationsAdapter.changeCursor(dbMethods.queryNotifications(null, null, null, DbContract.Notifications.COLUMN_GLOBAL_ID+" DESC ", 0));
+                        long count = dbMethods.insertNotifications(resp.getJSONObject("data")
+                                .getJSONArray("notifications"));
+                        notificationsAdapter.changeCursor(dbMethods.queryNotifications(
+                                null, null, null,
+                                DbContract.Notifications.COLUMN_GLOBAL_ID
+                                        + " DESC ", 0));
                         notificationsAdapter.notifyDataSetChanged();
 
-                        String notificationCount = count==0?"No":count+"";
-                        if(isAdded()){
-                            showSnackBar(notificationCount+" new Notifications.");
+                        String notificationCount = count == 0 ? "No" : count + "";
+                        if (isAdded()) {
+                            showSnackBar(notificationCount + " new Notifications.");
                         }
-                    }
-                    else {
-                        if(isAdded()){
+                    } else {
+                        if (isAdded()) {
                             showSnackBar(R.string.snackbar_error_fetching_notifications);
                         }
                     }
@@ -244,7 +263,7 @@ public class News extends Fragment implements URLs{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    if(isAdded()){
+                    if (isAdded()) {
                         showSnackBar(R.string.snackbar_error_fetching_notifications);
                     }
                     newsRefreshLayout.setRefreshing(false);
@@ -256,7 +275,7 @@ public class News extends Fragment implements URLs{
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.toString());
-                if(isAdded()){
+                if (isAdded()) {
                     showSnackBarWithWirelessSetting(R.string.snackbar_cannot_reach_servers);
                 }
                 newsRefreshLayout.setRefreshing(false);
@@ -265,7 +284,8 @@ public class News extends Fragment implements URLs{
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY, Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
+                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY,
+                        Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
                 return headers;
             }
         };
@@ -280,7 +300,7 @@ public class News extends Fragment implements URLs{
     }
 
     /**
-     * Shows Snackbar without any action button
+     * Shows Snackbar without any action button.
      *
      * @param stringResource Resource id for string to be shown on snackbar
      */
@@ -290,7 +310,7 @@ public class News extends Fragment implements URLs{
     }
 
     /**
-     * Shows Snackbar without any action button
+     * Shows Snackbar without any action button.
      *
      * @param string   String to be shown on snackbar
      */
@@ -300,7 +320,7 @@ public class News extends Fragment implements URLs{
     }
 
     /**
-     * Shows Snackbar with Action button for wireless settings
+     * Shows Snackbar with Action button for wireless settings.
      *
      * @param stringResource Resource id for string to be shown on snackbar
      */
@@ -320,7 +340,7 @@ public class News extends Fragment implements URLs{
     @Override
     public void onDestroy() {
         try {
-            getActivity().getApplicationContext().unregisterReceiver(mHandleMessageReceiver);
+            getActivity().getApplicationContext().unregisterReceiver(handleMessageReceiver);
 
         } catch (Exception e) {
             Log.e("UnRegister Error", "> " + e.getMessage());

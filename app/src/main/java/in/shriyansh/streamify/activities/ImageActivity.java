@@ -10,12 +10,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.ui.TouchImageView;
+import in.shriyansh.streamify.utils.Utils;
 
 /**
  * Full-screen activity that shows and hides the system UI (i.e.
@@ -34,6 +36,10 @@ public class ImageActivity extends AppCompatActivity {
      */
     private static final float MAX_ZOOM_LEVEL = 4f;
 
+    private TextView titleTv;
+    private TextView subtitleTv;
+    private TextView descriptionTv;
+
     private TouchImageView contentView;
     private View controlsView;
     private boolean visible;
@@ -42,29 +48,25 @@ public class ImageActivity extends AppCompatActivity {
     public static final String INTENT_KEY_CONTENT_TITLE = "content_title";
     public static final String INTENT_KEY_CONTENT_SUBTITLE = "content_subtitle";
     public static final String INTENT_KEY_CONTENT_DESCRIPTION = "content_description";
+    private final Handler hideHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-        TextView titleTv;
-        TextView subtitleTv;
-        TextView descriptionTv;
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
         visible = true;
+
+        initUi();
+        initActionBar();
+        fetchAndPlugData();
+    }
+
+    private void initUi() {
         controlsView = findViewById(R.id.fullscreen_content_controls);
         contentView = (TouchImageView)findViewById(R.id.fullscreen_content);
-
         titleTv = (TextView)findViewById(R.id.image_title);
         subtitleTv = (TextView)findViewById(R.id.image_subtitle);
         descriptionTv = (TextView)findViewById(R.id.image_description);
-
-
         // Set up the user interaction to manually show or hide the system UI.
         contentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,23 +74,40 @@ public class ImageActivity extends AppCompatActivity {
                 toggle();
             }
         });
+        contentView.setMaxZoom(MAX_ZOOM_LEVEL);
+    }
 
+    private void initActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void fetchAndPlugData() {
         Intent intent = getIntent();
         String url = intent.getStringExtra(INTENT_KEY_CONTENT_URL);
         String title = intent.getStringExtra(INTENT_KEY_CONTENT_TITLE);
         String subtitle = intent.getStringExtra(INTENT_KEY_CONTENT_SUBTITLE);
         String description = intent.getStringExtra(INTENT_KEY_CONTENT_DESCRIPTION);
+        plugDataToViews(url, title, subtitle, description);
+    }
 
+    private void plugDataToViews(final String url, final String title, final String subtitle,
+                                 final String description) {
         titleTv.setText(title);
         subtitleTv.setText(subtitle);
         descriptionTv.setText(description);
+        setImageOnView(url, contentView, R.drawable.placeholder);
+    }
 
-        contentView.setMaxZoom(MAX_ZOOM_LEVEL);
+    private void setImageOnView(final String imageUrl, final TouchImageView imageView,
+                                final int placeholderResourceId) {
         Picasso.with(this)
-                .load(Uri.parse(url))
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.placeholder)
-                .into(contentView);
+                .load(Uri.parse(Utils.getUsableDropboxUrl(imageUrl)))
+                .placeholder(placeholderResourceId)
+                .error(placeholderResourceId)
+                .into(imageView);
     }
 
     @Override
@@ -176,7 +195,6 @@ public class ImageActivity extends AppCompatActivity {
         }
     };
 
-    private final Handler hideHandler = new Handler();
     private final Runnable hideRunnable = new Runnable() {
         @Override
         public void run() {

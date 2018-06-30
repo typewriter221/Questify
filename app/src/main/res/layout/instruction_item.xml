@@ -121,10 +121,9 @@
                         android:gravity="center"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:maxLines="1"
                         android:textStyle="bold"
                         android:textColor="@color/white"
-                        android:ellipsize="marquee"
+                        android:singleLine="true"
                         android:text="GOT IT"
                         android:textSize="16dp"/>
 

@@ -8,10 +8,9 @@ import android.content.Context;
     import android.util.Log;  
     import android.view.MotionEvent;
     import android.view.ScaleGestureDetector;  
-    import android.view.View;  
-    import android.widget.ImageView;  
-     
-    public class TouchImageView extends ImageView {  
+    import android.view.View;
+
+public class TouchImageView extends android.support.v7.widget.AppCompatImageView {
         Matrix matrix;  
         // We can be in one of these 3 states  
         static final int NONE = 0;  
@@ -25,18 +24,21 @@ import android.content.Context;
         PointF start = new PointF();  
         float minScale = 1f;  
         float maxScale = 3f;  
-        float[] m;
-        int viewWidth, viewHeight;  
+        float[] mat;
+        int viewWidth;
+        int viewHeight;
       
         static final int CLICK = 3;  
       
         float saveScale = 1f;  
       
-        protected float origWidth, origHeight;  
+        protected float origWidth;
+        protected float origHeight;
       
-        int oldMeasuredWidth, oldMeasuredHeight;  
+        int oldMeasuredWidth;
+        int oldMeasuredHeight;
      
-        ScaleGestureDetector mScaleDetector;  
+        ScaleGestureDetector scaleDetector;
      
         Context context;  
      
@@ -56,11 +58,11 @@ import android.content.Context;
       
             this.context = context;  
       
-            mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());  
+            scaleDetector = new ScaleGestureDetector(context, new ScaleListener());
       
             matrix = new Matrix();  
       
-            m = new float[9];  
+            mat = new float[9];
       
             setImageMatrix(matrix);  
       
@@ -71,7 +73,7 @@ import android.content.Context;
                 @Override  
                 public boolean onTouch(View v, MotionEvent event) {  
       
-                    mScaleDetector.onTouchEvent(event);  
+                    scaleDetector.onTouchEvent(event);
       
                     PointF curr = new PointF(event.getX(), event.getY());  
       
@@ -95,9 +97,11 @@ import android.content.Context;
       
                                 float deltaY = curr.y - last.y;  
       
-                                float fixTransX = getFixDragTrans(deltaX, viewWidth, origWidth * saveScale);  
+                                float fixTransX = getFixDragTrans(deltaX, viewWidth,
+                                        origWidth * saveScale);
       
-                                float fixTransY = getFixDragTrans(deltaY, viewHeight, origHeight * saveScale);  
+                                float fixTransY = getFixDragTrans(deltaY, viewHeight,
+                                        origHeight * saveScale);
       
                                 matrix.postTranslate(fixTransX, fixTransY);  
       
@@ -117,17 +121,18 @@ import android.content.Context;
       
                             int yDiff = (int) Math.abs(curr.y - start.y);  
       
-                            if (xDiff < CLICK && yDiff < CLICK)  
-      
-                                performClick();  
-      
+                            if (xDiff < CLICK && yDiff < CLICK)  {
+                                performClick();
+                            }
+
                             break;  
       
                         case MotionEvent.ACTION_POINTER_UP:  
       
                             mode = NONE;  
       
-                            break;  
+                            break;
+                        default:
       
                     }  
       
@@ -140,11 +145,16 @@ import android.content.Context;
                 }  
      
             });
-        }  
+        }
+
+    /**
+     * Sets maximum zoom multiplier.
+     *
+     * @param zoom multiplier
+     */
+    public void setMaxZoom(float zoom) {
       
-        public void setMaxZoom(float x) {  
-      
-            maxScale = x;  
+            maxScale = zoom;
       
         }  
       
@@ -162,34 +172,32 @@ import android.content.Context;
             @Override  
             public boolean onScale(ScaleGestureDetector detector) {  
       
-                float mScaleFactor = detector.getScaleFactor();  
+                float scaleFactor = detector.getScaleFactor();
       
                 float origScale = saveScale;  
       
-                saveScale *= mScaleFactor;  
+                saveScale *= scaleFactor;
       
                 if (saveScale > maxScale) {  
       
                     saveScale = maxScale;  
       
-                    mScaleFactor = maxScale / origScale;  
+                    scaleFactor = maxScale / origScale;
       
                 } else if (saveScale < minScale) {  
       
                     saveScale = minScale;  
       
-                    mScaleFactor = minScale / origScale;  
+                    scaleFactor = minScale / origScale;
       
                 }  
      
-                if (origWidth * saveScale <= viewWidth || origHeight * saveScale <= viewHeight)  
-      
-                    matrix.postScale(mScaleFactor, mScaleFactor, viewWidth / 2, viewHeight / 2);  
-      
-                else  
-      
-                    matrix.postScale(mScaleFactor, mScaleFactor, detector.getFocusX(), detector.getFocusY());  
-      
+                if (origWidth * saveScale <= viewWidth || origHeight * saveScale <= viewHeight) {
+                    matrix.postScale(scaleFactor, scaleFactor, viewWidth / 2, viewHeight / 2);
+                } else {
+                    matrix.postScale(scaleFactor, scaleFactor, detector.getFocusX(),
+                            detector.getFocusY());
+                }
                 fixTrans();  
       
                 return true;  
@@ -200,27 +208,27 @@ import android.content.Context;
       
         void fixTrans() {  
       
-            matrix.getValues(m);  
+            matrix.getValues(mat);
       
-            float transX = m[Matrix.MTRANS_X];  
+            float transX = mat[Matrix.MTRANS_X];
       
-            float transY = m[Matrix.MTRANS_Y];  
+            float transY = mat[Matrix.MTRANS_Y];
       
             float fixTransX = getFixTrans(transX, viewWidth, origWidth * saveScale);  
       
             float fixTransY = getFixTrans(transY, viewHeight, origHeight * saveScale);  
       
-            if (fixTransX != 0 || fixTransY != 0)  
-      
-                matrix.postTranslate(fixTransX, fixTransY);  
-      
+            if (fixTransX != 0 || fixTransY != 0)  {
+                matrix.postTranslate(fixTransX, fixTransY);
+            }
         }  
       
        
       
         float getFixTrans(float trans, float viewSize, float contentSize) {  
       
-            float minTrans, maxTrans;  
+            float minTrans;
+            float maxTrans;
       
             if (contentSize <= viewSize) {  
       
@@ -236,13 +244,15 @@ import android.content.Context;
       
             }  
       
-            if (trans < minTrans)  
+            if (trans < minTrans) {
+                return -trans + minTrans;
+            }
+
+            if (trans > maxTrans) {
+                return -trans + maxTrans;
+            }
       
-                return -trans + minTrans;  
-      
-            if (trans > maxTrans)  
-      
-                return -trans + maxTrans;  
+
       
             return 0;  
       
@@ -274,10 +284,10 @@ import android.content.Context;
             //  
             if (oldMeasuredHeight == viewWidth && oldMeasuredHeight == viewHeight  
       
-                    || viewWidth == 0 || viewHeight == 0)  
-      
-                return;  
-      
+                    || viewWidth == 0 || viewHeight == 0)  {
+                return;
+            }
+
             oldMeasuredHeight = viewHeight;  
       
             oldMeasuredWidth = viewWidth;
@@ -290,10 +300,11 @@ import android.content.Context;
       
                 Drawable drawable = getDrawable();  
       
-                if (drawable == null || drawable.getIntrinsicWidth() == 0 || drawable.getIntrinsicHeight() == 0)  
-      
-                    return;  
-      
+                if (drawable == null || drawable.getIntrinsicWidth() == 0
+                        || drawable.getIntrinsicHeight() == 0) {
+                    return;
+                }
+
                 int bmWidth = drawable.getIntrinsicWidth();  
       
                 int bmHeight = drawable.getIntrinsicHeight();  

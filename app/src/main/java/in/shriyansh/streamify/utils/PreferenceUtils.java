@@ -9,7 +9,6 @@ import android.preference.PreferenceManager;
  */
 
 public class PreferenceUtils {
-
     public static final String PREF_IS_REGISTERED = "pref_is_registered";
     public static final String PREF_FCM_TOKEN = "pref_fcm_token";
     public static final String PREF_IS_FCM_REGISTERED = "pref_is_fcm_registered";
@@ -21,30 +20,59 @@ public class PreferenceUtils {
     public static final String PREF_USER_CONTACT = "pref_user_contact";
     public static final String PREF_USER_FCM_TOKEN = "pref_user_fcm_token";
 
-
-    public static boolean setStringPreference(Context context ,String key,String value){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    /**
+     * Sets string preference.
+     *
+     * @param context   Activity context
+     * @param key       Preference key
+     * @param value     Preference value
+     */
+    public static void setStringPreference(Context context, String key, String value) {
+        SharedPreferences sharedPreferences = PreferenceManager
+            .getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key,value);
-        editor.commit();
-        return true;
+        editor.apply();
     }
 
-    public static boolean setBooleanPreference(Context context ,String key,Boolean value){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    /**
+     * Sets boolean preference.
+     *
+     * @param context   Activity context
+     * @param key       Preference key
+     * @param value     Preference value
+     */
+    public static void setBooleanPreference(Context context, String key, Boolean value) {
+        SharedPreferences sharedPreferences = PreferenceManager
+            .getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(key,value);
-        editor.commit();
-        return true;
+        editor.apply();
     }
 
-    public static boolean getBooleanPreference(Context context ,String key){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    /**
+     * Gets boolean preference.
+     *
+     * @param context   Activity context
+     * @param key       Preference key
+     * @return          boolean value
+     */
+    public static boolean getBooleanPreference(Context context, String key) {
+        SharedPreferences sharedPreferences = PreferenceManager
+            .getDefaultSharedPreferences(context);
         return sharedPreferences.getBoolean(key,false);
     }
 
-    public static String getStringPreference(Context context ,String key){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    /**
+     * Gets string preference.
+     *
+     * @param context   Activity context
+     * @param key       Preference key
+     * @return          string value
+     */
+    public static String getStringPreference(Context context, String key) {
+        SharedPreferences sharedPreferences = PreferenceManager
+            .getDefaultSharedPreferences(context);
         return sharedPreferences.getString(key,"");
     }
 }

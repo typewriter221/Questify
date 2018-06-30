@@ -36,7 +36,7 @@ import com.squareup.picasso.Picasso;
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.database.DbContract;
 import in.shriyansh.streamify.database.DbMethods;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 import in.shriyansh.streamify.utils.Utils;
@@ -50,7 +50,7 @@ import org.json.JSONObject;
 
 
 
-public class StreamDetailActivity extends AppCompatActivity implements URLs,View.OnClickListener {
+public class StreamDetailActivity extends AppCompatActivity implements Urls,View.OnClickListener {
     private static final String TAG = StreamDetailActivity.class.getSimpleName();
 
     private CollapsingToolbarLayout toolBarLayout;
@@ -636,7 +636,7 @@ public class StreamDetailActivity extends AppCompatActivity implements URLs,View
         toggleProgressLayout();
 
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
-                URLs.FEEDBACK, new JSONObject(params), new Response.Listener<JSONObject>() {
+                Urls.FEEDBACK, new JSONObject(params), new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject resp) {

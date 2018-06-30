@@ -7,6 +7,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 
 /**
  * Created by shriyansh on 9/9/15.
+ * TODO : Deprecated
  */
 
     public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {

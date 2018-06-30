@@ -23,7 +23,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,35 +32,35 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.activities.EventDetailsActivity;
 import in.shriyansh.streamify.adapters.EventsAdapter;
 import in.shriyansh.streamify.database.DbContract;
 import in.shriyansh.streamify.database.DbMethods;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
- * Fragment for event tab
+ * Fragment for event tab.
  *
  */
-public class Events extends Fragment implements URLs{
-    public static final String TAG = Events.class.getSimpleName();
+public class Events extends Fragment implements Urls {
+    private static final String TAG = Events.class.getSimpleName();
 
-    SwipeRefreshLayout eventsRefreshLayout;
-    ListView eventsListView;
+    private SwipeRefreshLayout eventsRefreshLayout;
+    private ListView eventsListView;
 
-    EventsAdapter eventsAdapter;
+    private EventsAdapter eventsAdapter;
 
-    DbMethods dbMethods;
-    RequestQueue volleyQueue;
+    private DbMethods dbMethods;
+    private RequestQueue volleyQueue;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,52 +72,60 @@ public class Events extends Fragment implements URLs{
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
-            if(eventsAdapter!=null){
-                eventsAdapter.changeCursor(dbMethods.queryEvents(null, null, null, DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
+        if (isVisibleToUser) {
+            if (eventsAdapter != null) {
+                eventsAdapter.changeCursor(dbMethods.queryEvents(null, null,
+                        null,
+                        DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
                 eventsAdapter.notifyDataSetChanged();
             }
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.events_layout,container,false);
-        eventsListView =(ListView)view.findViewById(R.id.events_list);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.events_layout,container,false);
+        eventsListView = (ListView)view.findViewById(R.id.events_list);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             eventsListView.setNestedScrollingEnabled(true);
         }
-        eventsAdapter= new EventsAdapter(getActivity(),dbMethods.queryEvents(null, null, null, DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
+        eventsAdapter = new EventsAdapter(getActivity(),dbMethods.queryEvents(null,
+                null, null,
+                DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
         eventsListView.setAdapter(eventsAdapter);
-        eventsRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.news_refresh_layout);
-        eventsRefreshLayout.setColorSchemeResources(R.color.ColorPrimary, R.color.pink500, R.color.teal500);
+        eventsRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.news_refresh_layout);
+        eventsRefreshLayout.setColorSchemeResources(R.color.ColorPrimary, R.color.pink500,
+                R.color.teal500);
 
-        /**
+        /*
          * Registering Receiver
          */
         IntentFilter filter = new IntentFilter(Constants.DISPLAY_MESSAGE_ACTION);
-        getActivity().getApplicationContext().registerReceiver(mHandleMessageReceiver, filter);
+        getActivity().getApplicationContext().registerReceiver(handleMessageReceiver, filter);
 
-        /**
+        /*
          * Implementing refresh
          */
         eventsRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-            /**
+            /*
              * make network call
              * and set setRefreshing(false); after refresh
              */
-            getEvents(PreferenceUtils.getStringPreference(getActivity(),PreferenceUtils.PREF_USER_GLOBAL_ID),dbMethods.queryLastEventId()+"");
+            getEvents(PreferenceUtils.getStringPreference(getActivity(),
+                    PreferenceUtils.PREF_USER_GLOBAL_ID),
+                    dbMethods.queryLastEventId() + "");
             }
         });
 
         eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            if(l!=1){
+            if (l != 1) {
                 Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
-                intent.putExtra("event_id", l);
+                intent.putExtra(EventDetailsActivity.INTENT_EXTRA_KEY_EVENT_ID, l);
                 startActivityForResult(intent, 2);
             }
             }
@@ -153,7 +160,7 @@ public class Events extends Fragment implements URLs{
                         actionMode.finish();
                         return true;
                     case R.id.action_share:
-                        nr=0;
+                        nr = 0;
                         eventsAdapter.forwardSelected();
                         actionMode.finish();
                         return true;
@@ -168,7 +175,8 @@ public class Events extends Fragment implements URLs{
             }
 
             @Override
-            public void onItemCheckedStateChanged(ActionMode actionMode, int i, long id, boolean checked) {
+            public void onItemCheckedStateChanged(ActionMode actionMode, int i, long id,
+                                                  boolean checked) {
                 if (checked) {
                     nr++;
                     eventsAdapter.setNewSelection(id, true);
@@ -182,9 +190,9 @@ public class Events extends Fragment implements URLs{
         return view;
     }
 
-    private void getEvents(String user_id,String lastEventId){
+    private void getEvents(String userId,String lastEventId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Constants.EVENT_PARAM_USER_ID,user_id);
+        params.put(Constants.EVENT_PARAM_USER_ID,userId);
         params.put(Constants.EVENT_PARAM_LAST_EVENT_ID,lastEventId);
         Log.d(TAG,params.toString());
 
@@ -197,24 +205,26 @@ public class Events extends Fragment implements URLs{
                 try {
                     String status = resp.getString(Constants.RESPONSE_STATUS_KEY);
                     if (status.equals(Constants.RESPONSE_STATUS_VALUE_OK)) {
-                        long count = dbMethods.insertEvents(resp.getJSONObject("data").getJSONArray("events"));
-                        eventsAdapter.changeCursor(dbMethods.queryEvents(null, null, null, DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
+                        long count = dbMethods.insertEvents(resp.getJSONObject("data")
+                                .getJSONArray("events"));
+                        eventsAdapter.changeCursor(dbMethods.queryEvents(null,
+                                null, null,
+                                DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
                         eventsAdapter.notifyDataSetChanged();
 
-                        String eventCount = count==0?"No":count+"";
-                        if(isAdded()){
-                            showSnackBar(eventCount+" new Events.");
+                        String eventCount = count == 0 ? "No" : count + "";
+                        if (isAdded()) {
+                            showSnackBar(eventCount + " new Events.");
                         }
-                    }
-                    else {
-                        if(isAdded()){
+                    } else {
+                        if (isAdded()) {
                             showSnackBar(R.string.snackbar_error);
                         }
                     }
                     eventsRefreshLayout.setRefreshing(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    if(isAdded()){
+                    if (isAdded()) {
                         showSnackBar(R.string.snackbar_error);
                     }
                     eventsRefreshLayout.setRefreshing(false);
@@ -225,7 +235,7 @@ public class Events extends Fragment implements URLs{
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.toString());
-                if(isAdded()){
+                if (isAdded()) {
                     showSnackBarWithWirelessSetting(R.string.snackbar_cannot_reach_servers);
                 }
                 eventsRefreshLayout.setRefreshing(false);
@@ -234,7 +244,8 @@ public class Events extends Fragment implements URLs{
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY, Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
+                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY,
+                        Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
                 return headers;
             }
         };
@@ -247,16 +258,17 @@ public class Events extends Fragment implements URLs{
     }
 
 
-    private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver handleMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-        eventsAdapter.changeCursor(dbMethods.queryEvents(null, null, null, DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
+        eventsAdapter.changeCursor(dbMethods.queryEvents(null, null,
+                null, DbContract.Events.COLUMN_GLOBAL_ID + " DESC ", 0));
         eventsAdapter.notifyDataSetChanged();
         }
     };
 
     /**
-     * Shows Snackbar without any action button
+     * Shows Snackbar without any action button.
      *
      * @param stringResource Resource id for string to be shown on snackbar
      */
@@ -266,7 +278,7 @@ public class Events extends Fragment implements URLs{
     }
 
     /**
-     * Shows Snackbar without any action button
+     * Shows Snackbar without any action button.
      *
      * @param string   String to be shown on snackbar
      */
@@ -276,7 +288,7 @@ public class Events extends Fragment implements URLs{
     }
 
     /**
-     * Shows Snackbar with Action button for wireless settings
+     * Shows Snackbar with Action button for wireless settings.
      *
      * @param stringResource Resource id for string to be shown on snackbar
      */
@@ -296,7 +308,7 @@ public class Events extends Fragment implements URLs{
     @Override
     public void onDestroy() {
         try {
-            getActivity().getApplicationContext().unregisterReceiver(mHandleMessageReceiver);
+            getActivity().getApplicationContext().unregisterReceiver(handleMessageReceiver);
 
         } catch (Exception e) {
             Log.e("UnRegister Error", "> " + e.getMessage());

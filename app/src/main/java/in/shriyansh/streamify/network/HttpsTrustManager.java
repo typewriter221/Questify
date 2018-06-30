@@ -20,11 +20,23 @@ public class HttpsTrustManager implements X509TrustManager {
     private static TrustManager[] trustManagers;
     private static final X509Certificate[] _AcceptedIssuers = new X509Certificate[]{};
 
+    /**
+     * Checks if client is trusted.
+     *
+     * @param x509Certificates Certificates
+     * @param s                 String
+     */
     @Override
     public void checkClientTrusted(
         java.security.cert.X509Certificate[] x509Certificates, String s) {
     }
 
+    /**
+     * Checks if server trusted.
+     *
+     * @param x509Certificates  Certificates
+     * @param s                 String
+     */
     @Override
     public void checkServerTrusted(
         java.security.cert.X509Certificate[] x509Certificates, String s) {
@@ -43,7 +55,10 @@ public class HttpsTrustManager implements X509TrustManager {
         return true;
     }
 
-    public static void allowAllSSL() {
+    /**
+     * Allows ssl auth.
+     */
+    public static void allowAllSsl() {
         HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
 
             @Override

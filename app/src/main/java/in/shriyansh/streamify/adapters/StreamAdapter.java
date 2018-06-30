@@ -29,7 +29,7 @@ import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.activities.ImageActivity;
 import in.shriyansh.streamify.database.DbContract;
 import in.shriyansh.streamify.database.DbMethods;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 import in.shriyansh.streamify.utils.Utils;
@@ -44,7 +44,7 @@ import org.json.JSONObject;
 /**
  * Created by shriyansh on 11/10/15.
  */
-public class StreamAdapter extends CursorAdapter implements URLs {
+public class StreamAdapter extends CursorAdapter implements Urls {
     private static final String TAG = StreamAdapter.class.getSimpleName();
 
     private final Context context;

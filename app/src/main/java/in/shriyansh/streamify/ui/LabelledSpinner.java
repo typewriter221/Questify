@@ -33,11 +33,10 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-
+import in.shriyansh.streamify.R;
 
 import java.util.ArrayList;
 
-import in.shriyansh.streamify.R;
 
 public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemSelectedListener {
 
@@ -45,31 +44,31 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
      * The label positioned above the Spinner, similar to the floating
      * label from a {@link android.support.design.widget.TextInputLayout}.
      */
-    private TextView mLabel;
+    private TextView label;
 
     /**
      * The Spinner component used in this layout.
      */
-    private Spinner mSpinner;
+    private Spinner spinner;
 
     /**
      * A thin (1dp thick) divider line positioned below the Spinner,
      * similar to the bottom line in an {@link android.widget.EditText}.
      */
-    private View mDivider;
+    private View divider;
     
     /**
      * The listener that receives notifications when an item in the
      * AdapterView is selected.
      */
-    private OnItemChosenListener mOnItemChosenListener;
+    private OnItemChosenListener onItemChosenListener;
     
     /**
      * The main color used in the widget (the label color and divider
      * color). This may be updated when XML attributes are obtained and
      * again if the color is set programmatically.
      */
-    private int mWidgetColor;
+    private int widgetColor;
 
 
     public LabelledSpinner(Context context) {
@@ -88,7 +87,7 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
                 0,
                 0);
         String labelText = typedArray.getString(R.styleable.LabelledSpinner_labelText);
-        mWidgetColor = typedArray.getColor(R.styleable.LabelledSpinner_widgetColor,
+        widgetColor = typedArray.getColor(R.styleable.LabelledSpinner_widgetColor,
                 getResources().getColor(R.color.widget_labelled_spinner));
         typedArray.recycle();
 
@@ -101,36 +100,36 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        mLabel = (TextView) getChildAt(0);
-        mLabel.setText(labelText);
-        mLabel.setPadding(0, dpToPixels(4), 0, 0);
-        mLabel.setTextColor(mWidgetColor);
+        label = (TextView) getChildAt(0);
+        label.setText(labelText);
+        label.setPadding(0, dpToPixels(4), 0, 0);
+        label.setTextColor(widgetColor);
 
-        mSpinner = (Spinner) getChildAt(1);
-        mSpinner.setPadding(0, dpToPixels(8), 0, dpToPixels(8));
-        mSpinner.setOnItemSelectedListener(this);
+        spinner = (Spinner) getChildAt(1);
+        spinner.setPadding(0, dpToPixels(8), 0, dpToPixels(8));
+        spinner.setOnItemSelectedListener(this);
 
-        mDivider = getChildAt(2);
+        divider = getChildAt(2);
         MarginLayoutParams dividerParams =
-                (MarginLayoutParams) mDivider.getLayoutParams();
+                (MarginLayoutParams) divider.getLayoutParams();
         dividerParams.rightMargin = dpToPixels(4);
         dividerParams.bottomMargin = dpToPixels(8);
-        mDivider.setLayoutParams(dividerParams);
-        mDivider.setBackgroundColor(mWidgetColor);
+        divider.setLayoutParams(dividerParams);
+        divider.setBackgroundColor(widgetColor);
         alignLabelWithSpinnerItem(4);
     }
     
     
     public TextView getLabel() {
-        return mLabel;
+        return label;
     }
 
     public Spinner getSpinner() {
-        return mSpinner;
+        return spinner;
     }
 
     public View getDivider() {
-        return mDivider;
+        return divider;
     }
 
 
@@ -142,7 +141,7 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
      * @param labelText The CharSequence value to be displayed on the label.
      */
     public void setLabelText(CharSequence labelText) {
-        mLabel.setText(labelText);
+        label.setText(labelText);
     }
 
     /**
@@ -155,11 +154,11 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
      *                    the label.
      */
     public void setLabelText(@StringRes int labelTextId) {
-        mLabel.setText(getResources().getString(labelTextId));
+        label.setText(getResources().getString(labelTextId));
     }
     
     public CharSequence getLabelText() {
-        return mLabel.getText();
+        return label.getText();
     }
     
     /**
@@ -170,12 +169,12 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
      *                 color that is to be displayed on the widget.
      */
     public void setColor(@ColorRes int colorRes) {
-        mLabel.setTextColor(getResources().getColor(colorRes));
-        mDivider.setBackgroundColor(getResources().getColor(colorRes));
+        label.setTextColor(getResources().getColor(colorRes));
+        divider.setBackgroundColor(getResources().getColor(colorRes));
     }
     
     public int getColor() {
-        return mWidgetColor;
+        return widgetColor;
     }
 
     /**
@@ -209,7 +208,7 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
                 android.R.layout.simple_spinner_item,
                 arrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(adapter);
+        spinner.setAdapter(adapter);
     }
 
     /**
@@ -226,13 +225,14 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
      * @param dropdownViewRes The layout resource to create the drop down
      *                        views (e.g. R.layout.my_dropdown)
      */
-    private void setItemsArray(@ArrayRes int arrayResId, @LayoutRes int spinnerItemRes, @LayoutRes int dropdownViewRes) {
+    private void setItemsArray(@ArrayRes int arrayResId, @LayoutRes int spinnerItemRes,
+                               @LayoutRes int dropdownViewRes) {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getContext(),
                 arrayResId,
                 spinnerItemRes);
         adapter.setDropDownViewResource(dropdownViewRes);
-        mSpinner.setAdapter(adapter);
+        spinner.setAdapter(adapter);
     }
 
     /**
@@ -243,7 +243,7 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
      * @param adapter The Adapter which would provide data for the Spinner
      */
     public void setCustomAdapter(SpinnerAdapter adapter) {
-        mSpinner.setAdapter(adapter);
+        spinner.setAdapter(adapter);
     }
     
     /**
@@ -252,7 +252,7 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
      * @param position Index (starting at 0) of the data item to be selected.
      */
     public void setSelection(int position) {
-        mSpinner.setSelection(position);
+        spinner.setSelection(position);
     }
     
     /**
@@ -262,7 +262,7 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
      * @param animate Whether or not the transition should be animated
      */
     public void setSelection(int position, boolean animate) {
-        mSpinner.setSelection(position, animate);
+        spinner.setSelection(position, animate);
     }
 
 
@@ -287,7 +287,8 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
          * @param position The position of the view in the adapter.
          * @param id The row id of the item that is selected.
          */
-        void onItemChosen(View labelledSpinner, AdapterView<?> adapterView, View itemView, int position, long id);
+        void onItemChosen(View labelledSpinner, AdapterView<?> adapterView, View itemView,
+                          int position, long id);
 
         /**
          * Callback method to be invoked when the selection disappears from this
@@ -310,32 +311,37 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
      * @param onItemChosenListener The callback that will run
      */
     public void setOnItemChosenListener(OnItemChosenListener onItemChosenListener) {
-        mOnItemChosenListener = onItemChosenListener;
-    }
-    
-    public OnItemChosenListener getOnItemChosenListener() {
-        return mOnItemChosenListener;
+        this.onItemChosenListener = onItemChosenListener;
     }
 
     /**
-     * Implemented method from {@link AdapterView.OnItemSelectedListener}
+     * Click listener when item chosen.
+     *
+     * @return  return parent listener
+     */
+    public OnItemChosenListener getOnItemChosenListener() {
+        return onItemChosenListener;
+    }
+
+    /**
+     * Implemented method from {@link AdapterView.OnItemSelectedListener}.
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (mOnItemChosenListener != null) {
+        if (onItemChosenListener != null) {
             // 'this' refers to this LabelledSpinner component
-            mOnItemChosenListener.onItemChosen(this, parent, view, position, id);
+            onItemChosenListener.onItemChosen(this, parent, view, position, id);
         }
     }
 
     /**
-     * Implemented method from {@link AdapterView.OnItemSelectedListener}
+     * Implemented method from {@link AdapterView.OnItemSelectedListener}.
      */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        if (mOnItemChosenListener != null) {
+        if (onItemChosenListener != null) {
             // 'this' refers to this LabelledSpinner component
-            mOnItemChosenListener.onNothingChosen(this, parent);
+            onItemChosenListener.onNothingChosen(this, parent);
         }
     }
 
@@ -378,14 +384,14 @@ public class LabelledSpinner extends LinearLayout implements AdapterView.OnItemS
      */
     private void alignLabelWithSpinnerItem(int indentDps) {
         MarginLayoutParams labelParams =
-                (MarginLayoutParams) mLabel.getLayoutParams();
+                (MarginLayoutParams) label.getLayoutParams();
         labelParams.leftMargin = dpToPixels(indentDps);
-        mLabel.setLayoutParams(labelParams);
+        label.setLayoutParams(labelParams);
 
         MarginLayoutParams dividerParams =
-                (MarginLayoutParams) mDivider.getLayoutParams();
+                (MarginLayoutParams) divider.getLayoutParams();
         dividerParams.leftMargin = dpToPixels(indentDps);
-        mDivider.setLayoutParams(dividerParams);
+        divider.setLayoutParams(dividerParams);
     }
 
 

@@ -28,18 +28,19 @@ import com.squareup.picasso.Picasso;
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.database.DbContract;
 import in.shriyansh.streamify.database.DbMethods;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.TimeUtils;
 import in.shriyansh.streamify.utils.Utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class EventDetailsActivity extends AppCompatActivity implements OnMapReadyCallback,URLs {
+public class EventDetailsActivity extends AppCompatActivity implements OnMapReadyCallback, Urls {
 
     private FloatingActionButton fab;
     private CollapsingToolbarLayout toolBarLayout;
@@ -63,10 +64,11 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
 
     private double lat = 0;
     private double lng = 0;
-    private double zoom = 16;
+    private final double zoom = 16;
     private String locationName = "";
     private String locationAddress = "";
     private String locationDescription = "";
+    public static final String INTENT_EXTRA_KEY_EVENT_ID = "event_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,16 +82,15 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         initMapFragment();
 
         Intent intent = getIntent();
-        final long eventId = intent.getLongExtra("event_id", 0);
+        final long eventId = intent.getLongExtra(INTENT_EXTRA_KEY_EVENT_ID, 0);
         fetchAndSetDataOnViews(eventId);
-
 
         mapFragment.getMapAsync(this);
     }
 
     private void fetchAndSetDataOnViews(final long eventId) {
         final Cursor cursor = dbMethods.queryEvents(null, DbContract.Events._ID
-                + " = ? ",new String[]{eventId + ""},null,0);
+                + " = ? ", new String[]{eventId + ""}, null, 0);
         while (cursor.moveToNext()) {
             String description;
             String eventImageUrl;
@@ -116,7 +117,6 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
             } catch (JSONException e) {
                 e.printStackTrace();
                 stream = "";
-
             }
 
             try {
@@ -167,18 +167,18 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void initUi() {
-        bgHeader = (ImageView)findViewById(R.id.bgheader);
-        subtitleSteamTv = (TextView)findViewById(R.id.subtitle_stream);
-        descriptionTv = (TextView)findViewById(R.id.description);
-        authorImage = (ImageView)findViewById(R.id.event_author_image);
-        authorNameTv = (TextView)findViewById(R.id.author_name);
-        authorPostTv = (TextView)findViewById(R.id.author_post);
-        datetimeTv = (TextView)findViewById(R.id.datetime);
-        agoTv = (TextView)findViewById(R.id.ago);
-        locationNameTv = (TextView)findViewById(R.id.location_name);
-        locationAddressTv = (TextView)findViewById(R.id.location_address);
-        locationDescriptionTv = (TextView)findViewById(R.id.location_description);
-        directionsImageView = (ImageView)findViewById(R.id.directions_image);
+        bgHeader = (ImageView) findViewById(R.id.bgheader);
+        subtitleSteamTv = (TextView) findViewById(R.id.subtitle_stream);
+        descriptionTv = (TextView) findViewById(R.id.description);
+        authorImage = (ImageView) findViewById(R.id.event_author_image);
+        authorNameTv = (TextView) findViewById(R.id.author_name);
+        authorPostTv = (TextView) findViewById(R.id.author_post);
+        datetimeTv = (TextView) findViewById(R.id.datetime);
+        agoTv = (TextView) findViewById(R.id.ago);
+        locationNameTv = (TextView) findViewById(R.id.location_name);
+        locationAddressTv = (TextView) findViewById(R.id.location_address);
+        locationDescriptionTv = (TextView) findViewById(R.id.location_description);
+        directionsImageView = (ImageView) findViewById(R.id.directions_image);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
@@ -199,11 +199,11 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
 
     private void setEventTimeView(final int dateTime, final String title, final String subtitle,
                                   final String stream, final String locationName) {
-        SimpleDateFormat sdf = new SimpleDateFormat(TimeUtils.DB_TIME_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(TimeUtils.DB_TIME_FORMAT, Locale.ENGLISH);
         sdf.setTimeZone(TimeZone.getTimeZone(TimeUtils.TIME_ZONE_INDIA));
         String date = sdf.format(
                 Utils.settleTimeZoneDifference(dateTime) * TimeUtils.MILLIS_IN_SECOND);
-        datetimeTv.setText(date.replace("am","AM")
+        datetimeTv.setText(date.replace("am", "AM")
                 .replace("pm", "PM"));
         agoTv.setText(TimeUtils.ago(dateTime));
         fab.setOnClickListener(new View.OnClickListener() {
@@ -239,13 +239,13 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         authorImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAuthorDialog(authorName,authorEmail,authorContact,authorImageUrl);
+                showAuthorDialog(authorName, authorEmail, authorContact, authorImageUrl);
             }
         });
         authorNameTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showAuthorDialog(authorName,authorEmail,authorContact,authorImageUrl);
+                showAuthorDialog(authorName, authorEmail, authorContact, authorImageUrl);
             }
         });
     }
@@ -284,7 +284,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         Marker marker = googleMap.addMarker(new MarkerOptions()
                 .title(locationName).snippet(locationAddress).position(new LatLng(lat, lng)));
         marker.showInfoWindow();
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng),(float)zoom));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), (float) zoom));
         googleMap.getUiSettings().setMapToolbarEnabled(true);
     }
 
@@ -314,7 +314,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
      *
      * @param streamAuthorName      Author name
      * @param streamAuthorEmail     Author email
-     * @param streamAuthorContact   Author ontact
+     * @param streamAuthorContact   Author contact
      * @param streamAuthorImage     Author image URL
      */
     private void showAuthorDialog(final String streamAuthorName, final String streamAuthorEmail,
@@ -329,7 +329,6 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         final TextView email;
         final TextView contact;
         final ImageView image;
-
 
         image = (ImageView)authorDialog.findViewById(R.id.author_image);
         name = (TextView)authorDialog.findViewById(R.id.contact_name);

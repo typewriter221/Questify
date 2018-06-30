@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,34 +24,35 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.activities.StreamDetailActivity;
 import in.shriyansh.streamify.adapters.StreamAdapter;
 import in.shriyansh.streamify.database.DbContract;
 import in.shriyansh.streamify.database.DbMethods;
-import in.shriyansh.streamify.network.URLs;
+import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 /**
- * Fragment for streams
+ * Fragment for streams.
  */
-public class Streams extends Fragment implements URLs{
-    public static final String TAG = Streams.class.getSimpleName();
+public class Streams extends Fragment implements Urls {
+    private static final String TAG = Streams.class.getSimpleName();
 
-    SwipeRefreshLayout announcementRefreshLayout;
-    ListView streamListView;
+    private SwipeRefreshLayout announcementRefreshLayout;
+    private ListView streamListView;
 
-    StreamAdapter streamAdapter;
+    private StreamAdapter streamAdapter;
 
-    DbMethods dbMethods;
-    RequestQueue volleyQueue;
+    private DbMethods dbMethods;
+    private RequestQueue volleyQueue;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,21 +62,25 @@ public class Streams extends Fragment implements URLs{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.stream_layout,container,false);
-        streamListView =(ListView)view.findViewById(R.id.stream_list);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.stream_layout,container,false);
+        streamListView = (ListView)view.findViewById(R.id.stream_list);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             streamListView.setNestedScrollingEnabled(true);
         }
-        streamAdapter= new StreamAdapter(getActivity(),dbMethods.queryStreams(null,null,null, DbContract.Streams.COLUMN_GLOBAL_ID+" DESC ",0));
+        streamAdapter = new StreamAdapter(getActivity(),dbMethods.queryStreams(null,
+                null,null,
+                DbContract.Streams.COLUMN_GLOBAL_ID + " DESC ",0));
         streamListView.setAdapter(streamAdapter);
-        announcementRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.news_refresh_layout);
-        announcementRefreshLayout.setColorSchemeResources(R.color.ColorPrimary, R.color.pink500, R.color.teal500);
+        announcementRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.news_refresh_layout);
+        announcementRefreshLayout.setColorSchemeResources(R.color.ColorPrimary, R.color.pink500,
+                R.color.teal500);
 
         streamListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(l!=1){
+                if (l != 1) {
                     Intent intent = new Intent(getActivity(), StreamDetailActivity.class);
                     intent.putExtra(StreamDetailActivity.INTENT_EXTRA_KEY_STREAM_ID,l);
                     startActivityForResult(intent, 3);
@@ -84,22 +88,23 @@ public class Streams extends Fragment implements URLs{
             }
         });
 
-        /**
+        /*
          * Implementing refresh
          */
         announcementRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getStreams(PreferenceUtils.getStringPreference(getActivity(),PreferenceUtils.PREF_USER_GLOBAL_ID));
+                getStreams(PreferenceUtils.getStringPreference(getActivity(),
+                        PreferenceUtils.PREF_USER_GLOBAL_ID));
             }
         });
 
         return view;
     }
 
-    void getStreams(String user_id){
+    private void getStreams(String userId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Constants.STREAM_PARAM_USER_ID,user_id);
+        params.put(Constants.STREAM_PARAM_USER_ID,userId);
         Log.d(TAG,params.toString());
 
         JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
@@ -111,23 +116,25 @@ public class Streams extends Fragment implements URLs{
                 try {
                     String status = resp.getString(Constants.RESPONSE_STATUS_KEY);
                     if (status.equals(Constants.RESPONSE_STATUS_VALUE_OK)) {
-                        long count = dbMethods.insertStreams(resp.getJSONObject("data").getJSONArray("streams"));
-                        streamAdapter.changeCursor(dbMethods.queryStreams(null,null,null, DbContract.Streams.COLUMN_GLOBAL_ID+" DESC ",0));
+                        long count = dbMethods.insertStreams(resp.getJSONObject("data")
+                                .getJSONArray("streams"));
+                        streamAdapter.changeCursor(dbMethods.queryStreams(null,
+                                null,null,
+                                DbContract.Streams.COLUMN_GLOBAL_ID + " DESC ",0));
                         streamAdapter.notifyDataSetChanged();
 
-                        String streamCount = count==0?"No":count+"";
-                        if(isAdded()){
-                            showSnackBar(streamCount+" new Streams.");
+                        String streamCount = count == 0 ? "No" : count + "";
+                        if (isAdded()) {
+                            showSnackBar(streamCount + " new Streams.");
                         }
-                    }
-                    else {
-                        if(isAdded()){
+                    } else {
+                        if (isAdded()) {
                             showSnackBar(R.string.snackbar_error_fetching_streams);
                         }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    if(isAdded()){
+                    if (isAdded()) {
                         showSnackBar(R.string.snackbar_error_fetching_streams);
                     }
                 }
@@ -139,8 +146,7 @@ public class Streams extends Fragment implements URLs{
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.toString());
-                //TODO
-                if(isAdded()){
+                if (isAdded()) {
                     showSnackBarWithWirelessSetting(R.string.snackbar_cannot_reach_servers);
                 }
                 announcementRefreshLayout.setRefreshing(false);
@@ -149,7 +155,8 @@ public class Streams extends Fragment implements URLs{
             @Override
             public Map<String, String> getHeaders() {
                 Map<String, String> headers = new HashMap<>();
-                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY, Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
+                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY,
+                        Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
                 return headers;
             }
         };
@@ -162,7 +169,7 @@ public class Streams extends Fragment implements URLs{
     }
 
     /**
-     * Shows Snackbar without any action button
+     * Shows Snackbar without any action button.
      *
      * @param stringResource Resource id for string to be shown on snackbar
      */
@@ -172,7 +179,7 @@ public class Streams extends Fragment implements URLs{
     }
 
     /**
-     * Shows Snackbar without any action button
+     * Shows Snackbar without any action button.
      *
      * @param string   String to be shown on snackbar
      */
@@ -182,7 +189,7 @@ public class Streams extends Fragment implements URLs{
     }
 
     /**
-     * Shows Snackbar with Action button for wireless settings
+     * Shows Snackbar with Action button for wireless settings.
      *
      * @param stringResource Resource id for string to be shown on snackbar
      */

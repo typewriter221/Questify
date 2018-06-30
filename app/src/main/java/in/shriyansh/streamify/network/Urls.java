@@ -3,10 +3,11 @@ package in.shriyansh.streamify.network;
 /**
  * Created by shriyansh on 17/8/15.
  */
-public interface URLs {
-    //public static final String IP = "http://foodfanta.com/";
+public interface Urls {
     String HOST = "http://sntc.online/";
-    //public static final String HOST = "http://192.168.43.201:8080/";
+    String DROPBOX_URL = "www.dropbox.com";
+    String DROPBOX_CONTENT_URL = "dl.dropboxusercontent.com";
+    String YOUTUBE_SLATE_URL = "https://img.youtube.com";
 
     String REGISTER_URL = HOST + "app/register";
     String FCM_UPDATE = HOST + "fcm_update";
@@ -24,7 +25,6 @@ public interface URLs {
     String DEV_YASH_IMAGE = HOST + "images/yash.jpg";
     String DEV_HEMANT_IMAGE = HOST + "images/hemant.jpg";
     String DEV_SATYA_IMAGE = HOST + "images/satya.jpg";
-
 
     int FCM_TYPE_NOTIFICATION = 1;
     int FCM_TYPE_EVENT = 2;

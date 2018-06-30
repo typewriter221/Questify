@@ -5,8 +5,14 @@ import android.content.res.TypedArray;
 
 import in.shriyansh.streamify.R;
 
-public class ScrollFABUtils {
+public class ScrollFabUtils {
 
+    /**
+     * Gets toolbar height.
+     *
+     * @param context   Activity context
+     * @return          toolbar height
+     */
     public static int getToolbarHeight(Context context) {
         final TypedArray styledAttributes = context.getTheme().obtainStyledAttributes(
                 new int[]{R.attr.actionBarSize});
@@ -16,6 +22,12 @@ public class ScrollFABUtils {
         return toolbarHeight;
     }
 
+    /**
+     * Gets tab height.
+     *
+     * @param context   Activity context
+     * @return          Tabs height
+     */
     public static int getTabsHeight(Context context) {
         return (int) context.getResources().getDimension(R.dimen.tabsHeight);
     }
