@@ -19,6 +19,9 @@ public class PreferenceUtils {
     public static final String PREF_USER_EMAIL = "pref_user_email";
     public static final String PREF_USER_CONTACT = "pref_user_contact";
     public static final String PREF_USER_FCM_TOKEN = "pref_user_fcm_token";
+    public static final String PREF_USER_BRANCH = "pref_user_branch";
+    public static final String PREF_USER_YEAR_JOIN = "pref_user_year_join";
+    public static final String PREF_USER_ROLL = "pref_user_roll";
 
     /**
      * Sets string preference.
