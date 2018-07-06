@@ -111,6 +111,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_get_user_details">GetUserDetails</string>
 
+    <string name="your_details">More About You</string>
+    <string name="your_branch">Your Branch</string>
+    <string name="your_year">Your Year</string>
+    <string name="roll">Your Roll No.</string>
+    <string name="your_photo">Pick Photo</string>
+    <string name="submit">Submit</string>
+
+
     <string-array name="branch_array">
         <item>Biochemical Engineering</item>
         <item>Biomedical Engineering</item>

@@ -19,8 +19,10 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="10dp"
-            android:text="More About You"
+            android:text="@string/your_details"
             android:textSize="24sp" />
 
         <TextView
@@ -28,17 +30,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="5dp"
-            android:text="Your Branch" />
+            android:text="@string/your_branch" />
 
         <Spinner
             android:id="@+id/branch_spinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/ColorPrimaryDark"
-            android:popupBackground="@color/ColorPrimaryDark"/>
+            android:layout_height="40dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/ColorPrimary"
+            android:popupBackground="@color/ColorPrimary" />
 
 
         <TextView
@@ -46,35 +51,82 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:text="Your Year" />
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
+            android:text="@string/your_year" />
 
         <Spinner
             android:id="@+id/year_spinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:background="@color/ColorPrimaryDark"
-            android:popupBackground="@color/ColorPrimaryDark"/>
+            android:layout_height="40dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/ColorPrimary"
+            android:popupBackground="@color/ColorPrimary" />
 
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Roll Number" />
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
+            android:text="@string/roll" />
 
-        <EditText
-            android:id="@+id/editText2"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="8"
+                android:textColor="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload a Photo" />
+            android:layout_marginLeft="2dp"
+            android:layout_marginStart="2dp"
+            android:text="@string/your_photo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/user_photo"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_margin="2dp"
+                custom:srcCompat="@drawable/placeholder_person" />
+
+            <Button
+                android:id="@+id/pick_photo"
+                android:layout_height="40dp"
+                android:background="@drawable/button_register"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/register_background"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="80dp"
+                android:layout_weight="1"
+                android:elevation="2dp"
+                android:text="@string/your_photo" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_submit"
@@ -86,14 +138,15 @@
             android:background="@drawable/button_register"
             android:elevation="2dp"
             android:gravity="center"
-            android:text="SUBMIT"
+            android:text="@string/submit"
             android:textColor="@color/register_background"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 
     <include
         layout="@layout/content_get_user_details"
-        android:layout_width="match_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="630dp" />
 
 </android.support.design.widget.CoordinatorLayout>
