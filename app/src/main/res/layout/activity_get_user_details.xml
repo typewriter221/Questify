@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="@color/register_background"
         android:orientation="vertical"
-        android:padding="@dimen/cardview_compat_inset_shadow">
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/textView4"
@@ -25,61 +25,39 @@
             android:text="@string/your_details"
             android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="5dp"
-            android:text="@string/your_branch" />
 
-        <Spinner
+        <in.shriyansh.streamify.ui.LabelledSpinner
             android:id="@+id/branch_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/ColorPrimary"
-            android:popupBackground="@color/ColorPrimary" />
-
-
-        <TextView
-            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginStart="2dp"
-            android:text="@string/your_year" />
-
-        <Spinner
-            android:id="@+id/year_spinner"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
+            custom:labelText="@string/your_branch"
+            custom:widgetColor="@color/ColorPrimary"
             android:background="@color/ColorPrimary"
-            android:popupBackground="@color/ColorPrimary" />
+            android:popupBackground="@color/ColorPrimary"/>
 
 
-        <TextView
-            android:id="@+id/textView5"
+        <in.shriyansh.streamify.ui.LabelledSpinner
+            android:id="@+id/year_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginStart="2dp"
-            android:text="@string/roll" />
+            android:layout_margin="2dp"
+            custom:labelText="@string/your_year"
+            custom:widgetColor="@color/ColorPrimary"
+            android:background="@color/ColorPrimary"
+            android:popupBackground="@color/ColorPrimary"/>
+
+
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/roll_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
@@ -87,6 +65,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
                 android:ems="10"
+                android:hint="@string/roll"
                 android:inputType="number"
                 android:maxLength="8"
                 android:textColor="@color/white" />
@@ -115,16 +94,16 @@
 
             <Button
                 android:id="@+id/pick_photo"
-                android:layout_height="40dp"
-                android:background="@drawable/button_register"
                 android:layout_width="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginLeft="10dp"
-                android:textColor="@color/register_background"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="80dp"
                 android:layout_weight="1"
+                android:background="@drawable/button_register"
                 android:elevation="2dp"
-                android:text="@string/your_photo" />
+                android:text="@string/your_photo"
+                android:textColor="@color/register_background" />
 
         </LinearLayout>
 

@@ -1,5 +1,7 @@
 package in.shriyansh.streamify.activities;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,29 +11,38 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Toast;
 
+import in.shriyansh.streamify.ui.LabelledSpinner;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
 import in.shriyansh.streamify.R;
 
-public class GetUserDetails extends AppCompatActivity implements OnItemSelectedListener {
+public class GetUserDetails extends AppCompatActivity {
 
     private String branch;
     private String year_join;
     public static final int PICK_IMAGE = 1;
+    private EditText rolledit;
+    private String[] branch_array;
+    private String[] year_array;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,26 +51,42 @@ public class GetUserDetails extends AppCompatActivity implements OnItemSelectedL
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Spinner branch_spinner = (Spinner) findViewById(R.id.branch_spinner);
-        ArrayAdapter<CharSequence> branch_adapter = ArrayAdapter.createFromResource(this,
-                R.array.branch_array, android.R.layout.simple_spinner_item);
-        branch_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        branch_spinner.setAdapter(branch_adapter);
+        branch_array = getResources().getStringArray(R.array.branch_array);
+        year_array = getResources().getStringArray(R.array.year_array);
 
-        Spinner year_spinner = (Spinner) findViewById(R.id.year_spinner);
-        ArrayAdapter<CharSequence> year_adapter = ArrayAdapter.createFromResource(this,
-                R.array.year_array, android.R.layout.simple_spinner_item);
-        year_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        year_spinner.setAdapter(year_adapter);
+        LabelledSpinner branch_spinner = findViewById(R.id.branch_spinner);
+        ArrayAdapter<String> branch_adapter =
+                new ArrayAdapter<>(GetUserDetails.this,
+                        android.R.layout.simple_dropdown_item_1line, branch_array);
+        branch_spinner.setCustomAdapter(branch_adapter);
+
+        LabelledSpinner year_spinner = findViewById(R.id.year_spinner);
+        ArrayAdapter<String> year_adapter =
+                new ArrayAdapter<>(GetUserDetails.this,
+                        android.R.layout.simple_dropdown_item_1line, year_array);
+        year_spinner.setCustomAdapter(year_adapter);
 
         Button submit_button = (Button) findViewById(R.id.btn_submit);
+        rolledit = findViewById(R.id.roll_edittext);
+
+        PreferenceUtils.setBooleanPreference(GetUserDetails.this,
+                PreferenceUtils.PREF_IS_DETAILS_REGISTERED,false);
+
+        setListeners();
+
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(
-                        GetUserDetails.this,MainActivity.class);
-                startActivity(intent);
-                finish();
+
+                if(PreferenceUtils.getBooleanPreference(GetUserDetails.this, PreferenceUtils.PREF_IS_DETAILS_REGISTERED)) {
+                    Intent intent = new Intent(
+                            GetUserDetails.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    checkCreds();
+                }
             }
         });
 
@@ -82,6 +109,30 @@ public class GetUserDetails extends AppCompatActivity implements OnItemSelectedL
 
     }
 
+    private void checkCreds() {
+
+        boolean cancel = false;
+        View focusView = null;
+
+        if (rolledit.getText().toString().length()==0) {
+            rolledit.setError(Html.fromHtml(
+                    "<font color='#ffffff'>Roll No. cannot be empty !</font>"));
+            focusView = rolledit;
+            cancel = true;
+        }
+
+
+        if (cancel) {
+            focusView.requestFocus();
+        }
+        else {
+            PreferenceUtils.setBooleanPreference(GetUserDetails.this,
+                    PreferenceUtils.PREF_IS_DETAILS_REGISTERED,true);
+        }
+
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -94,6 +145,28 @@ public class GetUserDetails extends AppCompatActivity implements OnItemSelectedL
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     user_img.setImageBitmap(selectedImage);
+
+                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
+                    // path to /data/data/yourapp/app_data/imageDir
+                    File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+                    // Create imageDir
+                    File mypath=new File(directory,"profile.jpg");
+
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(mypath);
+                        // Use the compress method on the BitMap object to write image to the OutputStream
+                        selectedImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    //return directory.getAbsolutePath();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(GetUserDetails.this, "Something went wrong", Toast.LENGTH_LONG).show();
@@ -105,26 +178,46 @@ public class GetUserDetails extends AppCompatActivity implements OnItemSelectedL
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Spinner branch_spinner = (Spinner) findViewById(R.id.branch_spinner);
-        Spinner year_spinner = (Spinner) findViewById(R.id.year_spinner);
+    private void setListeners(){
 
-        if(Objects.equals(id, "branch_spinner")){
-            branch = branch_spinner.getSelectedItem().toString();
-        }
-        else{
-            year_join = year_spinner.getSelectedItem().toString();
-        }
+        LabelledSpinner branch_spinner = findViewById(R.id.branch_spinner);
+        LabelledSpinner year_spinner = findViewById(R.id.year_spinner);
 
-        PreferenceUtils.setStringPreference(GetUserDetails.this,
-                PreferenceUtils.PREF_USER_BRANCH, branch);
-        PreferenceUtils.setStringPreference(GetUserDetails.this,
-                PreferenceUtils.PREF_USER_YEAR_JOIN, year_join);
+        branch_array = getResources().getStringArray(R.array.branch_array);
+        year_array = getResources().getStringArray(R.array.year_array);
+
+
+        branch_spinner.setOnItemChosenListener(new LabelledSpinner.OnItemChosenListener() {
+            @Override
+            public void onItemChosen(View labelledSpinner, AdapterView<?> adapterView, View itemView, int position, long id) {
+                branch = branch_array[position];
+
+                PreferenceUtils.setStringPreference(GetUserDetails.this,
+                        PreferenceUtils.PREF_USER_BRANCH, branch);
+            }
+
+            @Override
+            public void onNothingChosen(View labelledSpinner, AdapterView<?> adapterView) {
+                branch = branch_array[0];
+            }
+        });
+
+
+        year_spinner.setOnItemChosenListener(new LabelledSpinner.OnItemChosenListener() {
+            @Override
+            public void onItemChosen(View labelledSpinner, AdapterView<?> adapterView, View itemView, int position, long id) {
+                year_join = year_array[position];
+
+                PreferenceUtils.setStringPreference(GetUserDetails.this,
+                        PreferenceUtils.PREF_USER_YEAR_JOIN, year_join);
+            }
+
+            @Override
+            public void onNothingChosen(View labelledSpinner, AdapterView<?> adapterView) {
+                year_join = year_array[0];
+            }
+        });
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
 
-    }
 }
