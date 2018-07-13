@@ -78,15 +78,17 @@ public class GetUserDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(PreferenceUtils.getBooleanPreference(GetUserDetails.this, PreferenceUtils.PREF_IS_DETAILS_REGISTERED)) {
+                if (!PreferenceUtils.getBooleanPreference(GetUserDetails.this, PreferenceUtils.PREF_IS_DETAILS_REGISTERED)) {
+                    checkCreds();
+                }
+
+                else {
                     Intent intent = new Intent(
                             GetUserDetails.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
-                else {
-                    checkCreds();
-                }
+
             }
         });
 
@@ -126,6 +128,10 @@ public class GetUserDetails extends AppCompatActivity {
             focusView.requestFocus();
         }
         else {
+            PreferenceUtils.setStringPreference(GetUserDetails.this,
+                    PreferenceUtils.PREF_USER_ROLL,
+                    rolledit.getText().toString());
+
             PreferenceUtils.setBooleanPreference(GetUserDetails.this,
                     PreferenceUtils.PREF_IS_DETAILS_REGISTERED,true);
         }
