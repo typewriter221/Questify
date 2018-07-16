@@ -118,6 +118,20 @@
     <string name="your_photo">Pick Photo</string>
     <string name="submit">Submit</string>
 
+    <string name="prize_title">Prizes won by you</string>
+
+    <style name="Divider1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+
+    <style name="Divider2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#7f7f7f</item>
+    </style>
+
 
     <string-array name="branch_array">
         <item>Biochemical Engineering</item>

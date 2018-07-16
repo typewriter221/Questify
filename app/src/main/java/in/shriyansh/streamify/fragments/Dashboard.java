@@ -1,18 +1,27 @@
 package in.shriyansh.streamify.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.activities.MainActivity;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 
+import static android.graphics.BitmapFactory.*;
 import static in.shriyansh.streamify.utils.PreferenceUtils.PREF_USER_ROLL;
 
 /**
@@ -35,6 +44,7 @@ public class Dashboard extends Fragment {
     private TextView contact;
     private TextView name;
     private TextView email;
+    private ImageView profilepic;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -86,6 +96,7 @@ public class Dashboard extends Fragment {
         email = view.findViewById(R.id.dashboard_email);
         branch = view.findViewById(R.id.dashboard_branch);
         name = view.findViewById(R.id.dashboard_name);
+        profilepic = view.findViewById(R.id.pofilepic);
 
         roll.setText(PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_ROLL));
         name.setText(PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_NAME));
@@ -93,15 +104,32 @@ public class Dashboard extends Fragment {
         year.setText(PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_YEAR_JOIN));
         branch.setText(PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_BRANCH));
         contact.setText(PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_CONTACT));
+        setProfilePic(profilepic);
+
+
 
         return view;
     }
 
 
+    public static final String TAG = "SampleActivity";
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    public void setProfilePic(ImageView profilePic) {
+        try {
+            File f=new File(getActivity().getApplicationContext().getFilesDir().getPath(), "profile.jpg");
+            Bitmap b = decodeStream(new FileInputStream(f));
+            profilePic.setImageBitmap(b);
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
         }
     }
 

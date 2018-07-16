@@ -12,12 +12,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Toast;
@@ -43,6 +45,8 @@ public class GetUserDetails extends AppCompatActivity {
     private EditText rolledit;
     private String[] branch_array;
     private String[] year_array;
+    private LinearLayout progress_layout;
+    private Button submit_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +70,13 @@ public class GetUserDetails extends AppCompatActivity {
                         android.R.layout.simple_dropdown_item_1line, year_array);
         year_spinner.setCustomAdapter(year_adapter);
 
-        Button submit_button = (Button) findViewById(R.id.btn_submit);
+        submit_button =  findViewById(R.id.btn_submit);
         rolledit = findViewById(R.id.roll_edittext);
 
         PreferenceUtils.setBooleanPreference(GetUserDetails.this,
                 PreferenceUtils.PREF_IS_DETAILS_REGISTERED,false);
+
+        progress_layout = findViewById(R.id.layout_progress);
 
         setListeners();
 
@@ -79,10 +85,16 @@ public class GetUserDetails extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (!PreferenceUtils.getBooleanPreference(GetUserDetails.this, PreferenceUtils.PREF_IS_DETAILS_REGISTERED)) {
+                    submit_button.setVisibility(View.GONE);
+                    progress_layout.setVisibility(View.VISIBLE);
+
                     checkCreds();
                 }
 
                 else {
+                    submit_button.setVisibility(View.GONE);
+                    progress_layout.setVisibility(View.VISIBLE);
+
                     Intent intent = new Intent(
                             GetUserDetails.this, MainActivity.class);
                     startActivity(intent);
@@ -119,6 +131,10 @@ public class GetUserDetails extends AppCompatActivity {
         if (rolledit.getText().toString().length()==0) {
             rolledit.setError(Html.fromHtml(
                     "<font color='#ffffff'>Roll No. cannot be empty !</font>"));
+
+            submit_button.setVisibility(View.VISIBLE);
+            progress_layout.setVisibility(View.GONE);
+
             focusView = rolledit;
             cancel = true;
         }
@@ -134,10 +150,17 @@ public class GetUserDetails extends AppCompatActivity {
 
             PreferenceUtils.setBooleanPreference(GetUserDetails.this,
                     PreferenceUtils.PREF_IS_DETAILS_REGISTERED,true);
+
+            Intent intent = new Intent(
+                    GetUserDetails.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         }
 
 
     }
+
+    public static final String TAG = "GetUserDetails";
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -152,11 +175,8 @@ public class GetUserDetails extends AppCompatActivity {
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     user_img.setImageBitmap(selectedImage);
 
-                    ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                    // path to /data/data/yourapp/app_data/imageDir
-                    File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-                    // Create imageDir
-                    File mypath=new File(directory,"profile.jpg");
+
+                    File mypath=new File(getApplicationContext().getFilesDir().getPath(),"profile.jpg");
 
                     FileOutputStream fos = null;
                     try {
