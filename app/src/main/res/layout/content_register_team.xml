@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/ColorPrimary"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.RegisterTeam"
+    tools:showIn="@layout/activity_register_team">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <in.shriyansh.streamify.ui.LabelledSpinner
+            android:id="@+id/events_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ColorPrimary"
+            android:paddingBottom="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:popupBackground="@color/ColorPrimary" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
+
+            <EditText
+                android:id="@+id/team_leader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:hint="@string/team_leader"
+                android:textColor="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
+
+            <EditText
+                android:id="@+id/leader_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:hint="@string/leader_phone"
+                android:inputType="phone"
+                android:textColor="@color/white" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
+
+
+            <EditText
+                android:id="@+id/leader_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:hint="@string/leader_email"
+                android:inputType="textWebEmailAddress"
+                android:textColor="@color/white" />
+
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
+
+            <EditText
+                android:id="@+id/member2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:hint="@string/member2"
+                android:textColor="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
+
+            <EditText
+                android:id="@+id/member2_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:hint="@string/member2_email"
+                android:inputType="textWebEmailAddress"
+                android:textColor="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
+
+            <EditText
+                android:id="@+id/member3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:hint="@string/member3"
+                android:textColor="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
+
+            <EditText
+                android:id="@+id/member3_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:hint="@string/member3_email"
+                android:inputType="textWebEmailAddress"
+                android:textColor="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
+
+            <EditText
+                android:id="@+id/member4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:hint="@string/member4"
+                android:textColor="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
+
+            <EditText
+                android:id="@+id/member4_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:hint="@string/member4_email"
+                android:inputType="textWebEmailAddress"
+                android:textColor="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/register_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginTop="50dp"
+            android:background="@android:color/background_light"
+            android:text="Button"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

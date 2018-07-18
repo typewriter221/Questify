@@ -1,6 +1,7 @@
 package in.shriyansh.streamify.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ import java.io.FileNotFoundException;
 
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.activities.MainActivity;
+import in.shriyansh.streamify.activities.RegisterTeam;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 
 import static android.graphics.BitmapFactory.*;
@@ -45,6 +48,7 @@ public class Dashboard extends Fragment {
     private TextView name;
     private TextView email;
     private ImageView profilepic;
+    private Button register_btn;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -97,6 +101,7 @@ public class Dashboard extends Fragment {
         branch = view.findViewById(R.id.dashboard_branch);
         name = view.findViewById(R.id.dashboard_name);
         profilepic = view.findViewById(R.id.pofilepic);
+        register_btn = view.findViewById(R.id.reg_btn);
 
         roll.setText(PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_ROLL));
         name.setText(PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_NAME));
@@ -106,6 +111,15 @@ public class Dashboard extends Fragment {
         contact.setText(PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_CONTACT));
         setProfilePic(profilepic);
 
+
+        register_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RegisterTeam.class);
+
+                getActivity().startActivity(intent);
+            }
+        });
 
 
         return view;

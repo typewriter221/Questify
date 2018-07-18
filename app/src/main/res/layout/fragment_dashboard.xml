@@ -192,6 +192,33 @@
                         android:layout_marginRight="8dp" />
 
                     <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        android:text="Your Participation"
+                        android:textSize="24sp" />
+
+                    <View
+                        style="@style/Divider1"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp" />
+
+                    <Button
+                        android:id="@+id/reg_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="13dp"
+                        android:background="@android:color/black"
+                        android:drawableLeft="@drawable/plus"
+                        android:paddingLeft="31dp"
+                        android:paddingRight="31dp"
+                        android:text="Register for Contest" />
+
+                    <TextView
                         android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
