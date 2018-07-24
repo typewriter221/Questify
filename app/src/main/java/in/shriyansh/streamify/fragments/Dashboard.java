@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import in.shriyansh.streamify.R;
+import in.shriyansh.streamify.activities.ChooseEvent;
 import in.shriyansh.streamify.activities.MainActivity;
 import in.shriyansh.streamify.activities.RegisterTeam;
 import in.shriyansh.streamify.utils.PreferenceUtils;
@@ -115,7 +116,7 @@ public class Dashboard extends Fragment {
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RegisterTeam.class);
+                Intent intent = new Intent(getActivity(), ChooseEvent.class);
 
                 getActivity().startActivity(intent);
             }

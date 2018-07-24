@@ -183,6 +183,14 @@
         <activity
             android:name=".activities.RegisterTeam"
             android:label="@string/title_activity_register_team"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.ChooseEvent"
+            android:label="@string/title_activity_choose_event"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.ChooseNumberMembers"
+            android:label="@string/title_activity_choose_number_members"
             android:theme="@style/AppTheme"></activity>
     </application>
 
