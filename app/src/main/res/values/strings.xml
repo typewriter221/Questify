@@ -107,4 +107,100 @@
 
     <string name="feedback_email_subject">Feedback : SnTC Streamify ver 2.0.1</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_get_user_details">GetUserDetails</string>
+
+    <string name="your_details">More About You</string>
+    <string name="your_branch">Your Branch</string>
+    <string name="your_year">Your Year</string>
+    <string name="roll">Your Roll No.</string>
+    <string name="your_photo">Pick Photo</string>
+    <string name="submit">Submit</string>
+
+    <string name="prize_title">Prizes won by you</string>
+
+    <style name="Divider1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+
+    <style name="Divider2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#7f7f7f</item>
+    </style>
+
+
+    <string-array name="branch_array">
+        <item>Biochemical Engineering</item>
+        <item>Biomedical Engineering</item>
+        <item>Ceramics Engineering</item>
+        <item>Chemical Engineering</item>
+        <item>Civil Engineering</item>
+        <item>Computer Science and Engineering</item>
+        <item>Electrical Engineering</item>
+        <item>Electronics Engineering</item>
+        <item>Engineering Physics</item>
+        <item>Industrial Chemistry</item>
+        <item>Mathematics and Computing</item>
+        <item>Material Science and Technology</item>
+        <item>Mechanical Engineering</item>
+        <item>Mining Engineering</item>
+        <item>Pharmaceutical Engineering</item>
+    </string-array>
+
+    <string-array name="year_array">
+        <item>2018</item>
+        <item>2017</item>
+        <item>2016</item>
+        <item>2015</item>
+        <item>2014</item>
+        <item>Earlier</item>
+    </string-array>
+    <string name="title_activity_user_teams">Your Teams</string>
+    <string name="title_activity_register_team">Register your Team</string>
+
+    <string-array name="events_array">
+        <item>Robotron</item>
+        <item>Sky Rocket</item>
+        <item>RC Plane</item>
+        <item>RC Car</item>
+    </string-array>
+
+    <string name="team_name">Team Name</string>
+    <string name="team_leader">Team Leader Name</string>
+    <string name="member2name">Member 2 Name</string>
+    <string name="member3name">Member 3 Name</string>
+    <string name="member4name">Member 4 Name</string>
+    <string name="member5name">Member 5 Name</string>
+
+    <string name="leader_roll">Leader\'s Roll No.</string>
+    <string name="leader_email">Leader\'s Email</string>
+    <string name="member2_email">Member 2 Email</string>
+    <string name="member3_email">Member 3 Email</string>
+    <string name="member4_email">Member 4 Email</string>
+
+    <string-array name="member_roll_array">
+        <item>Member 2 Roll no.</item>
+        <item>Member 3 Roll no.</item>
+        <item>Member 4 Roll no.</item>
+        <item>Member 5 Roll no.</item>
+    </string-array>
+
+    <string-array name="member_array">
+        <item>member_2</item>
+        <item>member_3</item>
+        <item>member_4</item>
+        <item>member_5</item>
+    </string-array>
+    <string name="title_activity_choose_event">Choose an Event</string>
+    <string name="title_activity_choose_number_members">Number Of Members</string>
+
+    <string name="member2_roll">Member 2 Roll No.</string>
+    <string name="member3_roll">Member 3 Roll No.</string>
+    <string name="member4_roll">Member 4 Roll No.</string>
+    <string name="member5_roll">Member 5 Roll No.</string>
+
 </resources>

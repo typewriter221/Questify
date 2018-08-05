@@ -15,24 +15,25 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField 'String', "YoutubeApiKey", Questify_YoutubeDeveloperKey
-            resValue 'string', "youtube_api_key", Questify_YoutubeDeveloperKey
-            buildConfigField 'String', "GoogleMapAndroidApiKey", Questify_GoogleMapsAndroidApiKey
-            resValue 'string', "google_maps_android_api_key", Questify_GoogleMapsAndroidApiKey
+            buildConfigField 'String', "YoutubeApiKey", '""'
+            resValue 'string', "youtube_api_key", ""
+            buildConfigField 'String', "GoogleMapAndroidApiKey", '""'
+            resValue 'string', "google_maps_android_api_key", ""
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', "YoutubeApiKey", Questify_YoutubeDeveloperKey
-            resValue 'string', "youtube_api_key", Questify_YoutubeDeveloperKey
-            buildConfigField 'String', "GoogleMapAndroidApiKey", Questify_GoogleMapsAndroidApiKey
-            resValue 'string', "google_maps_android_api_key", Questify_GoogleMapsAndroidApiKey
+            buildConfigField 'String', "YoutubeApiKey", '""'
+            resValue 'string', "youtube_api_key", ""
+            buildConfigField 'String', "GoogleMapAndroidApiKey", '""'
+            resValue 'string', "google_maps_android_api_key", ""
         }
     }
 }
 
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -49,5 +50,3 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
-
-

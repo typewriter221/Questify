@@ -12,6 +12,7 @@ public class PreferenceUtils {
     public static final String PREF_IS_REGISTERED = "pref_is_registered";
     public static final String PREF_FCM_TOKEN = "pref_fcm_token";
     public static final String PREF_IS_FCM_REGISTERED = "pref_is_fcm_registered";
+    public static final String PREF_IS_DETAILS_REGISTERED = "pref_is_details_registered";
 
     //User Details
     public static final String PREF_USER_GLOBAL_ID = "pref_user_global_id";
@@ -19,6 +20,13 @@ public class PreferenceUtils {
     public static final String PREF_USER_EMAIL = "pref_user_email";
     public static final String PREF_USER_CONTACT = "pref_user_contact";
     public static final String PREF_USER_FCM_TOKEN = "pref_user_fcm_token";
+    public static final String PREF_USER_BRANCH = "pref_user_branch";
+    public static final String PREF_USER_YEAR_JOIN = "pref_user_year_join";
+    public static final String PREF_USER_ROLL = "pref_user_roll";
+
+    public static final String PREF_USER_EVENT = "pref_user_event";
+    public static final String PREF_MEM_NUM = "pref_mem_num";
+    public static final String PREF_TEAM_ID = "pref_team_id";
 
     /**
      * Sets string preference.
@@ -75,4 +83,21 @@ public class PreferenceUtils {
             .getDefaultSharedPreferences(context);
         return sharedPreferences.getString(key,"");
     }
-}
+
+    public static void setIntegerPreference(Context context, String key,
+                                               int value) {
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        if (preferences != null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(key, value);
+            editor.apply();
+        }
+    }
+
+    public static int getIntegerPreference(Context context, String key) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        return sharedPreferences.getInt(key,0);
+    }
+    }

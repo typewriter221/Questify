@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.GetUserDetails">
+
+    <LinearLayout
+        android:id="@+id/layout_register"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/register_background"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:text="@string/your_details"
+            android:textSize="24sp" />
+
+        <View
+            style="@style/Divider1"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp" />
+
+
+        <in.shriyansh.streamify.ui.LabelledSpinner
+            android:id="@+id/branch_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ColorPrimary"
+            android:paddingBottom="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:popupBackground="@color/ColorPrimary"
+            custom:labelText="@string/your_branch"
+            custom:widgetColor="@color/ColorPrimary" />
+
+
+        <in.shriyansh.streamify.ui.LabelledSpinner
+            android:id="@+id/year_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ColorPrimary"
+            android:paddingBottom="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:popupBackground="@color/ColorPrimary"
+            custom:labelText="@string/your_year"
+            custom:widgetColor="@color/ColorPrimary" />
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            custom:errorTextAppearance="@style/error_appearance"
+            custom:hintTextAppearance="@style/EditTextHint">
+
+            <EditText
+                android:id="@+id/roll_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/white"
+                android:ems="10"
+                android:hint="@string/roll"
+                android:inputType="number"
+                android:maxLength="8"
+                android:textColor="@color/white" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:paddingTop="12dp">
+
+            <ImageView
+                android:id="@+id/user_photo"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_margin="2dp"
+                custom:srcCompat="@drawable/placeholder_person" />
+
+            <Button
+                android:id="@+id/pick_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="80dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_register"
+                android:elevation="2dp"
+                android:text="@string/your_photo"
+                android:textColor="@color/register_background" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/button_register"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="@string/submit"
+            android:textColor="@color/register_background"
+            android:textSize="14sp"
+            android:visibility="visible"/>
+
+        <LinearLayout
+            android:id="@+id/layout_progress"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+            <ProgressBar
+
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/content_get_user_details"
+        android:layout_width="match_parent"
+        android:layout_height="630dp" />
+
+</android.support.design.widget.CoordinatorLayout>

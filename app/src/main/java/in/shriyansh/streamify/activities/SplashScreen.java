@@ -41,12 +41,19 @@ public class SplashScreen extends AppCompatActivity {
                 } finally {
                     boolean isRegistered = PreferenceUtils.getBooleanPreference(
                         SplashScreen.this, PreferenceUtils.PREF_IS_REGISTERED);
+                    boolean isDetailsRegistered = PreferenceUtils.getBooleanPreference(
+                            SplashScreen.this, PreferenceUtils.PREF_IS_DETAILS_REGISTERED);
                     if (isRegistered) {
                         boolean isFcmRegistered = PreferenceUtils.getBooleanPreference(
                             SplashScreen.this, PreferenceUtils.PREF_IS_FCM_REGISTERED);
                         if (isFcmRegistered) {
-                            logFcmToken();
-                            launchMainActivity();
+                            if (isDetailsRegistered) {
+                                logFcmToken();
+                                launchMainActivity();
+                            }
+                            else {
+                                launchGetUserDetails();
+                            }
                         } else {
                             launchRegisterActivity();
                         }
@@ -61,6 +68,12 @@ public class SplashScreen extends AppCompatActivity {
 
     private void launchRegisterActivity() {
         Intent intent = new Intent(SplashScreen.this, RegisterActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void launchGetUserDetails() {
+        Intent intent = new Intent(SplashScreen.this, GetUserDetails.class);
         startActivity(intent);
         finish();
     }

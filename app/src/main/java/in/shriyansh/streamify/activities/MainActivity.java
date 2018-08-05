@@ -1,6 +1,7 @@
 package in.shriyansh.streamify.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
@@ -28,6 +29,8 @@ import in.shriyansh.streamify.fcm.FcmMessagingService;
 import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.PreferenceUtils;
+import in.shriyansh.streamify.fragments.Dashboard;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class MainActivity extends AppCompatActivity implements Urls {
+public class MainActivity extends AppCompatActivity implements Urls, Dashboard.OnFragmentInteractionListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private FloatingActionButton fab;
     private Toolbar toolbar;
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements Urls {
     private ViewPagerAdapter adapter;
     private SlidingTabLayout tabs;
 
-    private final CharSequence[] titles = {"0","0","0"};
+    private final CharSequence[] titles = {"0","0","0","0"};
     private static final int POSITION_NEWS = 0;
     private static final int POSITION_EVENTS = 1;
     private static final int POSITION_STREAMS = 2;
@@ -242,11 +245,13 @@ public class MainActivity extends AppCompatActivity implements Urls {
 //            return true;
 //        }
 
+        /*
         if (id == R.id.action_video) {
             Intent intent = new Intent(MainActivity.this,VideoListDemoActivity.class);
             startActivityForResult(intent, 6);
             return true;
         }
+        */
 
         if (id == R.id.action_image) {
             Intent intent = new Intent(MainActivity.this,ImageLibrary.class);
@@ -420,5 +425,10 @@ public class MainActivity extends AppCompatActivity implements Urls {
             // Otherwise, select the previous step.
             pager.setCurrentItem(0);
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

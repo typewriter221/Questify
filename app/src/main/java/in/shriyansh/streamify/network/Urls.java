@@ -20,6 +20,8 @@ public interface Urls {
     String APP_FEEDBACK = HOST + "app/app_feedback";
     String POST = HOST + "app/post";
     String PUT_URL = HOST + "put.php";
+    String CREATE_TEAM = HOST + "app/create_team";
+    String ADD_MEMBERS = HOST + "app/add_members";
 
     String DEV_SHRIYANSH_IMAGE = HOST + "images/shriyansh.jpg";
     String DEV_YASH_IMAGE = HOST + "images/yash.jpg";

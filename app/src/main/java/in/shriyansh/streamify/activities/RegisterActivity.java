@@ -92,7 +92,7 @@ public class RegisterActivity extends Activity implements Urls {
         if (PreferenceUtils.getBooleanPreference(this,PreferenceUtils.PREF_IS_REGISTERED)) {
             if (PreferenceUtils.getBooleanPreference(RegisterActivity.this,
                     PreferenceUtils.PREF_IS_FCM_REGISTERED)) {
-                Intent intent = new Intent(RegisterActivity.this,MainActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             } else {
@@ -441,7 +441,7 @@ public class RegisterActivity extends Activity implements Urls {
                     PreferenceUtils.PREF_IS_FCM_REGISTERED,true);
         }
         Intent intent = new Intent(
-                RegisterActivity.this,MainActivity.class);
+                RegisterActivity.this,GetUserDetails.class);
         startActivity(intent);
         finish();
     }
