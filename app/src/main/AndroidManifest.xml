@@ -191,6 +191,10 @@
         <activity
             android:name=".activities.ChooseNumberMembers"
             android:label="@string/title_activity_choose_number_members"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.GetOptionalProfilePic"
+            android:label="@string/title_activity_get_optional_profile_pic"
             android:theme="@style/AppTheme"></activity>
     </application>
 

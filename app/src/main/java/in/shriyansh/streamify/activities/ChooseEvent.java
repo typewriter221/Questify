@@ -38,6 +38,7 @@ public class ChooseEvent extends AppCompatActivity {
             event[i].setText(events[i]);
             event[i].setId(i);
             event[i].setTextColor(Color.WHITE);
+            event[i].setTextSize(getResources().getDimension(R.dimen.radioTextSize));
             events_radio.addView(event[i]);
         }
 

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/set_pic_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ColorPrimary"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activities.GetOptionalProfilePic"
+    tools:showIn="@layout/activity_get_optional_profile_pic">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/pic_page"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:visibility="visible"
+                tools:layout_editor_absoluteX="10dp"
+                tools:layout_editor_absoluteY="10dp">
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Set a profile photo"
+                    android:textSize="24sp" />
+
+                <View
+                    android:id="@+id/view3"
+                    style="@style/Divider1"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="OPTIONAL" />
+
+                <ImageView
+                    android:id="@+id/user_profile_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="2dp"
+                    custom:srcCompat="@drawable/placeholder_person" />
+
+                <Button
+                    android:id="@+id/btn_pick_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/button_register"
+                    android:elevation="2dp"
+                    android:gravity="center"
+                    android:text="Pick One"
+                    android:textColor="@color/register_background"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/btn_set_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/ColorPrimary"
+                    android:elevation="2dp"
+                    android:gravity="center"
+                    android:text="Proceed"
+                    android:textColor="@color/cardview_light_background"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="What you told Us"
+                    android:textSize="24sp" />
+
+                <View
+                    android:id="@+id/view4"
+                    style="@style/Divider1"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="13dp" />
+
+                <Button
+                    android:id="@+id/edit_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="250dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/ColorPrimary"
+                    android:drawableLeft="@drawable/ic_edit_white_36dp"
+                    android:text="Edit" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Name" />
+
+                <TextView
+                    android:id="@+id/user_name_disp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Your Name"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Roll Number" />
+
+                <TextView
+                    android:id="@+id/user_roll_disp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Your Roll No."
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Branch" />
+
+                <TextView
+                    android:id="@+id/user_branch_disp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Your Branch"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Year of Join" />
+
+                <TextView
+                    android:id="@+id/user_year_join_disp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Year of Join"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Email" />
+
+                <TextView
+                    android:id="@+id/user_email_disp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Your Email"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Contact No." />
+
+                <TextView
+                    android:id="@+id/user_contact_disp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingLeft="13dp"
+                    android:paddingRight="13dp"
+                    android:text="Your Contact No."
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/progress_layout"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:gravity="center"
+                android:visibility="gone">
+
+                <ProgressBar
+
+                    android:layout_width="48dp"
+                    android:layout_height="48dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

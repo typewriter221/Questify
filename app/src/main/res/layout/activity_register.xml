@@ -55,15 +55,17 @@ tools:context=".activities.RegisterActivity"
                             android:layout_margin="2dp"
                             custom:errorTextAppearance="@style/error_appearance">
 
-                            <EditText android:id="@+id/et_name" android:layout_width="match_parent"
+                            <EditText
+                                android:id="@+id/et_name"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:backgroundTint="@color/white"
                                 android:hint="Name"
                                 android:imeOptions="actionUnspecified"
                                 android:inputType="textCapWords"
-                                android:backgroundTint="@color/white"
-                                android:textColor="@color/white"
                                 android:maxLines="1"
-                                android:singleLine="true" />
+                                android:singleLine="true"
+                                android:textColor="@color/white" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -100,6 +102,24 @@ tools:context=".activities.RegisterActivity"
                         <!--custom:theme="@style/EditTextHint"-->
                         <!--android:layout_margin="2dp"-->
                         <!--android:layout_height="wrap_content" />-->
+
+                        <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content" custom:hintTextAppearance="@style/EditTextHint"
+                            android:layout_margin="2dp" custom:errorTextAppearance="@style/error_appearance"
+                            >
+
+                            <EditText android:id="@+id/roll_number" android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Roll Number"
+                                android:phoneNumber="true"
+                                android:imeOptions="actionUnspecified"
+                                android:inputType="phone"
+                                android:maxLength="8"
+                                android:textColor="@color/white"
+                                android:backgroundTint="@color/white"
+                                android:maxLines="1" android:singleLine="true" />
+
+                        </android.support.design.widget.TextInputLayout>
 
                         <Button
                             android:id="@+id/btn_register"

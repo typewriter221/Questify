@@ -7,11 +7,9 @@
     android:background="@color/ColorPrimary"
     tools:context=".fragments.Dashboard">
 
-
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -212,30 +210,57 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="13dp"
-                        android:background="@android:color/black"
+                        android:background="@color/text_color_light"
                         android:drawableLeft="@drawable/plus"
                         android:paddingLeft="31dp"
                         android:paddingRight="31dp"
                         android:text="Register for Contest" />
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/textView7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
                         android:layout_weight="1"
+                        android:clickable="true"
                         android:padding="8dp"
-                        android:text="Prizes Won by You"
+                        android:text="Your Teams"
                         android:textSize="24sp" />
 
                     <View
+                        android:id="@+id/view5"
                         style="@style/Divider1"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/teamrecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:padding="8dp"
+                        android:text="Your Prizes"
+                        android:textSize="24sp" />
+
+                    <View
+                        android:id="@+id/view6"
+                        style="@style/Divider1"
+                        android:layout_width="match_parent"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp" />
 
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
-
+    </android.support.v4.widget.NestedScrollView>
 </FrameLayout>

@@ -42,7 +42,6 @@ public class GetUserDetails extends AppCompatActivity {
     private String branch;
     private String year_join;
     public static final int PICK_IMAGE = 1;
-    private EditText rolledit;
     private String[] branch_array;
     private String[] year_array;
     private LinearLayout progress_layout;
@@ -71,7 +70,6 @@ public class GetUserDetails extends AppCompatActivity {
         year_spinner.setCustomAdapter(year_adapter);
 
         submit_button =  findViewById(R.id.btn_submit);
-        rolledit = findViewById(R.id.roll_edittext);
 
         PreferenceUtils.setBooleanPreference(GetUserDetails.this,
                 PreferenceUtils.PREF_IS_DETAILS_REGISTERED,false);
@@ -128,25 +126,11 @@ public class GetUserDetails extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
-        if (rolledit.getText().toString().length()==0) {
-            rolledit.setError(Html.fromHtml(
-                    "<font color='#ffffff'>Roll No. cannot be empty !</font>"));
-
-            submit_button.setVisibility(View.VISIBLE);
-            progress_layout.setVisibility(View.GONE);
-
-            focusView = rolledit;
-            cancel = true;
-        }
-
 
         if (cancel) {
             focusView.requestFocus();
         }
         else {
-            PreferenceUtils.setStringPreference(GetUserDetails.this,
-                    PreferenceUtils.PREF_USER_ROLL,
-                    rolledit.getText().toString());
 
             PreferenceUtils.setBooleanPreference(GetUserDetails.this,
                     PreferenceUtils.PREF_IS_DETAILS_REGISTERED,true);
@@ -197,6 +181,7 @@ public class GetUserDetails extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(GetUserDetails.this, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
+
 
             }else {
                 Toast.makeText(GetUserDetails.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
