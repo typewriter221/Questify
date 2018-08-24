@@ -69,8 +69,9 @@ public class RegisterActivity extends Activity implements Urls {
     private LinearLayout loginLayout;
     private LinearLayout progressLayout;
     private CoordinatorLayout coordinatorLayout;
+    private Button btn_log_in;
 
-    private List<String> emails;
+    public List<String> emails;
     private String email;
 
     private static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS = 10;
@@ -104,9 +105,9 @@ public class RegisterActivity extends Activity implements Urls {
                         PreferenceUtils.PREF_FCM_TOKEN);
                 if (!fcmToken.contentEquals("")) {
                     //fcm token available
-                    String userId = PreferenceUtils.getStringPreference(
-                            RegisterActivity.this,PreferenceUtils.PREF_USER_GLOBAL_ID);
-                    registerFcmToken(fcmToken,userId);
+//                    String userId = PreferenceUtils.getStringPreference(
+//                            RegisterActivity.this,PreferenceUtils.PREF_USER_GLOBAL_ID);
+//                    registerFcmToken(fcmToken,userId);
                 }
                 // no fcm token found register on next opening //or on main activity show user
                 // snack bar to update fcm token
@@ -129,6 +130,7 @@ public class RegisterActivity extends Activity implements Urls {
         btnRegister = findViewById(R.id.btn_register);
         loginLayout = findViewById(R.id.layout_register);
         progressLayout = findViewById(R.id.layout_progress);
+        btn_log_in = findViewById(R.id.btn_sign_in);
 
         if (PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_NAME) != "pref_user_name") {
             etName.setText(PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_NAME));
@@ -181,6 +183,15 @@ public class RegisterActivity extends Activity implements Urls {
                 email = emails.get(0);
             }
         });
+
+        btn_log_in.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this, LogInActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     /**
@@ -188,7 +199,7 @@ public class RegisterActivity extends Activity implements Urls {
      *
      * @return List of emails
      */
-    private List getEmails() {
+    public List getEmails() {
         final List<String> emails = new ArrayList<>();
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         Account[] accounts = AccountManager.get(RegisterActivity.this).getAccounts();
@@ -339,7 +350,7 @@ public class RegisterActivity extends Activity implements Urls {
                 Log.e(TAG, resp.toString());
                 try {
                     String status = resp.getString("status");
-                    if (status.equals("OK")) {
+                    if (status.equals("200")) {
                         JSONObject data = new JSONObject(resp.getString("data"));
                         String userGlobalId = data.getString("id");
                         String userName = data.getString("name");

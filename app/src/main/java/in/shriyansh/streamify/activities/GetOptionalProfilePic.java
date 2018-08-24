@@ -111,7 +111,16 @@ public class GetOptionalProfilePic extends AppCompatActivity {
 
                 picpage.setVisibility(View.GONE);
                 progresslayout.setVisibility(View.VISIBLE);
-                register(name,rollno, email,contact);
+
+                /***********************/
+                // comment this if server is up
+
+//                Intent intent = new Intent(GetOptionalProfilePic.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();
+
+                /************************/
+                register(name,rollno, email,contact);     //uncomment this when server is up
                 }
         });
 
@@ -202,13 +211,13 @@ public class GetOptionalProfilePic extends AppCompatActivity {
         PreferenceUtils.setStringPreference(GetOptionalProfilePic.this,
                 PreferenceUtils.PREF_FCM_TOKEN, fcmToken);
 
-        params.put("fcmToken", fcmToken);
-        params.put("rollNo", name);
         params.put("name", rollNo);
+        params.put("rollNo", name);
         params.put("email", email);
         params.put("contact", contact);
+        params.put("fcmToken", fcmToken);
 
-//        Log.e(TAG,params.toString());
+        Log.e(TAG,params.toString());
 
         /***********************************************
          */
@@ -223,24 +232,19 @@ public class GetOptionalProfilePic extends AppCompatActivity {
             public void onResponse(JSONObject resp) {
                 try {
                     String status = resp.getString("status");
-                    if (status.equals("OK")) {
+                    Log.e(TAG, resp.toString());
+                    if (status.equals("200")) {
 
-                        JSONObject data = new JSONObject(resp.getString("data"));
-                        String userGlobalId = data.getString("id");
-                        String userName = data.getString("name");
-                        String userEmail = data.getString("email");
-                        String userContact = data.getString("contact");
-                        String userFcmToken = data.getString(
-                                "fcmToken");
-
-                        PreferenceUtils.setStringPreference(GetOptionalProfilePic.this,
-                                PreferenceUtils.PREF_USER_GLOBAL_ID, userGlobalId);
+//                        PreferenceUtils.setStringPreference(GetOptionalProfilePic.this,
+//                                PreferenceUtils.PREF_USER_GLOBAL_ID, userGlobalId);
                         PreferenceUtils.setBooleanPreference(GetOptionalProfilePic.this,
                                 PreferenceUtils.PREF_IS_REGISTERED,true);
                         PreferenceUtils.setBooleanPreference(GetOptionalProfilePic.this,
                                 PreferenceUtils.PREF_IS_FCM_REGISTERED, true);
                         PreferenceUtils.setBooleanPreference(GetOptionalProfilePic.this,
                                 PreferenceUtils.PREF_IS_DETAILS_REGISTERED, true);
+                        PreferenceUtils.setBooleanPreference(GetOptionalProfilePic.this,
+                                PreferenceUtils.PREF_USER_LOGGED_IN, true);
 
 
                         if (PreferenceUtils.getBooleanPreference(GetOptionalProfilePic.this, PreferenceUtils.PREF_IS_REGISTERED)) {
@@ -249,10 +253,25 @@ public class GetOptionalProfilePic extends AppCompatActivity {
                             finish();
                         }
                     }
+
+                    else if (resp.getString("response").equals("User with same email exists")) {
+                        showSnackBar("You entered duplicate details! Please Try again", "RETRY", CASE_REGISTER);
+
+                        picpage.setVisibility(View.VISIBLE);
+                        progresslayout.setVisibility(View.GONE);
+                    }
+
+                    else {
+                        showSnackBar("Some error occured! Please Try again", "RETRY", CASE_REGISTER);
+
+                        picpage.setVisibility(View.VISIBLE);
+                        progresslayout.setVisibility(View.GONE);
+
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
 
-                    showSnackBar("Error! Please Try Again!","RETRY",CASE_REGISTER);
+                    showSnackBar("Error! Please Try Again! (JsonException)","RETRY",CASE_REGISTER);
                     picpage.setVisibility(View.VISIBLE);
                     progresslayout.setVisibility(View.GONE);
                 }

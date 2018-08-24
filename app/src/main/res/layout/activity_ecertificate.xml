@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ECertificate">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@color/ColorPrimary"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@drawable/ic_logo2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/cardview_light_background"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <View
+                            android:id="@+id/view10"
+                            style="@style/Divider1"
+                            android:layout_width="348dp"
+                            android:layout_height="wrap_content"
+                            android:background="@color/ColorPrimary"
+                            tools:layout_editor_absoluteX="8dp"
+                            tools:layout_editor_absoluteY="523dp" />
+
+                        <TextView
+                            android:id="@+id/textView24"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lobstertwobold"
+                            android:text="Certification of Participation"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="36sp" />
+
+                        <View
+                            android:id="@+id/view9"
+                            style="@style/Divider1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:background="@color/ColorPrimary" />
+
+                        <TextView
+                            android:id="@+id/textView16"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="5dp"
+                            android:text="This is to certify that"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/certiname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/exo2medium"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="5dp"
+                            android:text="Yash Jipkate"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="20sp" />
+
+                        <View
+                            android:id="@+id/view7"
+                            style="@style/Divider1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="13dp"
+                            android:layout_marginRight="13dp"
+                            android:background="@color/ColorPrimary" />
+
+                        <TextView
+                            android:id="@+id/textView23"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="5dp"
+                            android:text="has participated in the Event"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/certiname2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/exo2medium"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="20dp"
+                            android:paddingTop="5dp"
+                            android:text="Robotron"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="20sp" />
+
+                        <View
+                            android:id="@+id/view8"
+                            style="@style/Divider1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="13dp"
+                            android:layout_marginRight="13dp"
+                            android:background="@color/ColorPrimary" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

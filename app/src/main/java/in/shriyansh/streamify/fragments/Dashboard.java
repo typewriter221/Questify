@@ -48,6 +48,7 @@ import in.shriyansh.streamify.utils.PreferenceUtils;
 import static android.graphics.BitmapFactory.*;
 import static android.support.v7.widget.RecyclerView.*;
 import static in.shriyansh.streamify.network.Urls.GET_PAST_TEAMS;
+import static in.shriyansh.streamify.network.Urls.LIST_ALL_TEAMS;
 import static in.shriyansh.streamify.utils.PreferenceUtils.PREF_USER_ROLL;
 
 /**
@@ -138,58 +139,74 @@ public class Dashboard extends Fragment {
         setProfilePic(profilepic);
 
 
-        register_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChooseEvent.class);
-
-                getActivity().startActivity(intent);
-            }
-        });
+//        register_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), ChooseEvent.class);
+//
+//                getActivity().startActivity(intent);
+//            }
+//        });
 
 
         /*****************************/
         //JSON object request
 
         Map<String,String> params = new HashMap<>();
-        params.put("rollNo", PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_ROLL));
+        params.put("email", PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_EMAIL));
 
         final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
-        try {
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
-                    GET_PAST_TEAMS, new JSONArray(params), new Response.Listener<JSONArray>() {
+            JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.POST,
+                    GET_PAST_TEAMS, new JSONObject(params), new Response.Listener<JSONObject>() {
+
+
                 @Override
-                public void onResponse(JSONArray response) {
+                public void onResponse(JSONObject response) {
 
+                    try {
+                        if (response.getString("status").equals("200")) {
+                            team_name = new String[response.getJSONArray("response").length()];
+                            team_id = new String[response.getJSONArray("response").length()];
+                            Log.e(TAG, "***************************");
+                            Log.e(TAG, response.toString());
+                            Log.e(TAG, "***************************");
+                            Log.e(TAG, Integer.toString(response.length()));
+                            Log.e(TAG, "***************************");
 
-                    team_name = new String[response.length()];
-                    team_id = new String[response.length()];
+                            if (response.length() != 0) {
+                                for (int i = 0; i < response.length(); i++) {
 
-                    if (response.length()!=0) {
-                        for (int i = 0; i < response.length(); i++) {
-
-                            try {
+                                    try {
 //                            team_name[i] = response.getJSONObject(i).getString("team_name");
-                                team_id[i] = response.getJSONObject(i).getString("team_id");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                        team_id[i] = response.getJSONArray("response").getJSONObject(i).getString("teamid");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(getActivity(), "No teams", Toast.LENGTH_LONG).show();
                             }
+
+                            /*****************************/
+
+                            LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+                            team_recycler.setLayoutManager(llm);
+
+                            RVAdapter adapter = new RVAdapter(team_id);             //change arguments here if API return changes
+                            team_recycler.setAdapter(adapter);
+
+                            /*********************************/
+
+                        }
+
+                        else if (response.getString("response").equals("No teams for given email ID exists")) {
+                            Toast.makeText(getActivity(), "You are not registered in any teams", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    else {
-                        Toast.makeText(getActivity(), "No teams", Toast.LENGTH_LONG).show();
+                    catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                    /*****************************/
-
-                    LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-                    team_recycler.setLayoutManager(llm);
-
-                    RVAdapter adapter = new RVAdapter(team_id);             //change arguments here if API return changes
-                    team_recycler.setAdapter(adapter);
-
-                    /*********************************/
 
                 }
             }, new Response.ErrorListener() {
@@ -199,14 +216,7 @@ public class Dashboard extends Fragment {
                     error.printStackTrace();
                 }
             }
-            ) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("rollNo", PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_ROLL));
-                    return params;
-                }
-            };
+            );
 
             jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
                     Constants.HTTP_INITIAL_TIME_OUT,
@@ -215,12 +225,6 @@ public class Dashboard extends Fragment {
 
 
             requestQueue.add(jsonArrayRequest);
-        }
-
-        catch (JSONException e) {
-            Toast.makeText(getActivity(), "OOPS something went wrong (JSONException)", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
 
 
         return view;
@@ -247,7 +251,7 @@ public class Dashboard extends Fragment {
             }
         }
 
-        public RVAdapter (String[] team_id) {        //change arguments here if API return changes
+        private RVAdapter (String[] team_id) {        //change arguments here if API return changes
 //            team_set = team_array;
             team_id_array = team_id;
         }

@@ -239,7 +239,7 @@ public class RegisterTeam extends AppCompatActivity {
                     Log.e(TAG, status);
                     int team_id = response.getInt("team_id");
 
-                    if (status.equals("OK")) {
+                    if (status.equals("200")) {
                         PreferenceUtils.setIntegerPreference(RegisterTeam.this, PreferenceUtils.PREF_TEAM_ID, team_id);
                         Toast.makeText(RegisterTeam.this, "YAY!!!!", Toast.LENGTH_LONG).show();
                     }

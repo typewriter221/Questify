@@ -226,7 +226,7 @@ public class AboutUsActivity extends AppCompatActivity implements Urls, View.OnC
                 Log.d(TAG, resp.toString());
                 try {
                     String status = resp.getString(Constants.RESPONSE_STATUS_KEY);
-                    if (status.equals(Constants.RESPONSE_STATUS_VALUE_OK)) {
+                    if (status.equals("200")) {
                         showSnackBar(R.string.snackbar_feedback_success);
                         etFeedBack.setText("");
                     } else {
