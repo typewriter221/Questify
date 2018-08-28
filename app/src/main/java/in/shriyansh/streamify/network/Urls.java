@@ -27,7 +27,7 @@ public interface Urls {
     String LIST_ALL_TEAMS = HOST + "app/listAllTeams";
     String LIST_ALL_STREAMS = HOST + "app/listAllStreams";
     String LOGIN_URL = HOST + "app/login";
-    String EVENT_NOTIFICATION_URL = "app/createEvent";
+    String EVENT_NOTIFICATION_URL = HOST + "app/createEvent";
 
     String DEV_SHRIYANSH_IMAGE = HOST + "images/shriyansh.jpg";
     String DEV_YASH_IMAGE = HOST + "images/yash.jpg";

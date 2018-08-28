@@ -38,7 +38,6 @@ public class ChoosePostOrEvent extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ChoosePostOrEvent.this,PostActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -46,9 +45,8 @@ public class ChoosePostOrEvent extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(ChoosePostOrEvent.this, NotifActivity.class);
+                Intent intent = new Intent(ChoosePostOrEvent.this, Sample.class);
                 startActivity(intent);
-                finish();
 
             }
         });

@@ -77,6 +77,12 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <LinearLayout
+            android:id="@+id/stream_check_box_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+
         <android.support.design.widget.TextInputLayout
             custom:errorTextAppearance="@style/error_appearance"
             custom:hintTextAppearance="@style/EditTextHint"
@@ -140,6 +146,12 @@
                 android:textColor="@color/white" />
 
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
 
         <Button
             android:id="@+id/btn_create_event"

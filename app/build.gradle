@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
 
     implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.zsoltsafrany:needle:1.0.0'
 
 }
 
