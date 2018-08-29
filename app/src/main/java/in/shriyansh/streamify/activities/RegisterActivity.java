@@ -204,10 +204,8 @@ public class RegisterActivity extends Activity implements Urls {
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         Account[] accounts = AccountManager.get(RegisterActivity.this).getAccounts();
         for (Account account : accounts) {
-            if (emailPattern.matcher(account.name).matches()) {
-                String possibleEmail = account.name + "\n";
-                emails.add(possibleEmail);
-            }
+            if (emailPattern.matcher(account.name).matches())
+                emails.add(account.name);
         }
         return emails;
     }
