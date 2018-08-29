@@ -86,14 +86,11 @@ public class LogInActivity extends AppCompatActivity {
         final List<String> emails = new ArrayList<>();
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         Account[] accounts = AccountManager.get(LogInActivity.this).getAccounts();
-        for (Account account : accounts) {
-            if (emailPattern.matcher(account.name).matches()) {
-                String possibleEmail = account.name + "\n";
-                emails.add(possibleEmail);
-            }
-        }
-        return emails;
+        for (Account account : accounts)
+            if (emailPattern.matcher(account.name).matches())
+                emails.add(account.name);
 
+        return emails;
     }
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
