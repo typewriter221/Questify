@@ -112,26 +112,18 @@
             android:label="@string/title_activity_image"
             android:theme="@style/FullscreenTheme" />
 
-        <!-- FCM -->
-
-
-        <!-- Message Receiving Service -->
-        <!-- <service android:name=".fcm.FcmMessagingService"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" /> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
+        <!-- FCM Message Receiving Service -->
+         <service android:name=".fcm.FcmMessagingService">
+             <intent-filter>
+                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+             </intent-filter>
+         </service>
 
 
         <!-- FCM Token Receiving Service -->
         <service android:name=".fcm.FcmInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".fcm.NotificationUsingFcm">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
