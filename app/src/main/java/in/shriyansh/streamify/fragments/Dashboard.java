@@ -7,6 +7,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +17,38 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.activities.ChooseEvent;
 import in.shriyansh.streamify.activities.MainActivity;
 import in.shriyansh.streamify.activities.RegisterTeam;
+import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.PreferenceUtils;
 
 import static android.graphics.BitmapFactory.*;
+import static android.support.v7.widget.RecyclerView.*;
+import static in.shriyansh.streamify.network.Urls.GET_PAST_TEAMS;
+import static in.shriyansh.streamify.network.Urls.LIST_ALL_TEAMS;
 import static in.shriyansh.streamify.utils.PreferenceUtils.PREF_USER_ROLL;
 
 /**
@@ -50,10 +73,12 @@ public class Dashboard extends Fragment {
     private TextView email;
     private ImageView profilepic;
     private Button register_btn;
+    private RecyclerView team_recycler;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String[] team_name, team_id;
 
     private OnFragmentInteractionListener mListener;
 
@@ -103,6 +128,7 @@ public class Dashboard extends Fragment {
         name = view.findViewById(R.id.dashboard_name);
         profilepic = view.findViewById(R.id.pofilepic);
         register_btn = view.findViewById(R.id.reg_btn);
+        team_recycler = view.findViewById(R.id.teamrecycler);
 
         roll.setText(PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_ROLL));
         name.setText(PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_NAME));
@@ -113,19 +139,150 @@ public class Dashboard extends Fragment {
         setProfilePic(profilepic);
 
 
-        register_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ChooseEvent.class);
+//        register_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), ChooseEvent.class);
+//
+//                getActivity().startActivity(intent);
+//            }
+//        });
 
-                getActivity().startActivity(intent);
+
+        /*****************************/
+        //JSON object request
+
+        Map<String,String> params = new HashMap<>();
+        params.put("email", PreferenceUtils.getStringPreference(getActivity(), PreferenceUtils.PREF_USER_EMAIL));
+
+        final RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+
+            JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(Request.Method.POST,
+                    GET_PAST_TEAMS, new JSONObject(params), new Response.Listener<JSONObject>() {
+
+
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    try {
+                        if (response.getString("status").equals("200")) {
+                            team_name = new String[response.getJSONArray("response").length()];
+                            team_id = new String[response.getJSONArray("response").length()];
+                            Log.e(TAG, "***************************");
+                            Log.e(TAG, response.toString());
+                            Log.e(TAG, "***************************");
+                            Log.e(TAG, Integer.toString(response.length()));
+                            Log.e(TAG, "***************************");
+
+                            if (response.length() != 0) {
+                                for (int i = 0; i < response.length(); i++) {
+
+                                    try {
+//                            team_name[i] = response.getJSONObject(i).getString("team_name");
+                                        team_id[i] = response.getJSONArray("response").getJSONObject(i).getString("teamid");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(getActivity(), "No teams", Toast.LENGTH_LONG).show();
+                            }
+
+                            /*****************************/
+
+                            LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+                            team_recycler.setLayoutManager(llm);
+
+                            RVAdapter adapter = new RVAdapter(team_id);             //change arguments here if API return changes
+                            team_recycler.setAdapter(adapter);
+
+                            /*********************************/
+
+                        }
+
+                        else if (response.getString("response").equals("No teams for given email ID exists")) {
+                            Toast.makeText(getActivity(), "You are not registered in any teams", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getActivity(), "WHOOPS!! Something went wrong (ResponseError)", Toast.LENGTH_LONG).show();
+                    error.printStackTrace();
+                }
             }
-        });
+            );
+
+            jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    Constants.HTTP_INITIAL_TIME_OUT,
+                    Constants.HTTP_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+            requestQueue.add(jsonArrayRequest);
 
 
         return view;
     }
 
+
+    public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
+
+//        private String[] team_set;
+        private String[] team_id_array;
+
+        public class PersonViewHolder extends ViewHolder {
+            CardView cv;
+//            TextView teamName;
+            TextView teamId;
+//            ImageView eventPhoto;
+
+            PersonViewHolder(View itemView) {
+                super(itemView);
+                cv = itemView.findViewById(R.id.team_card);
+//                teamName = itemView.findViewById(R.id.team_name);
+                teamId = itemView.findViewById(R.id.team_id);
+//                eventPhoto = itemView.findViewById(R.id.eventLogo);
+            }
+        }
+
+        private RVAdapter (String[] team_id) {        //change arguments here if API return changes
+//            team_set = team_array;
+            team_id_array = team_id;
+        }
+
+        @Override
+        public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            TextView v = (TextView) LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.teams_card_view, parent, false);
+            PersonViewHolder vh = new PersonViewHolder(v);
+
+            return vh;
+        }
+
+        @Override
+        public void onBindViewHolder(PersonViewHolder holder, int position) {
+//            holder.teamName.setText(team_set[position]);
+            holder.teamId.setText(team_id_array[position]);
+//            holder.eventPhoto.setImageResource(R.drawable.ic_logo);
+        }
+
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
+
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            super.onAttachedToRecyclerView(recyclerView);
+        }
+
+    }
 
     public static final String TAG = "SampleActivity";
 
@@ -179,4 +336,5 @@ public class Dashboard extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

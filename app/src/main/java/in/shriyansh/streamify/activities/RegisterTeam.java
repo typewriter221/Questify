@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,17 @@ public class RegisterTeam extends AppCompatActivity {
     private LinearLayout mem4_container;
     private LinearLayout mem5_container;
 
+    private EditText mem2roll;
+    private EditText mem2name;
+    private EditText mem3roll;
+    private EditText mem3name;
+    private EditText mem4roll;
+    private EditText mem4name;
+    private EditText mem5roll;
+    private EditText mem5name;
+
+    private View focusView = null;
+
     private EditText team_name;
     private EditText leader_roll;
     private EditText team_member_roll;
@@ -56,6 +68,7 @@ public class RegisterTeam extends AppCompatActivity {
     private RequestQueue volleyQueue;
 
     private int index = 0;
+    private int event_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,23 +80,102 @@ public class RegisterTeam extends AppCompatActivity {
         volleyQueue = Volley.newRequestQueue(this);
 
         final int mem_num = PreferenceUtils.getIntegerPreference(RegisterTeam.this, PreferenceUtils.PREF_MEM_NUM);
-        final int event_id = PreferenceUtils.getIntegerPreference(RegisterTeam.this, PreferenceUtils.PREF_USER_EVENT);
+        event_id = PreferenceUtils.getIntegerPreference(RegisterTeam.this, PreferenceUtils.PREF_USER_EVENT);
 
         createFormFields(mem_num);
+
+        leader_roll = findViewById(R.id.leader_roll);
+        team_name = findViewById(R.id.team_name);
+
+
+        mem2name = findViewById(R.id.mem2name);
+        mem2roll = findViewById(R.id.mem2roll);
+        mem3name = findViewById(R.id.mem3name);
+        mem3roll = findViewById(R.id.mem3roll);
+        mem4name = findViewById(R.id.mem4name);
+        mem4roll = findViewById(R.id.mem4roll);
+        mem5name = findViewById(R.id.mem5name);
+        mem5roll = findViewById(R.id.mem5roll);
+
+
 
         btn_register_team = findViewById(R.id.register_confirm);
         btn_register_team.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                sendTeamDetails(mem_num, event_id);
-
-                Intent intent = new Intent(RegisterTeam.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                validateForm(mem_num);
             }
         });
 
+    }
+
+    private void validateForm(int mem_num){
+
+        boolean proceed = true;
+        boolean proceed2 = true;
+
+        int LEN2 = 8;
+
+        if (mem_num>=1) {
+            proceed = isRollValid(leader_roll, LEN2);
+            proceed2 = isEmpty(team_name);
+        }
+        if (mem_num>=2 && proceed && proceed2) {
+            proceed2 = isEmpty(mem2name);
+            proceed = isRollValid(mem2roll, LEN2);
+        }
+        if (mem_num>=3 && proceed && proceed2) {
+            proceed2 = isEmpty(mem3name);
+            proceed = isRollValid(mem3roll, LEN2);
+        }
+        if (mem_num>=4 && proceed && proceed2) {
+            proceed2 = isEmpty(mem4name);
+            proceed = isRollValid(mem4roll, LEN2);
+        }
+        if (mem_num>=5 && proceed && proceed2) {
+            proceed2 = isEmpty(mem5name);
+            proceed = isRollValid(mem5roll, LEN2);
+        }
+
+        if (proceed && proceed2) {
+            focusView.requestFocus();
+        } else {
+            sendTeamDetails(mem_num, event_id);
+
+            Intent intent = new Intent(RegisterTeam.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+    }
+
+    private boolean isEmpty(EditText field) {
+
+        boolean proceed = true;
+
+        if (field.length() == 0) {
+            field.setError(Html.fromHtml(
+                    "<font color='#ffffff'>This field cannot be empty!</font>"));
+            focusView = field;
+            proceed = false;
+        }
+
+        return proceed;
+    }
+
+    private boolean isRollValid(EditText field, int LEN) {
+
+        boolean proceed = false;
+
+        if (field.length() < LEN) {
+            field.setError(Html.fromHtml(
+                    "<font color='#ffffff'>Roll No. must be of 8 digits!</font>"));
+            focusView = field;
+            proceed = true;
+        }
+
+        return proceed;
     }
 
     private void createFormFields(int mem_num) {
@@ -147,7 +239,7 @@ public class RegisterTeam extends AppCompatActivity {
                     Log.e(TAG, status);
                     int team_id = response.getInt("team_id");
 
-                    if (status.equals("OK")) {
+                    if (status.equals("200")) {
                         PreferenceUtils.setIntegerPreference(RegisterTeam.this, PreferenceUtils.PREF_TEAM_ID, team_id);
                         Toast.makeText(RegisterTeam.this, "YAY!!!!", Toast.LENGTH_LONG).show();
                     }

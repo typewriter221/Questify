@@ -36,6 +36,7 @@ public class ChooseNumberMembers extends AppCompatActivity {
             mem_num[i].setText(Integer.toString(i+1));
             mem_num[i].setId(i+1);
             mem_num[i].setTextColor(Color.WHITE);
+            mem_num[i].setTextSize(getResources().getDimension(R.dimen.radioTextSize));
             mem_num_opts.addView(mem_num[i]);
         }
 

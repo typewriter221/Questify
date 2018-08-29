@@ -3,7 +3,7 @@
     <color name="ColorPrimary">#263238</color>
     <color name="ColorPrimaryAlpha">#803f51b5</color>
     <color name="light_indigo">#9fa8da</color>
-    <color name="ColorPrimaryDark">#455A64</color>
+    <color name="ColorPrimaryDark">#455a64</color>
     <color name="tabsScrollColor">#ffffffff</color>
     <color name="colorGrey">#cccccc</color>
     <color name="text_color_dark">#333333</color>

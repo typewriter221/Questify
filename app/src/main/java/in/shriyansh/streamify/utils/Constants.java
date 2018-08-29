@@ -67,6 +67,7 @@ public class Constants {
      */
     public static final String RESPONSE_STATUS_KEY = "status";
     public static final String RESPONSE_STATUS_VALUE_OK = "OK";
+    public static final String RESPONSE_STATUS_VALUE_200 = "200";
 
     public static final String JSON_KEY_AUTHOR_NAME = "name";
     public static final String JSON_KEY_AUTHOR_EMAIL = "email";

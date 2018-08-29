@@ -141,13 +141,15 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
      * Call server to fetch all latest data of Notification, Events and Streams.
      */
     private void fetchLatestData() {
-        getStreams(PreferenceUtils.getStringPreference(MainActivity.this,
-                PreferenceUtils.PREF_USER_GLOBAL_ID));
-        getNotifications(PreferenceUtils.getStringPreference(MainActivity.this,
-                PreferenceUtils.PREF_USER_GLOBAL_ID),
-                dbMethods.queryLastNotificationId() + "");
-        getEvents(PreferenceUtils.getStringPreference(MainActivity.this,
-                PreferenceUtils.PREF_USER_GLOBAL_ID),dbMethods.queryLastEventId() + "");
+//        getStreams(PreferenceUtils.getStringPreference(MainActivity.this,
+//                PreferenceUtils.PREF_USER_GLOBAL_ID));
+//        getNotifications(PreferenceUtils.getStringPreference(MainActivity.this,
+//                PreferenceUtils.PREF_USER_GLOBAL_ID),
+//                dbMethods.queryLastNotificationId() + "");
+//        getEvents(PreferenceUtils.getStringPreference(MainActivity.this,
+//                PreferenceUtils.PREF_USER_GLOBAL_ID),dbMethods.queryLastEventId() + "");
+
+
     }
 
     /**
@@ -189,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,PostActivity.class);
+                Intent intent = new Intent(MainActivity.this,ChoosePostOrEvent.class);
                 startActivity(intent);
             }
         });
@@ -269,7 +271,10 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
      */
     private void getStreams(String userId) {
             Map<String, String> params = new HashMap<>();
-            params.put(Constants.STREAM_PARAM_USER_ID,userId);
+//            params.put(Constants.STREAM_PARAM_USER_ID,userId);
+
+            params.put("email", PreferenceUtils.getStringPreference(MainActivity.this, PreferenceUtils.PREF_USER_EMAIL));
+
             Log.d(TAG,params.toString());
 
             JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
@@ -331,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
                 Log.d(TAG, resp.toString());
                 try {
                     String status = resp.getString(Constants.RESPONSE_STATUS_KEY);
-                    if (status.equals(Constants.RESPONSE_STATUS_VALUE_OK)) {
+                    if (status.equals("200")) {
                         long count = dbMethods.insertNotifications(resp.getJSONObject("data")
                                 .getJSONArray("notifications"));
                         showNewItem(POSITION_NEWS,String.valueOf(count));

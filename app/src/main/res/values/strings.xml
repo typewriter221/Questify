@@ -115,7 +115,7 @@
     <string name="your_branch">Your Branch</string>
     <string name="your_year">Your Year</string>
     <string name="roll">Your Roll No.</string>
-    <string name="your_photo">Pick Photo</string>
+    <string name="your_photo">Pick Photo (Optional)</string>
     <string name="submit">Submit</string>
 
     <string name="prize_title">Prizes won by you</string>
@@ -147,6 +147,7 @@
         <item>Mathematics and Computing</item>
         <item>Material Science and Technology</item>
         <item>Mechanical Engineering</item>
+        <item>Metallurgical Engineering</item>
         <item>Mining Engineering</item>
         <item>Pharmaceutical Engineering</item>
     </string-array>
@@ -202,5 +203,6 @@
     <string name="member3_roll">Member 3 Roll No.</string>
     <string name="member4_roll">Member 4 Roll No.</string>
     <string name="member5_roll">Member 5 Roll No.</string>
+    <string name="title_activity_get_optional_profile_pic">GetOptionalProfilePic</string>
 
 </resources>

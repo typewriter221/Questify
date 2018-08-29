@@ -52,7 +52,7 @@ public class SplashScreen extends AppCompatActivity {
                                 launchMainActivity();
                             }
                             else {
-                                launchGetUserDetails();
+                                launchMainActivity();
                             }
                         } else {
                             launchRegisterActivity();
@@ -68,12 +68,6 @@ public class SplashScreen extends AppCompatActivity {
 
     private void launchRegisterActivity() {
         Intent intent = new Intent(SplashScreen.this, RegisterActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void launchGetUserDetails() {
-        Intent intent = new Intent(SplashScreen.this, GetUserDetails.class);
         startActivity(intent);
         finish();
     }

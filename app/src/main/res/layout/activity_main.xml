@@ -6,12 +6,14 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent">
+
     <com.miguelcatalan.materialsearchview.MaterialSearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:elevation="6dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:elevation="6dp">
 
+    </com.miguelcatalan.materialsearchview.MaterialSearchView>
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,44 +22,45 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/tool_bar"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:background="@color/ColorPrimary"
-                app:titleTextAppearance="@style/Toolbar.TitleText"
-                android:theme="@style/ToolBarTheme"
-                android:elevation="4dp"
-                app:popupTheme="@style/ThemeOverlay.MyTheme"
-                app:layout_scrollFlags="scroll|enterAlways"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ColorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/ToolBarTheme"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.MyTheme"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
 
-                />
+            />
 
         <in.shriyansh.streamify.customui.SlidingTabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="4dp"
+            android:background="@color/ColorPrimary"
 
-            android:background="@color/ColorPrimary"/>
+            android:elevation="4dp" />
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_edit_white_36dp"
-        app:backgroundTint="@color/teal500"
-        app:layout_behavior="in.shriyansh.streamify.ui.ScrollingFabBehavior" />
+                </android.support.v4.view.ViewPager>
 
-
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:src="@drawable/ic_edit_white_36dp"
+                    app:backgroundTint="@color/teal500"
+                    app:layout_behavior="in.shriyansh.streamify.ui.ScrollingFabBehavior" />
 
 
 </android.support.design.widget.CoordinatorLayout>

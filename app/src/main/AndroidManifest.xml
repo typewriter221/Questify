@@ -45,25 +45,6 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-        <!-- <receiver -->
-        <!-- android:name=".gcm.GcmBroadcastReceiver" -->
-        <!-- android:permission="com.google.android.c2dm.permission.SEND" > -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
-
-
-        <!-- <category android:name="com.example.gcm" /> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
-
-
-        <!-- <service android:name=".GcmIntentService" /> -->
-
-
-        <!-- <activity -->
-        <!-- android:name=".activities.GcmRegister" -->
-        <!-- android:label="@string/title_activity_gcm_register" > -->
-        <!-- </activity> -->
         <activity
             android:name=".activities.EventDetailsActivity"
             android:label="@string/title_activity_event_details"
@@ -131,22 +112,13 @@
             android:label="@string/title_activity_image"
             android:theme="@style/FullscreenTheme" />
 
-        <!-- FCM -->
-
-
-        <!-- Message Receiving Service -->
-        <service android:name=".fcm.FcmMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-        <!-- FCM Token Receiving Service -->
-        <service android:name=".fcm.FcmInstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
+        <!-- FCM Message Receiving Service -->
+        <!-- Contains FCM Token Refresh Service too-->
+         <service android:name=".fcm.FcmMessagingService">
+             <intent-filter>
+                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+             </intent-filter>
+         </service>
 
         <!--
         Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -191,7 +163,16 @@
         <activity
             android:name=".activities.ChooseNumberMembers"
             android:label="@string/title_activity_choose_number_members"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activities.GetOptionalProfilePic"
+            android:label="@string/title_activity_get_optional_profile_pic"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.ECertificate" />
+        <activity android:name=".activities.LogInActivity" />
+        <activity android:name=".activities.ChoosePostOrEvent" />
+        <activity android:name=".activities.NotifActivity" />
+        <activity android:name=".activities.Sample"></activity>
     </application>
 
 </manifest>
