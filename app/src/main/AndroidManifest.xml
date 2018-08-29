@@ -45,25 +45,6 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-        <!-- <receiver -->
-        <!-- android:name=".gcm.GcmBroadcastReceiver" -->
-        <!-- android:permission="com.google.android.c2dm.permission.SEND" > -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.android.c2dm.intent.RECEIVE" /> -->
-
-
-        <!-- <category android:name="com.example.gcm" /> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
-
-
-        <!-- <service android:name=".GcmIntentService" /> -->
-
-
-        <!-- <activity -->
-        <!-- android:name=".activities.GcmRegister" -->
-        <!-- android:label="@string/title_activity_gcm_register" > -->
-        <!-- </activity> -->
         <activity
             android:name=".activities.EventDetailsActivity"
             android:label="@string/title_activity_event_details"
