@@ -30,32 +30,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.ui.LabelledSpinner;
-import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.PreferenceUtils;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 public class RegisterActivity extends Activity implements Urls {
@@ -80,8 +66,6 @@ public class RegisterActivity extends Activity implements Urls {
 
     private static final int PHONE_NUMBER_LENGTH = 10;
 
-    private RequestQueue volleyQueue;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,8 +73,6 @@ public class RegisterActivity extends Activity implements Urls {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_register);
-
-        volleyQueue = Volley.newRequestQueue(this);
 
         initUi();
 
@@ -101,14 +83,13 @@ public class RegisterActivity extends Activity implements Urls {
                 startActivity(intent);
                 finish();
             } else {
+                // update FCM Token Whenever on every login
                 String fcmToken = PreferenceUtils.getStringPreference(RegisterActivity.this,
                         PreferenceUtils.PREF_FCM_TOKEN);
-                if (!fcmToken.contentEquals("")) {
+                if (!fcmToken.contentEquals(""))
                     //fcm token available
-//                    String userId = PreferenceUtils.getStringPreference(
-//                            RegisterActivity.this,PreferenceUtils.PREF_USER_GLOBAL_ID);
-//                    registerFcmToken(fcmToken,userId);
-                }
+                    registerFcmToken(fcmToken);
+
                 // no fcm token found register on next opening //or on main activity show user
                 // snack bar to update fcm token
                 // or create a broadcast to register fcm token in mainActivity
@@ -334,66 +315,35 @@ public class RegisterActivity extends Activity implements Urls {
         }
     }
 
-    private void registerFcmToken(String fcmToken, String userId) {
-        Map<String, String> params = new HashMap<>();
-        params.put("fcmToken", fcmToken);
-        params.put("user_id",userId);
-        Log.e(TAG,params.toString());
+    private void registerFcmToken(String token) {
+        Log.d(TAG, "Updating FCM token: " + token);
 
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
-                FCM_UPDATE, new JSONObject(params), new Response.Listener<JSONObject>() {
+        // Save updated token
+        PreferenceUtils.setStringPreference(this,PreferenceUtils.PREF_FCM_TOKEN, token);
 
-            @Override
-            public void onResponse(JSONObject resp) {
-                Log.e(TAG, resp.toString());
-                try {
-                    String status = resp.getString("status");
-                    if (status.equals("200")) {
-                        JSONObject data = new JSONObject(resp.getString("data"));
-                        String userGlobalId = data.getString("id");
-                        String userName = data.getString("name");
-                        String userEmail = data.getString("email");
-                        String userContact = data.getString("contact");
-                        String userRoll = data.getString("rollNo");
-                        String userFcmToken = data.getString(
-                                "fcmToken");
-                        storeUserInformationAndProceed(userName, userEmail,
-                                userContact, userRoll);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // Instance ID token to your app server.
+        OkHttpClient client = new OkHttpClient();
 
-                    showSnackBar("Error! Please Try Again!","RETRY",CASE_REGISTER);
-                    loginLayout.setVisibility(View.VISIBLE);
-                    progressLayout.setVisibility(View.GONE);
-                }
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType,
+                "{\n\t\"email\":\"" +
+                        PreferenceUtils.getStringPreference(this,PreferenceUtils.PREF_USER_EMAIL) +
+                        "\",\n\t\"fcmToken\":\"" + token +"\"\n}");
+        okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(Urls.FCM_UPDATE)
+                .post(body)
+                .addHeader("Content-Type", "application/json")
+                .build();
 
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e(TAG, "Error: " + error.toString());
-                showSnackBar("Network Unreachable!","RETRY",CASE_REGISTER);
-                loginLayout.setVisibility(View.VISIBLE);
-                progressLayout.setVisibility(View.GONE);
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() {
-                Map<String, String> headers = new HashMap<>();
-                headers.put(Constants.HTTP_HEADER_CONTENT_TYPE_KEY,
-                        Constants.HTTP_HEADER_CONTENT_TYPE_JSON);
-                return headers;
-            }
-        };
-
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                Constants.HTTP_INITIAL_TIME_OUT,
-                Constants.HTTP_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        volleyQueue.add(stringRequest);
+        try{
+            okhttp3.Response response = client.newCall(request).execute();
+            if (!response.isSuccessful())
+                Log.e(TAG, "onNewToken failed:" + response.body().string());
+        }catch(Exception e){
+            Log.e(TAG, e.toString());
+        }
     }
 
     /**
