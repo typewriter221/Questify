@@ -113,15 +113,14 @@ public class RegisterActivity extends Activity implements Urls {
         progressLayout = findViewById(R.id.layout_progress);
         btn_log_in = findViewById(R.id.btn_sign_in);
 
-        if (PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_NAME) != "pref_user_name") {
+        if (!PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_NAME).equals("pref_user_name"))
             etName.setText(PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_NAME));
-        }
-        if (PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_ROLL) != "pref_user_roll") {
+
+        if (!PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_ROLL).equals("pref_user_roll"))
             rollNo.setText(PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_ROLL));
-        }
-        if (PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_CONTACT) != "pref_user_contact") {
+
+        if (!PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_CONTACT).equals("pref_user_contact"))
             etContact.setText(PreferenceUtils.getStringPreference(RegisterActivity.this, PreferenceUtils.PREF_USER_CONTACT));
-        }
 
         setListeners();
     }
@@ -141,12 +140,10 @@ public class RegisterActivity extends Activity implements Urls {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                /************************************************
+                /*
                 storeUserInformationAndProceed("444", "yashhg", "nksnfkjns",
                 "1234567890", "uhcbjhb7zdckhDC87", "17135096");
-
-                 ************************************************/
+                 */
 
                 attemptLogin();
             }
@@ -180,7 +177,7 @@ public class RegisterActivity extends Activity implements Urls {
      *
      * @return List of emails
      */
-    public List getEmails() {
+    public List<String> getEmails() {
         final List<String> emails = new ArrayList<>();
         Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
         Account[] accounts = AccountManager.get(RegisterActivity.this).getAccounts();
