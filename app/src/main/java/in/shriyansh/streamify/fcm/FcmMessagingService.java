@@ -21,6 +21,13 @@ import in.shriyansh.streamify.network.Urls;
 import in.shriyansh.streamify.utils.Constants;
 import in.shriyansh.streamify.utils.TimeUtils;
 import in.shriyansh.streamify.utils.Utils;
+import in.shriyansh.streamify.utils.PreferenceUtils;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -90,6 +97,43 @@ public class FcmMessagingService extends FirebaseMessagingService implements Url
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
+    }
+
+    /**
+     * Called if InstanceID token is updated. This may occur if the security of
+     * the previous token had been compromised. Note that this is called when the InstanceID token
+     * is initially generated so this is where you would retrieve the token.
+     */
+    @Override
+    public void onNewToken(String token) {
+        Log.d(TAG, "FCM Refreshed token: " + token);
+
+        // Save updated token
+        PreferenceUtils.setStringPreference(this,PreferenceUtils.PREF_FCM_TOKEN, token);
+
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // Instance ID token to your app server.
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType,
+         "{\n\t\"email\":\"" +
+                 PreferenceUtils.getStringPreference(this,PreferenceUtils.PREF_USER_EMAIL) +
+                 "\",\n\t\"fcmToken\":\"" + token +"\"\n}");
+        Request request = new Request.Builder()
+          .url(Urls.FCM_UPDATE)
+          .post(body)
+          .addHeader("Content-Type", "application/json")
+          .build();
+
+        try{
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful())
+                Log.e(TAG, "onNewToken failed:" + response.body().string());
+        }catch(Exception e){
+            Log.e(TAG, e.toString());
+        }
     }
 
     /**
