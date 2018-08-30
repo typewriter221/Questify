@@ -83,11 +83,13 @@ public class DbMethods {
             try {
                 JSONObject notificationJson = notificationsJsonArray.getJSONObject(i);
 
-                Cursor cursor = queryNotifications(null,
-                        DbContract.Notifications.COLUMN_GLOBAL_ID + " = ? ",
-                        new String[]{notificationJson.getInt("id") + ""},
-                        null,0);
+                Cursor cursor = queryNotifications(null, null,null,
+                        DbContract.Notifications.COLUMN_GLOBAL_ID + " DESC",1);
                 if (cursor.getCount() == 0) {
+                    // Server changed. So I'm no longer sending id's
+                    // Gotta Configure id's manually
+                    notificationJson.put("id",cursor.getCount() + 1);
+
                     //insert and count to notify
                     ContentValues values = new ContentValues();
                     values.put(DbContract.Notifications.COLUMN_GLOBAL_ID,
@@ -155,10 +157,14 @@ public class DbMethods {
             try {
                 JSONObject eventJson = eventsJsonArray.getJSONObject(i);
 
-                Cursor cursor = queryEvents(null,
-                        DbContract.Events.COLUMN_GLOBAL_ID + " = ? ",
-                        new String[]{eventJson.getInt("id") + ""},null,0);
+                Cursor cursor = queryNotifications(null, null,null,
+                        DbContract.Events.COLUMN_GLOBAL_ID + " DESC",1);
+
                 if (cursor.getCount() == 0) {
+                    // Server changed. So I'm no longer sending id's
+                    // Gotta Configure id's manually
+                    eventJson.put("id",cursor.getCount() + 1);
+
                     //insert and count to notify
                     ContentValues values = new ContentValues();
                     values.put(DbContract.Events.COLUMN_GLOBAL_ID,eventJson.getInt("id"));
@@ -167,15 +173,18 @@ public class DbMethods {
                             "subtitle"));
                     values.put(DbContract.Events.COLUMN_DESCRIPTION,eventJson.getString(
                             "description"));
-                    values.put(DbContract.Events.COLUMN_TIME,
-                            Utils.convertStringTimeToTimestamp(eventJson.getString("time"),
-                                    Constants.LARAVEL_TIME_FORMAT));
-                    values.put(DbContract.Events.COLUMN_IMAGE,eventJson.getString("image"));
-                    values.put(DbContract.Events.COLUMN_CREATED_AT,
-                            Utils.convertStringTimeToTimestamp(eventJson.getString(
-                                    "created_at"),Constants.LARAVEL_TIME_FORMAT));
+//                    values.put(DbContract.Events.COLUMN_TIME,
+//                            Utils.convertStringTimeToTimestamp(eventJson.getString("time"),
+//                                    Constants.LARAVEL_TIME_FORMAT));
+                    values.put(DbContract.Events.COLUMN_IMAGE,eventJson.getString("imageURL"));
+//                    values.put(DbContract.Events.COLUMN_CREATED_AT,
+//                            Utils.convertStringTimeToTimestamp(eventJson.getString(
+//                                    "created_at"),Constants.LARAVEL_TIME_FORMAT));
                     values.put(DbContract.Events.COLUMN_STREAM,eventJson.getString("stream"));
-                    values.put(DbContract.Events.COLUMN_TAGS,eventJson.getString("tag"));
+
+                    // Just fill the first tag for now
+                    values.put(DbContract.Events.COLUMN_TAGS,eventJson.getJSONArray("tag").getString(0));
+
                     values.put(DbContract.Events.COLUMN_AUTHOR,eventJson.getString(
                             "author"));
                     values.put(DbContract.Events.COLUMN_VENUE,eventJson.getString(
