@@ -9,10 +9,8 @@ import android.preference.PreferenceManager;
  */
 
 public class PreferenceUtils {
-    public static final String PREF_IS_REGISTERED = "pref_is_registered";
     public static final String PREF_FCM_TOKEN = "pref_fcm_token";
     public static final String PREF_IS_FCM_REGISTERED = "pref_is_fcm_registered";
-    public static final String PREF_IS_DETAILS_REGISTERED = "pref_is_details_registered";
 
     //User Details
     public static final String PREF_USER_GLOBAL_ID = "pref_user_global_id";
