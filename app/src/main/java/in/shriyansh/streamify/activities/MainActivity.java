@@ -236,8 +236,8 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_streams) {
-//            Intent intent = new Intent(MainActivity.this,StreamSubscribeActivity.class);
-//            startActivityForResult(intent, 6);
+            Intent intent = new Intent(MainActivity.this,StreamSubscribeActivity.class);
+            startActivityForResult(intent, 6);
             return true;
         }
           //TODO search

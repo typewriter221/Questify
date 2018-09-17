@@ -44,7 +44,6 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-
         <activity
             android:name=".activities.EventDetailsActivity"
             android:label="@string/title_activity_event_details"
@@ -94,12 +93,12 @@
             android:theme="@style/FullscreenTheme" />
 
         <!-- FCM Message Receiving Service -->
-        <!-- Contains FCM Token Refresh Service too-->
-         <service android:name=".fcm.FcmMessagingService">
-             <intent-filter>
-                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-             </intent-filter>
-         </service>
+        <!-- Contains FCM Token Refresh Service too -->
+        <service android:name=".fcm.FcmMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <!--
         Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -153,7 +152,9 @@
         <activity android:name=".activities.LogInActivity" />
         <activity android:name=".activities.ChoosePostOrEvent" />
         <activity android:name=".activities.NotifActivity" />
-        <activity android:name=".activities.Sample"></activity>
+        <activity android:name=".activities.Sample" />
+        <activity android:name=".activities.StreamSubscribeActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
     </application>
 
 </manifest>

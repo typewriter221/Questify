@@ -144,5 +144,6 @@
     <string name="member4_roll">Member 4 Roll No.</string>
     <string name="member5_roll">Member 5 Roll No.</string>
     <string name="title_activity_get_optional_profile_pic">GetOptionalProfilePic</string>
+    <string name="subscribe_to_streams">Subscribe to Streams</string>
 
 </resources>
