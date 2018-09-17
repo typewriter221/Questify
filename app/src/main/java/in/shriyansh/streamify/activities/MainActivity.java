@@ -38,6 +38,8 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static in.shriyansh.streamify.utils.PreferenceUtils.PREF_USER_POST_HOLDER;
+
 
 public class MainActivity extends AppCompatActivity implements Urls, Dashboard.OnFragmentInteractionListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -160,6 +162,11 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
         fab = findViewById(R.id.fab);
         pager = findViewById(R.id.pager);
         tabs = findViewById(R.id.tabs);
+
+        // Info: Hide FAB if user's not a position holder
+        boolean isPostHolder = PreferenceUtils.getBooleanPreference(MainActivity.this,PREF_USER_POST_HOLDER);
+        if (!isPostHolder)
+            fab.setVisibility(View.GONE);
 
         setSupportActionBar(toolbar);
         //TODO Search
