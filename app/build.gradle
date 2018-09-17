@@ -16,7 +16,6 @@ android {
     buildTypes {
         debug {
             buildConfigField 'String', "YoutubeApiKey", '""'
-            resValue 'string', "youtube_api_key", ""
             buildConfigField 'String', "GoogleMapAndroidApiKey", '""'
             resValue 'string', "google_maps_android_api_key", ""
         }
@@ -24,7 +23,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', "YoutubeApiKey", '""'
-            resValue 'string', "youtube_api_key", ""
             buildConfigField 'String', "GoogleMapAndroidApiKey", '""'
             resValue 'string', "google_maps_android_api_key", ""
         }
