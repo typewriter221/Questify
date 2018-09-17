@@ -22,6 +22,7 @@ public class PreferenceUtils {
     public static final String PREF_USER_YEAR_JOIN = "pref_user_year_join";
     public static final String PREF_USER_ROLL = "pref_user_roll";
     public static final String PREF_USER_LOGGED_IN = "pref_user_logged_in";
+    public static final String PREF_USER_POST_HOLDER= "pref_user_post_holder";
 
     public static final String PREF_USER_EVENT = "pref_user_event";
     public static final String PREF_MEM_NUM = "pref_mem_num";

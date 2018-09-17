@@ -176,6 +176,9 @@ public class LogInActivity extends AppCompatActivity {
                                 PreferenceUtils.PREF_USER_ROLL,
                                 response.getJSONObject("response").getString("rollno"));
                         PreferenceUtils.setBooleanPreference(LogInActivity.this,
+                                PreferenceUtils.PREF_USER_POST_HOLDER,
+                                response.getJSONObject("response").getBoolean("isPositionHolder"));
+                        PreferenceUtils.setBooleanPreference(LogInActivity.this,
                                 PreferenceUtils.PREF_USER_LOGGED_IN,
                                 true);
 
