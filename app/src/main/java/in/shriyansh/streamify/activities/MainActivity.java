@@ -235,9 +235,9 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_about) {
-            Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
-            startActivityForResult(intent, 6);
+        if (id == R.id.action_streams) {
+//            Intent intent = new Intent(MainActivity.this,StreamSubscribeActivity.class);
+//            startActivityForResult(intent, 6);
             return true;
         }
           //TODO search

@@ -75,15 +75,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.AboutUsActivity"
-            android:label="@string/title_activity_about_us"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="in.shriyansh.streamify.activities.MainActivity" />
-        </activity>
-        <activity
             android:name=".activities.ShowcaseActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_showcase" />
