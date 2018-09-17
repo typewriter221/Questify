@@ -247,20 +247,6 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
 //            return true;
 //        }
 
-        /*
-        if (id == R.id.action_video) {
-            Intent intent = new Intent(MainActivity.this,VideoListDemoActivity.class);
-            startActivityForResult(intent, 6);
-            return true;
-        }
-        */
-
-        if (id == R.id.action_image) {
-            Intent intent = new Intent(MainActivity.this,ImageLibrary.class);
-            startActivityForResult(intent, 6);
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

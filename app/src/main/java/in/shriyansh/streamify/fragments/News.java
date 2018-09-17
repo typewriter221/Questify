@@ -35,7 +35,6 @@ import com.android.volley.toolbox.Volley;
 
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.activities.ImageLibrary;
-import in.shriyansh.streamify.activities.VideoListDemoActivity;
 import in.shriyansh.streamify.adapters.NotificationsAdapter;
 import in.shriyansh.streamify.database.DbContract;
 import in.shriyansh.streamify.database.DbMethods;
@@ -147,10 +146,7 @@ public class News extends Fragment implements Urls {
                                 newsGlobalId);
                         startActivityForResult(intent, 3);
                     } else if (newsType == DbContract.Notifications.VALUE_TYPE_VIDEO) {
-                        Intent intent = new Intent(getActivity(), VideoListDemoActivity.class);
-                        intent.putExtra(VideoListDemoActivity.INTENT_KEY_NOTIFICATION_GLOBAL_ID,
-                                newsGlobalId);
-                        startActivityForResult(intent, 3);
+                        // TODO Dont send video type news notifs
                     }
                 }
             }
