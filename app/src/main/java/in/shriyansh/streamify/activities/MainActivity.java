@@ -35,6 +35,7 @@ import in.shriyansh.streamify.fragments.Dashboard;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
 
     private DbMethods dbMethods;
     private RequestQueue volleyQueue;
+
+    private String[] streams;
 
 //    TODO Search
 //    private SearchView mSearchView;
@@ -148,6 +151,103 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
 //                dbMethods.queryLastNotificationId() + "");
 //        getEvents(PreferenceUtils.getStringPreference(MainActivity.this,
 //                PreferenceUtils.PREF_USER_GLOBAL_ID),dbMethods.queryLastEventId() + "");
+
+
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                    LIST_ALL_STREAMS,
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                String status = response.getString("status");
+                                if (status.equals(Constants.RESPONSE_STATUS_VALUE_200)) {
+                                    int l;
+                                    l = response.getJSONArray("response").length();
+
+                                    PreferenceUtils.setIntegerPreference(MainActivity.this, PreferenceUtils.PREF_STREAMS_NUMBER, l);
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.e(TAG, "JSONException");
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            VolleyLog.e(TAG, "Error: " + error.toString());
+
+                        }
+                    });
+
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    Constants.HTTP_INITIAL_TIME_OUT,
+                    Constants.HTTP_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            volleyQueue.add(jsonObjectRequest);
+/*******************************************************************/
+
+//        Needle.onBackgroundThread().execute(new UiRelatedProgressTask<String, String>() {
+//            int i=0;
+//
+//            @Override
+//            protected void onProgressUpdate(String s) {
+//                Log.e(TAG, s);
+//                streams[i] = s;
+//                i++;
+//
+//
+//            }
+//
+//            @Override
+//            public String doWork() {
+//                OkHttpClient client1 = new OkHttpClient();
+//                String streams1;
+//                int l = 0;
+//
+//                okhttp3.Request request = new okhttp3.Request.Builder()
+//                        .url(LIST_ALL_STREAMS)
+//                        .build();
+//
+//                try {
+//                    okhttp3.Response response = client1.newCall(request).execute();
+//                    Log.e(TAG, response.body().toString());
+//                try {
+//                    JSONObject object;
+//                    object = new JSONObject(response.body().string());
+//                    httpstatus = object.getString("status");
+//
+//                    l = object.getJSONArray("response").length();
+//                    streams = new String[l];
+//
+//                    for (int i=0; i<l; i++) {
+//                        streams1 = object.getJSONArray("response").getJSONObject(i).getString("title");
+////                        streams[i] = streams1;
+//                        publishProgress(streams1);
+//                    }
+//                }
+//                catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                }
+//                catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                return Integer.toString(l);
+//            }
+//
+//            @Override
+//            protected void thenDoUiRelatedWork(String s) {
+//                Toast.makeText(Sample.this, "scnnlls" + s, Toast.LENGTH_LONG).show();
+//            }
+//
+//
+//        });
 
 
     }

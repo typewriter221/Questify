@@ -29,6 +29,7 @@ public class PreferenceUtils {
     public static final String PREF_MEM_NUM = "pref_mem_num";
     public static final String PREF_TEAM_ID = "pref_team_id";
 
+    public static final String PREF_STREAMS_NUMBER = "pref_streams_number";
     /**
      * Sets string preference.
      *

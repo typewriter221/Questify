@@ -10,6 +10,7 @@
 
 
     <LinearLayout
+        android:id="@+id/sample_main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -55,5 +56,18 @@
             android:textColor="@color/register_background"
             android:textSize="14dp" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_progress_sample"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

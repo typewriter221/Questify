@@ -178,6 +178,16 @@ public class LogInActivity extends AppCompatActivity {
                         PreferenceUtils.setBooleanPreference(LogInActivity.this,
                                 PreferenceUtils.PREF_USER_LOGGED_IN,
                                 true);
+                        PreferenceUtils.setBooleanPreference(LogInActivity.this,
+                                PreferenceUtils.PREF_IS_FCM_REGISTERED,
+                                true);
+                        PreferenceUtils.setBooleanPreference(LogInActivity.this,
+                                PreferenceUtils.PREF_IS_DETAILS_REGISTERED,
+                                true);
+                        PreferenceUtils.setBooleanPreference(LogInActivity.this,
+                                PreferenceUtils.PREF_IS_REGISTERED,
+                                true);
+
 
                         if (PreferenceUtils.getBooleanPreference(LogInActivity.this, PreferenceUtils.PREF_USER_LOGGED_IN)) {
                             Intent intent = new Intent(LogInActivity.this, MainActivity.class);

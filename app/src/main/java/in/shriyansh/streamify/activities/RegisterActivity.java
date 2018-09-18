@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.network.Urls;
@@ -100,6 +101,8 @@ public class RegisterActivity extends Activity implements Urls {
             emails = getEmails();
             addEmailsToAutoComplete(emails);
         }
+
+        Toast.makeText(this, String.valueOf(PreferenceUtils.getBooleanPreference(RegisterActivity.this, PreferenceUtils.PREF_IS_REGISTERED)), Toast.LENGTH_SHORT).show();
     }
 
     private void initUi() {

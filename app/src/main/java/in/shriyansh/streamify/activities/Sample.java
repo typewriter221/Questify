@@ -31,11 +31,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import in.shriyansh.streamify.R;
 import in.shriyansh.streamify.utils.Constants;
+import in.shriyansh.streamify.utils.PreferenceUtils;
 //import needle.Needle;
 //import needle.UiRelatedProgressTask;
 //import needle.UiRelatedTask;
@@ -56,6 +59,9 @@ public class Sample extends AppCompatActivity {
     private CheckBox[] streambox;
     private int[] streamCheckBools;
     private LinearLayout checkbox_layout;
+    private List<String> Streams;
+    private LinearLayout prog_layout;
+    private LinearLayout main_layout;
 
     private RequestQueue requestQueue;
 
@@ -68,10 +74,14 @@ public class Sample extends AppCompatActivity {
         setContentView(R.layout.activity_sample);
 
         requestQueue = Volley.newRequestQueue(Sample.this);
+        l = PreferenceUtils.getIntegerPreference(Sample.this, PreferenceUtils.PREF_STREAMS_NUMBER);
+        streams = new String[l];
 
         initUI();
+        Streams = new ArrayList<>();
         getStreams();
-        Log.e(TAG, streams.toString());
+//        Log.e(TAG, streams[0]);
+//        Log.e(TAG, streams[1]);
 //        createStreamCheckboxes();
 
         reg_event.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +100,7 @@ public class Sample extends AppCompatActivity {
                     JSONArray tagArray = new JSONArray();
 
                     streamArray.put("MyStream");
-                    tagArray.put("Boobs");
+                    tagArray.put("noobs");
                     tagArray.put("python");
 
                     params.put("streams", streamArray);
@@ -196,9 +206,14 @@ public class Sample extends AppCompatActivity {
     private void initUI() {
         reg_event = findViewById(R.id.btn_create_event1);
         checkbox_layout = findViewById(R.id.stream_box_group);
+        prog_layout = findViewById(R.id.layout_progress_sample);
+        main_layout = findViewById(R.id.sample_main_layout);
     }
 
     private void getStreams() {
+
+        main_layout.setVisibility(View.GONE);
+        prog_layout.setVisibility(View.VISIBLE);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 LIST_ALL_STREAMS,
@@ -209,17 +224,11 @@ public class Sample extends AppCompatActivity {
                         try {
                             String status = response.getString("status");
                             if (status.equals(Constants.RESPONSE_STATUS_VALUE_200)) {
-                                l = response.getJSONArray("response").length();
                                 JSONArray resp = response.getJSONArray("response");
-                                streams = new String[l];
-
                                 for (int i = 0; i<l; i++) {
                                     JSONObject user_stream_i = resp.getJSONObject(i);
-                                    streams[i] = user_stream_i.getString("title");
-//                                    Log.e(TAG, streams[i]);
+                                    addToArray(user_stream_i.getString("title"), i);
                                 }
-
-                                Log.e(TAG, streams[0]);
 
                             }
 
@@ -243,6 +252,10 @@ public class Sample extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(jsonObjectRequest);
+
+        main_layout.setVisibility(View.VISIBLE);
+        prog_layout.setVisibility(View.GONE);
+
 /*******************************************************************/
 
 //        Needle.onBackgroundThread().execute(new UiRelatedProgressTask<String, String>() {
@@ -303,6 +316,10 @@ public class Sample extends AppCompatActivity {
 //
 //        });
 
+    }
+
+    private void addToArray(String title, int ind) {
+        streams[ind] = title;
     }
 
     private void createStreamCheckboxes() {
