@@ -39,6 +39,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static in.shriyansh.streamify.utils.PreferenceUtils.PREF_USER_POST_HOLDER;
+
 
 public class MainActivity extends AppCompatActivity implements Urls, Dashboard.OnFragmentInteractionListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -261,6 +263,11 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
         pager = findViewById(R.id.pager);
         tabs = findViewById(R.id.tabs);
 
+        // Info: Hide FAB if user's not a position holder
+        boolean isPostHolder = PreferenceUtils.getBooleanPreference(MainActivity.this,PREF_USER_POST_HOLDER);
+        if (!isPostHolder)
+            fab.setVisibility(View.GONE);
+
         setSupportActionBar(toolbar);
         //TODO Search
         //searchView = (MaterialSearchView) findViewById(R.id.search_view);
@@ -335,8 +342,8 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_about) {
-            Intent intent = new Intent(MainActivity.this,AboutUsActivity.class);
+        if (id == R.id.action_streams) {
+            Intent intent = new Intent(MainActivity.this,StreamSubscribeActivity.class);
             startActivityForResult(intent, 6);
             return true;
         }
@@ -346,20 +353,6 @@ public class MainActivity extends AppCompatActivity implements Urls, Dashboard.O
 //            startActivityForResult(intent, 6);
 //            return true;
 //        }
-
-        /*
-        if (id == R.id.action_video) {
-            Intent intent = new Intent(MainActivity.this,VideoListDemoActivity.class);
-            startActivityForResult(intent, 6);
-            return true;
-        }
-        */
-
-        if (id == R.id.action_image) {
-            Intent intent = new Intent(MainActivity.this,ImageLibrary.class);
-            startActivityForResult(intent, 6);
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
